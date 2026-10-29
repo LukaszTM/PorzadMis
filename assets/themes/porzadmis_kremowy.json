@@ -1,0 +1,24 @@
+{
+  "id": "porzadmis_kremowy",
+  "name": "PorządMiś (kremowy)",
+  "group": "Domyślne",
+  "brightness": "light",
+  "tokens": {
+    "background": "#FBF7F1",
+    "surface": "#FFFFFF",
+    "text": "#1C2733",
+    "textMuted": "#5B6670",
+    "border": "#E3DACB",
+    "accent": "#2B7A57",
+    "onAccent": "#FFFFFF",
+    "accentSoft": "#E8F4EC",
+    "warning": "#B26A00",
+    "danger": "#B3261E",
+    "success": "#2B7A57",
+    "chart1": "#2B7A57",
+    "chart2": "#E07B2A",
+    "chart3": "#3574B8",
+    "chart4": "#B5527A",
+    "chart5": "#8A8F98"
+  }
+}

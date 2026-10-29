@@ -1,0 +1,77 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../features/auth/data/auth_repository.dart';
+import '../../features/auth/ui/auth_screens.dart';
+import '../../features/household/data/household_repository.dart';
+import '../../features/household/ui/home_screen.dart';
+import '../../features/household/ui/start_screens.dart';
+import '../../features/invites/ui/invite_screen.dart';
+import '../../features/invites/ui/join_screens.dart';
+import '../../features/members/ui/members_screen.dart';
+import '../ui/mis_mark.dart';
+
+const _authRoutes = {'/login', '/register'};
+const _startRoutes = {'/start', '/create', '/join', '/scan'};
+
+/// Decyzja o przekierowaniu na podstawie sesji i domu. Wydzielona, żeby dało się ją przetestować.
+String? resolveRedirect({
+  required String location,
+  required bool loading,
+  required bool signedIn,
+  required String? householdId,
+}) {
+  if (loading) return location == '/splash' ? null : '/splash';
+  if (!signedIn) return _authRoutes.contains(location) ? null : '/login';
+  if (householdId == null) return _startRoutes.contains(location) ? null : '/start';
+  if (_authRoutes.contains(location) || _startRoutes.contains(location) || location == '/splash') {
+    return '/home';
+  }
+  return null;
+}
+
+final routerProvider = Provider<GoRouter>((ref) {
+  final refresh = ValueNotifier<int>(0);
+  ref.listen(authStateProvider, (_, _) => refresh.value++);
+  ref.listen(profileProvider, (_, _) => refresh.value++);
+  ref.onDispose(refresh.dispose);
+
+  final router = GoRouter(
+    initialLocation: '/splash',
+    refreshListenable: refresh,
+    redirect: (context, state) {
+      final auth = ref.read(authStateProvider);
+      final profile = ref.read(profileProvider);
+      final signedIn = auth.value != null;
+      return resolveRedirect(
+        location: state.matchedLocation,
+        loading: auth.isLoading || (signedIn && profile.isLoading),
+        signedIn: signedIn,
+        householdId: profile.value?.householdId,
+      );
+    },
+    routes: [
+      GoRoute(path: '/splash', builder: (_, _) => const _SplashScreen()),
+      GoRoute(path: '/login', builder: (_, _) => const LoginScreen()),
+      GoRoute(path: '/register', builder: (_, _) => const RegisterScreen()),
+      GoRoute(path: '/start', builder: (_, _) => const StartScreen()),
+      GoRoute(path: '/create', builder: (_, _) => const CreateHouseholdScreen()),
+      GoRoute(path: '/join', builder: (_, _) => const JoinScreen()),
+      GoRoute(path: '/scan', builder: (_, _) => const ScanScreen()),
+      GoRoute(path: '/home', builder: (_, _) => const HomeScreen()),
+      GoRoute(path: '/members', builder: (_, _) => const MembersScreen()),
+      GoRoute(path: '/invite', builder: (_, _) => const InviteScreen()),
+    ],
+  );
+  ref.onDispose(router.dispose);
+  return router;
+});
+
+class _SplashScreen extends StatelessWidget {
+  const _SplashScreen();
+
+  @override
+  Widget build(BuildContext context) =>
+      const Scaffold(body: Center(child: MisMark(size: 160)));
+}

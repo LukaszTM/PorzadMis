@@ -1,0 +1,54 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isMember(hid) {
+      return signedIn() &&
+        exists(/databases/$(database)/documents/households/$(hid)/members/$(request.auth.uid));
+    }
+
+    function isAdmin(hid) {
+      return isMember(hid) &&
+        get(/databases/$(database)/documents/households/$(hid)/members/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // Profil użytkownika. householdId ustawia wyłącznie serwer (Cloud Functions).
+    match /users/{uid} {
+      allow read: if signedIn() && request.auth.uid == uid;
+      allow create: if signedIn() && request.auth.uid == uid
+        && !('householdId' in request.resource.data);
+      allow update: if signedIn() && request.auth.uid == uid
+        && request.resource.data.get('householdId', null) == resource.data.get('householdId', null);
+      allow delete: if false;
+    }
+
+    match /households/{hid} {
+      // Dom zakłada funkcja createHousehold.
+      allow read: if isMember(hid);
+      allow update: if isAdmin(hid)
+        && request.resource.data.createdBy == resource.data.createdBy;
+      allow create, delete: if false;
+
+      // Członkostwo i role zmieniają wyłącznie funkcje (ochrona ostatniego admina).
+      match /members/{uid} {
+        allow read: if isMember(hid);
+        allow write: if false;
+      }
+
+      // Zaproszenia tworzy i realizuje serwer; admin może je czytać.
+      match /invites/{code} {
+        allow read: if isAdmin(hid);
+        allow write: if false;
+      }
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "porzadmis_noc",
+  "name": "PorządMiś (noc)",
+  "group": "Domyślne",
+  "brightness": "dark",
+  "tokens": {
+    "background": "#15202B",
+    "surface": "#1E2A36",
+    "text": "#F2EEE8",
+    "textMuted": "#A9B4BF",
+    "border": "#33414F",
+    "accent": "#4FB388",
+    "onAccent": "#0F1E17",
+    "accentSoft": "#1A3A2D",
+    "warning": "#F0B24A",
+    "danger": "#FF8A80",
+    "success": "#4FB388",
+    "chart1": "#4FB388",
+    "chart2": "#F0A04B",
+    "chart3": "#6FA8E8",
+    "chart4": "#E58BB1",
+    "chart5": "#A9B4BF"
+  }
+}
