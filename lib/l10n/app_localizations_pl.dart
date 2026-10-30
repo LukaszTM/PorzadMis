@@ -1357,4 +1357,10 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get toastEventTypeRemoved => 'Usunięto typ';
+
+  @override
+  String get loginSubtitle => 'Witaj z powrotem. Twój dom czeka.';
+
+  @override
+  String get registerSubtitle => 'Jedno konto, cały dom w jednym miejscu.';
 }

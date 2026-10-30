@@ -20,7 +20,7 @@ import '../../features/onboarding/ui/onboarding_screen.dart';
 import '../../features/settings/ui/appearance_screen.dart';
 import '../../features/shopping/ui/shopping_screen.dart';
 import '../ui/app_shell.dart';
-import '../ui/mis_mark.dart';
+import '../ui/illustration.dart';
 
 const _authRoutes = {'/login', '/register'};
 const _startRoutes = {'/start', '/create', '/join', '/scan'};
@@ -105,5 +105,5 @@ class _SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) =>
-      const Scaffold(body: Center(child: MisMark(size: 160)));
+      const Scaffold(body: Center(child: IllustrationImage(Illustration.bearLogo, height: 180)));
 }

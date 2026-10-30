@@ -97,19 +97,26 @@ class CheckRow extends StatelessWidget {
               const SizedBox(width: 14),
               if (leading != null) ...[leading!, const SizedBox(width: 10)],
               Expanded(
-                child: Text(
-                  title,
-                  style: text.bodyLarge!.copyWith(
-                    color: checked ? t.textMuted : t.text,
-                    decoration: checked ? TextDecoration.lineThrough : null,
-                  ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      title,
+                      style: text.bodyLarge!.copyWith(
+                        color: checked ? t.textMuted : t.text,
+                        decoration: checked ? TextDecoration.lineThrough : null,
+                      ),
+                    ),
+                    if (meta != null)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 2),
+                        child: Text(meta!, style: text.labelMedium, maxLines: 2, overflow: TextOverflow.ellipsis),
+                      ),
+                  ],
                 ),
               ),
-              if (meta != null) ...[
-                const SizedBox(width: 8),
-                Text(meta!, style: text.labelMedium),
-              ],
-              ?trailing,
+              if (trailing != null) ...[const SizedBox(width: 8), trailing!],
             ],
           ),
         ),

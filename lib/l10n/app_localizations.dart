@@ -2517,6 +2517,18 @@ abstract class AppLocalizations {
   /// In pl, this message translates to:
   /// **'Usunięto typ'**
   String get toastEventTypeRemoved;
+
+  /// No description provided for @loginSubtitle.
+  ///
+  /// In pl, this message translates to:
+  /// **'Witaj z powrotem. Twój dom czeka.'**
+  String get loginSubtitle;
+
+  /// No description provided for @registerSubtitle.
+  ///
+  /// In pl, this message translates to:
+  /// **'Jedno konto, cały dom w jednym miejscu.'**
+  String get registerSubtitle;
 }
 
 class _AppLocalizationsDelegate

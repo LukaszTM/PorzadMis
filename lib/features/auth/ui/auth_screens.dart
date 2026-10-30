@@ -63,6 +63,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final l = AppLocalizations.of(context);
     return ScreenScaffold(
       title: l.loginTitle,
+      kicker: l.appName,
+      subtitle: l.loginSubtitle,
+      headerTrailing: const IllustrationImage(Illustration.bearLogo, height: 88),
       bottom: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -157,6 +160,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     final l = AppLocalizations.of(context);
     return ScreenScaffold(
       title: l.registerTitle,
+      kicker: l.appName,
+      subtitle: l.registerSubtitle,
+      headerTrailing: const IllustrationImage(Illustration.bearLogo, height: 88),
       onBack: () => context.go('/login'),
       backLabel: l.back,
       bottom: Column(

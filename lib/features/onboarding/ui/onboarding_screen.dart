@@ -59,7 +59,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                   itemBuilder: (_, i) => Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const MisMark(size: 180),
+                      IllustrationImage(i == 1 ? Illustration.bearResting : Illustration.bearHouse, height: 220),
                       const SizedBox(height: 28),
                       Text(sentences[i], style: text.headlineMedium, textAlign: TextAlign.center),
                     ],

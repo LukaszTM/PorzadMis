@@ -59,7 +59,7 @@ class _StartScreenState extends ConsumerState<StartScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const MisMark(size: 160),
+                    const IllustrationImage(Illustration.bearHouse, height: 200),
                     const SizedBox(height: 24),
                     Text(l.startTitle, style: text.headlineMedium, textAlign: TextAlign.center),
                     const SizedBox(height: 8),
