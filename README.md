@@ -7,7 +7,7 @@ Domowy organizer na Androida dla jednej osoby albo całej rodziny: wspólna list
 Stack: Flutter 3.x, Riverpod, go_router, Firebase (Auth, Firestore, Cloud Functions w TypeScript).
 Tylko Android (minSdk 26).
 
-## Co działa (stan na koniec etapu 2)
+## Co działa (stan na koniec etapu 4)
 
 **Etap 1 – fundament**
 - Konto: e-mail i hasło oraz logowanie przez Google.
@@ -26,8 +26,22 @@ Tylko Android (minSdk 26).
 - Podpowiedzi nazw z historii domu (historia przeżywa czyszczenie listy).
 - Pasek dolny (Dziś, Zakupy) i karta-skrót z liczbą rzeczy do kupienia.
 
-**Jeszcze nie ma:** kalendarz, notatki, obowiązki, budżet, powiadomienia, widżety,
-wybór motywu (etapy 3–7 z PLAN.md).
+**Etap 3 – notatnik i kalendarz**
+- Notatki wspólne i prywatne („wszyscy w domu / tylko ja”; prywatne widzi wyłącznie autor,
+  także nie Administrator), przypinanie, szukanie, filtr, „Cofnij” po usunięciu.
+- Wydarzenia wspólne i prywatne: dzień i godzina lub cały dzień, miejsce, opis, uczestnicy,
+  przypomnienie (zapisane; push dojdzie w etapie 6), cykl co tydzień / miesiąc / rok.
+- Widok miesiąca i tygodnia (tydzień od poniedziałku), lista dnia, legenda.
+
+**Etap 4 – obowiązki**
+- Reguły obowiązków tworzy Administrator: jednorazowo albo cyklicznie (co N dni, dni tygodnia,
+  dzień miesiąca, wybrane daty z kalendarza), z końcem cyklu i przypomnieniem rano.
+- Wystąpienia generuje serwer do 90 dni w przód (przy zapisie reguły i codziennie o 00:05).
+- Ekran Obowiązki: pasek tygodnia, „Moje · dzień”, „Inni domownicy”, odhaczanie całym
+  wierszem; obowiązki widać też w kalendarzu i na „Dziś”.
+
+**Jeszcze nie ma:** budżet, powiadomienia push, widżety, wybór motywu, onboarding
+(etapy 5–7 z PLAN.md).
 
 ## Struktura
 
