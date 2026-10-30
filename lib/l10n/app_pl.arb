@@ -520,5 +520,8 @@
   "onboarding3": "Dołącz do domu albo załóż nowy",
   "onboardingNext": "Dalej",
   "onboardingStart": "Zaczynamy",
-  "onboardingSkip": "Pomiń"
+  "onboardingSkip": "Pomiń",
+  "themeAutoDarkHint": "Telefon jest teraz w trybie ciemnym, więc w „Auto” zobaczysz ciemny motyw. Wybierz „Jasny”, żeby użyć jasnego.",
+  "themeAutoLightHint": "Telefon jest teraz w trybie jasnym, więc w „Auto” zobaczysz jasny motyw. Wybierz „Ciemny”, żeby użyć ciemnego.",
+  "homeActivityHint": "Dotknij karty, żeby przejść dalej"
 }

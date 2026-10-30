@@ -2121,6 +2121,24 @@ abstract class AppLocalizations {
   /// In pl, this message translates to:
   /// **'Pomiń'**
   String get onboardingSkip;
+
+  /// No description provided for @themeAutoDarkHint.
+  ///
+  /// In pl, this message translates to:
+  /// **'Telefon jest teraz w trybie ciemnym, więc w „Auto” zobaczysz ciemny motyw. Wybierz „Jasny”, żeby użyć jasnego.'**
+  String get themeAutoDarkHint;
+
+  /// No description provided for @themeAutoLightHint.
+  ///
+  /// In pl, this message translates to:
+  /// **'Telefon jest teraz w trybie jasnym, więc w „Auto” zobaczysz jasny motyw. Wybierz „Ciemny”, żeby użyć ciemnego.'**
+  String get themeAutoLightHint;
+
+  /// No description provided for @homeActivityHint.
+  ///
+  /// In pl, this message translates to:
+  /// **'Dotknij karty, żeby przejść dalej'**
+  String get homeActivityHint;
 }
 
 class _AppLocalizationsDelegate

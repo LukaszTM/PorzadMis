@@ -1110,4 +1110,15 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get onboardingSkip => 'Pomiń';
+
+  @override
+  String get themeAutoDarkHint =>
+      'Telefon jest teraz w trybie ciemnym, więc w „Auto” zobaczysz ciemny motyw. Wybierz „Jasny”, żeby użyć jasnego.';
+
+  @override
+  String get themeAutoLightHint =>
+      'Telefon jest teraz w trybie jasnym, więc w „Auto” zobaczysz jasny motyw. Wybierz „Ciemny”, żeby użyć ciemnego.';
+
+  @override
+  String get homeActivityHint => 'Dotknij karty, żeby przejść dalej';
 }

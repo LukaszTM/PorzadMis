@@ -232,6 +232,7 @@ class _ShoppingScreenState extends ConsumerState<ShoppingScreen> {
                     _EmptyState(message: items.isEmpty ? l.shoppingEmpty : l.shoppingAllBought)
                   else
                     AppCard(
+                      icon: AppIcons.shopping,
                       title: l.shoppingToBuy(toBuy.length),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,

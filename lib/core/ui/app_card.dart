@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../theme/app_tokens.dart';
+import 'app_icon.dart';
 
 /// Karta (GUI 5.2): surface, obrys 1 dp, promień 20, padding 18.
 class AppCard extends StatelessWidget {
@@ -14,10 +15,14 @@ class AppCard extends StatelessWidget {
     this.backgroundColor,
     this.borderColor,
     this.borderWidth = 1,
+    this.icon,
   });
 
   final Widget child;
   final String? title;
+
+  /// Ikona modułu w kółku `accentSoft` przed tytułem (GUI 2: promień 12–14 dp).
+  final AppIcons? icon;
 
   /// Nadpisanie tła i obrysu (np. przypięta notatka: obrys 2 dp accent; prywatna: tło background).
   final Color? backgroundColor;
@@ -49,6 +54,16 @@ class AppCard extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 12),
                     child: Row(
                       children: [
+                        if (icon != null) ...[
+                          Container(
+                            width: 36,
+                            height: 36,
+                            decoration: BoxDecoration(color: t.accentSoft, borderRadius: BorderRadius.circular(12)),
+                            alignment: Alignment.center,
+                            child: AppIcon(icon!, size: 20, color: t.accent),
+                          ),
+                          const SizedBox(width: 10),
+                        ],
                         if (title != null) Expanded(child: Text(title!, style: text.titleLarge)),
                         ?trailing,
                       ],

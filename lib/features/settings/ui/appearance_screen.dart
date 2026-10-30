@@ -78,6 +78,8 @@ class _AppearanceScreenState extends ConsumerState<AppearanceScreen> {
                 onChanged: (m) => setState(() => _previewMode = m),
               ),
               Text(l.themeModeHint, style: text.labelMedium),
+              if (previewMode == AppThemeMode.auto)
+                Text(platformDark ? l.themeAutoDarkHint : l.themeAutoLightHint, style: text.labelMedium!.copyWith(color: t.warning)),
               AppCard(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,

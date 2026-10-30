@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/theme/app_tokens.dart';
 import '../../../core/ui/ui.dart';
 import '../../../core/util/dates.dart';
 import '../../calendar/data/events_repository.dart';
@@ -59,8 +60,22 @@ class HomeScreen extends ConsumerWidget {
           ? PrimaryButton(label: l.inviteAction, onPressed: () => context.push('/invite'))
           : null,
       children: [
-        Text(formatDayLong(now), style: text.titleMedium),
+        Builder(builder: (context) {
+          final t = context.tokens;
+          return Container(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+            decoration: BoxDecoration(color: t.accentSoft, borderRadius: BorderRadius.circular(16)),
+            child: Row(
+              children: [
+                AppIcon(AppIcons.today, size: 20, color: t.accent),
+                const SizedBox(width: 10),
+                Expanded(child: Text(formatDayLong(now), style: text.bodyLarge!.copyWith(color: t.accent))),
+              ],
+            ),
+          );
+        }),
         AppCard(
+          icon: AppIcons.chores,
           title: l.homeTodayCard,
           trailing: myToday.length > 5
               ? TertiaryButton(label: l.homeShowAll, onPressed: () => context.go('/chores'))
@@ -88,6 +103,7 @@ class HomeScreen extends ConsumerWidget {
                 ),
         ),
         AppCard(
+          icon: AppIcons.calendar,
           title: l.homeNextEvent,
           onTap: () => context.go('/calendar'),
           child: next == null
@@ -105,6 +121,7 @@ class HomeScreen extends ConsumerWidget {
                 ),
         ),
         AppCard(
+          icon: AppIcons.settings,
           title: l.homeHouseholdCard,
           onTap: () => context.push('/members'),
           semanticsLabel: l.membersTitle,
@@ -118,6 +135,7 @@ class HomeScreen extends ConsumerWidget {
           ),
         ),
         AppCard(
+          icon: AppIcons.shopping,
           title: l.shoppingCardTitle,
           onTap: () => context.go('/shopping'),
           child: Text(
@@ -126,6 +144,7 @@ class HomeScreen extends ConsumerWidget {
           ),
         ),
         AppCard(
+          icon: AppIcons.notes,
           title: l.homeNotesCard,
           onTap: () => context.go('/notes'),
           child: Text(l.homeNotesCount(notesCount), style: text.bodyLarge),

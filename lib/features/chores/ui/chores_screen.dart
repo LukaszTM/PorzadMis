@@ -105,6 +105,7 @@ class _ChoresScreenState extends ConsumerState<ChoresScreen> {
           onSelect: (d) => setState(() => _selected = d),
         ),
         AppCard(
+          icon: AppIcons.chores,
           title: l.choresMine(formatRelativeDay(l, _selected, now)),
           child: split.mine.isEmpty
               ? Padding(
