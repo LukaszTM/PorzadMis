@@ -21,17 +21,27 @@ class ShoppingWidgetProvider : AppWidgetProvider() {
     private fun build(context: Context, data: JSONObject?): RemoteViews {
         val views = RemoteViews(context.packageName, R.layout.widget_shopping)
         val names = data?.optJSONArray("names")
+        val icons = data?.optJSONArray("icons")
         val count = data?.optInt("count", 0) ?: 0
-        views.setTextViewText(R.id.widget_counter, if (count == 0) "" else count.toString())
-        for ((i, rowId) in WidgetData.ROW_IDS.withIndex()) {
+        views.setImageViewResource(R.id.widget_header_icon, R.drawable.wg_basket)
+        views.setTextViewText(R.id.widget_counter, if (count == 0) "" else "$count")
+        for (i in WidgetData.ROW_IDS.indices) {
             if (names != null && i < names.length()) {
-                views.setViewVisibility(rowId, View.VISIBLE)
-                views.setTextViewText(rowId, "• " + names.getString(i))
+                views.setViewVisibility(WidgetData.ROW_IDS[i], View.VISIBLE)
+                views.setTextViewText(WidgetData.ROW_TEXT_IDS[i], names.getString(i))
+                views.setImageViewResource(WidgetData.ROW_CHECK_IDS[i], R.drawable.wg_check_empty)
+                val icon = WidgetData.miniIcon(context, icons?.optString(i, "") ?: "")
+                if (icon != 0) {
+                    views.setViewVisibility(WidgetData.ROW_ICON_IDS[i], View.VISIBLE)
+                    views.setImageViewResource(WidgetData.ROW_ICON_IDS[i], icon)
+                } else {
+                    views.setViewVisibility(WidgetData.ROW_ICON_IDS[i], View.GONE)
+                }
             } else {
-                views.setViewVisibility(rowId, View.GONE)
+                views.setViewVisibility(WidgetData.ROW_IDS[i], View.GONE)
             }
         }
-        views.setViewVisibility(R.id.widget_empty, if (count == 0) View.VISIBLE else View.GONE)
+        views.setViewVisibility(R.id.widget_empty_box, if (count == 0) View.VISIBLE else View.GONE)
         views.setTextViewText(R.id.widget_empty, data?.optString("emptyText") ?: "")
         views.setViewVisibility(R.id.widget_next, View.GONE)
 

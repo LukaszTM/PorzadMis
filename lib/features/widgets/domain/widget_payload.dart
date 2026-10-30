@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import '../../../core/util/emoji.dart';
 import '../../calendar/domain/event_models.dart';
 import '../../chores/domain/chore_models.dart';
 import '../../shopping/domain/shopping_models.dart';
@@ -26,7 +27,7 @@ WidgetPayloads buildWidgetPayloads({
   final next = nextOccurrence(events.where((e) => !e.isPrivate).toList(), now);
   final today = jsonEncode({
     'items': [
-      for (final o in mine.take(5)) {'id': o.id, 'title': o.title, 'done': o.isDone},
+      for (final o in mine.take(5)) {'id': o.id, 'title': o.title, 'done': o.isDone, 'icon': miniIconFor(o.title)},
     ],
     'open': mine.where((o) => !o.isDone).length,
     'nextEvent': next == null ? '' : nextEventLabel(next.event.title, next.start, next.event.allDay),
@@ -37,6 +38,7 @@ WidgetPayloads buildWidgetPayloads({
   final shopping = jsonEncode({
     'count': toBuy.length,
     'names': [for (final i in toBuy.take(5)) i.name],
+    'icons': [for (final i in toBuy.take(5)) miniIconFor(i.name)],
     'emptyText': shoppingEmptyText,
   });
   return WidgetPayloads(today: today, shopping: shopping);

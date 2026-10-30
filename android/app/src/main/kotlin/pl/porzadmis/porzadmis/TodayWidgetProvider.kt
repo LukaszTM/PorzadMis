@@ -12,7 +12,7 @@ import org.json.JSONObject
 /**
  * Widżet „Dziś” (GUI 5.13): moje obowiązki na dziś (do 5) i najbliższe wydarzenie.
  * Dane zapisuje aplikacja przy każdej synchronizacji (home_widget, klucz `widget_today`),
- * więc widżet nie potrzebuje sieci. Dotknięcie otwiera ekran Obowiązki.
+ * więc widżet nie potrzebuje sieci. Dotknięcie otwiera ekran Zadania.
  */
 class TodayWidgetProvider : AppWidgetProvider() {
     override fun onUpdate(context: Context, manager: AppWidgetManager, ids: IntArray) {
@@ -24,29 +24,39 @@ class TodayWidgetProvider : AppWidgetProvider() {
 
     private fun build(context: Context, data: JSONObject?): RemoteViews {
         val views = RemoteViews(context.packageName, R.layout.widget_today)
-        val rows = WidgetData.ROW_IDS
         val items = data?.optJSONArray("items")
         val count = items?.length() ?: 0
         val open = data?.optInt("open", 0) ?: 0
 
-        views.setTextViewText(R.id.widget_counter, if (count == 0) "" else open.toString())
-        for ((i, rowId) in rows.withIndex()) {
+        views.setImageViewResource(R.id.widget_header_icon, R.drawable.wg_task_list)
+        views.setTextViewText(R.id.widget_counter, if (count == 0) "" else "$open")
+        for (i in WidgetData.ROW_IDS.indices) {
             if (i < count) {
                 val item = items!!.getJSONObject(i)
                 val done = item.optBoolean("done", false)
-                val glyph = if (done) "✓ " else "○ "
-                views.setViewVisibility(rowId, View.VISIBLE)
-                views.setTextViewText(rowId, glyph + item.optString("title"))
+                views.setViewVisibility(WidgetData.ROW_IDS[i], View.VISIBLE)
+                views.setTextViewText(WidgetData.ROW_TEXT_IDS[i], item.optString("title"))
                 views.setTextColor(
-                    rowId,
+                    WidgetData.ROW_TEXT_IDS[i],
                     context.getColor(if (done) R.color.widget_muted else R.color.widget_text),
                 )
+                views.setImageViewResource(
+                    WidgetData.ROW_CHECK_IDS[i],
+                    if (done) R.drawable.wg_check_done else R.drawable.wg_check_empty,
+                )
+                val icon = WidgetData.miniIcon(context, item.optString("icon", ""))
+                if (icon != 0) {
+                    views.setViewVisibility(WidgetData.ROW_ICON_IDS[i], View.VISIBLE)
+                    views.setImageViewResource(WidgetData.ROW_ICON_IDS[i], icon)
+                } else {
+                    views.setViewVisibility(WidgetData.ROW_ICON_IDS[i], View.GONE)
+                }
             } else {
-                views.setViewVisibility(rowId, View.GONE)
+                views.setViewVisibility(WidgetData.ROW_IDS[i], View.GONE)
             }
         }
         val empty = count == 0
-        views.setViewVisibility(R.id.widget_empty, if (empty) View.VISIBLE else View.GONE)
+        views.setViewVisibility(R.id.widget_empty_box, if (empty) View.VISIBLE else View.GONE)
         views.setTextViewText(R.id.widget_empty, data?.optString("emptyText") ?: "")
 
         val next = data?.optString("nextEvent") ?: ""
