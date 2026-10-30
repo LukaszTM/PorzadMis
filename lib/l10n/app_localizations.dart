@@ -825,6 +825,414 @@ abstract class AppLocalizations {
   /// In pl, this message translates to:
   /// **'Usunięto z listy'**
   String get toastRemoved;
+
+  /// No description provided for @navCalendar.
+  ///
+  /// In pl, this message translates to:
+  /// **'Kalendarz'**
+  String get navCalendar;
+
+  /// No description provided for @navNotes.
+  ///
+  /// In pl, this message translates to:
+  /// **'Notatki'**
+  String get navNotes;
+
+  /// No description provided for @notesTitle.
+  ///
+  /// In pl, this message translates to:
+  /// **'Notatki'**
+  String get notesTitle;
+
+  /// No description provided for @notesSearchHint.
+  ///
+  /// In pl, this message translates to:
+  /// **'Szukaj w notatkach'**
+  String get notesSearchHint;
+
+  /// No description provided for @notesFilterAll.
+  ///
+  /// In pl, this message translates to:
+  /// **'Wszystkie'**
+  String get notesFilterAll;
+
+  /// No description provided for @notesFilterShared.
+  ///
+  /// In pl, this message translates to:
+  /// **'Wspólne'**
+  String get notesFilterShared;
+
+  /// No description provided for @notesFilterMine.
+  ///
+  /// In pl, this message translates to:
+  /// **'Tylko moje'**
+  String get notesFilterMine;
+
+  /// No description provided for @notesEmpty.
+  ///
+  /// In pl, this message translates to:
+  /// **'Brak notatek – dopisz pierwszą.'**
+  String get notesEmpty;
+
+  /// No description provided for @notesNoResults.
+  ///
+  /// In pl, this message translates to:
+  /// **'Nic nie znaleziono.'**
+  String get notesNoResults;
+
+  /// No description provided for @noteNew.
+  ///
+  /// In pl, this message translates to:
+  /// **'Nowa'**
+  String get noteNew;
+
+  /// No description provided for @noteNewTitle.
+  ///
+  /// In pl, this message translates to:
+  /// **'Nowa notatka'**
+  String get noteNewTitle;
+
+  /// No description provided for @noteEditTitle.
+  ///
+  /// In pl, this message translates to:
+  /// **'Notatka'**
+  String get noteEditTitle;
+
+  /// No description provided for @noteTitleHint.
+  ///
+  /// In pl, this message translates to:
+  /// **'Tytuł'**
+  String get noteTitleHint;
+
+  /// No description provided for @noteBodyHint.
+  ///
+  /// In pl, this message translates to:
+  /// **'Treść… Listę zacznij od „- ”'**
+  String get noteBodyHint;
+
+  /// No description provided for @noteVisibilityLabel.
+  ///
+  /// In pl, this message translates to:
+  /// **'Kto widzi'**
+  String get noteVisibilityLabel;
+
+  /// No description provided for @visibilityAll.
+  ///
+  /// In pl, this message translates to:
+  /// **'wszyscy w domu'**
+  String get visibilityAll;
+
+  /// No description provided for @visibilityMe.
+  ///
+  /// In pl, this message translates to:
+  /// **'tylko ja'**
+  String get visibilityMe;
+
+  /// No description provided for @notePin.
+  ///
+  /// In pl, this message translates to:
+  /// **'Przypnij'**
+  String get notePin;
+
+  /// No description provided for @noteUnpin.
+  ///
+  /// In pl, this message translates to:
+  /// **'Odepnij'**
+  String get noteUnpin;
+
+  /// No description provided for @noteDelete.
+  ///
+  /// In pl, this message translates to:
+  /// **'Usuń notatkę'**
+  String get noteDelete;
+
+  /// No description provided for @noteSave.
+  ///
+  /// In pl, this message translates to:
+  /// **'Gotowe'**
+  String get noteSave;
+
+  /// No description provided for @noteMeta.
+  ///
+  /// In pl, this message translates to:
+  /// **'{name} · {date}'**
+  String noteMeta(String name, String date);
+
+  /// No description provided for @errNoteEmpty.
+  ///
+  /// In pl, this message translates to:
+  /// **'Wpisz tytuł albo treść'**
+  String get errNoteEmpty;
+
+  /// No description provided for @toastNoteRemoved.
+  ///
+  /// In pl, this message translates to:
+  /// **'Usunięto notatkę'**
+  String get toastNoteRemoved;
+
+  /// No description provided for @readOnlyNote.
+  ///
+  /// In pl, this message translates to:
+  /// **'Notatka innej osoby – tylko do odczytu'**
+  String get readOnlyNote;
+
+  /// No description provided for @calendarTitle.
+  ///
+  /// In pl, this message translates to:
+  /// **'Kalendarz'**
+  String get calendarTitle;
+
+  /// No description provided for @calendarMonth.
+  ///
+  /// In pl, this message translates to:
+  /// **'Miesiąc'**
+  String get calendarMonth;
+
+  /// No description provided for @calendarWeek.
+  ///
+  /// In pl, this message translates to:
+  /// **'Tydzień'**
+  String get calendarWeek;
+
+  /// No description provided for @calendarEmptyDay.
+  ///
+  /// In pl, this message translates to:
+  /// **'Nic zaplanowanego. Miś odpoczywa.'**
+  String get calendarEmptyDay;
+
+  /// No description provided for @calendarLegendEvent.
+  ///
+  /// In pl, this message translates to:
+  /// **'wydarzenie'**
+  String get calendarLegendEvent;
+
+  /// No description provided for @calendarLegendChore.
+  ///
+  /// In pl, this message translates to:
+  /// **'obowiązek'**
+  String get calendarLegendChore;
+
+  /// No description provided for @eventNew.
+  ///
+  /// In pl, this message translates to:
+  /// **'Nowe'**
+  String get eventNew;
+
+  /// No description provided for @eventNewTitle.
+  ///
+  /// In pl, this message translates to:
+  /// **'Nowe wydarzenie'**
+  String get eventNewTitle;
+
+  /// No description provided for @eventEditTitle.
+  ///
+  /// In pl, this message translates to:
+  /// **'Wydarzenie'**
+  String get eventEditTitle;
+
+  /// No description provided for @eventTitleHint.
+  ///
+  /// In pl, this message translates to:
+  /// **'Co się dzieje? np. Dentysta'**
+  String get eventTitleHint;
+
+  /// No description provided for @eventTimed.
+  ///
+  /// In pl, this message translates to:
+  /// **'O godzinie'**
+  String get eventTimed;
+
+  /// No description provided for @eventAllDay.
+  ///
+  /// In pl, this message translates to:
+  /// **'Cały dzień'**
+  String get eventAllDay;
+
+  /// No description provided for @eventStartLabel.
+  ///
+  /// In pl, this message translates to:
+  /// **'Początek'**
+  String get eventStartLabel;
+
+  /// No description provided for @eventEndLabel.
+  ///
+  /// In pl, this message translates to:
+  /// **'Koniec'**
+  String get eventEndLabel;
+
+  /// No description provided for @eventDateLabel.
+  ///
+  /// In pl, this message translates to:
+  /// **'Dzień'**
+  String get eventDateLabel;
+
+  /// No description provided for @eventEndDateLabel.
+  ///
+  /// In pl, this message translates to:
+  /// **'Ostatni dzień'**
+  String get eventEndDateLabel;
+
+  /// No description provided for @eventLocationLabel.
+  ///
+  /// In pl, this message translates to:
+  /// **'Miejsce'**
+  String get eventLocationLabel;
+
+  /// No description provided for @eventLocationHint.
+  ///
+  /// In pl, this message translates to:
+  /// **'np. Przychodnia'**
+  String get eventLocationHint;
+
+  /// No description provided for @eventDescriptionLabel.
+  ///
+  /// In pl, this message translates to:
+  /// **'Opis'**
+  String get eventDescriptionLabel;
+
+  /// No description provided for @eventRepeatLabel.
+  ///
+  /// In pl, this message translates to:
+  /// **'Powtarzaj'**
+  String get eventRepeatLabel;
+
+  /// No description provided for @repeatNone.
+  ///
+  /// In pl, this message translates to:
+  /// **'Nie'**
+  String get repeatNone;
+
+  /// No description provided for @repeatWeekly.
+  ///
+  /// In pl, this message translates to:
+  /// **'Co tydzień'**
+  String get repeatWeekly;
+
+  /// No description provided for @repeatMonthly.
+  ///
+  /// In pl, this message translates to:
+  /// **'Co miesiąc'**
+  String get repeatMonthly;
+
+  /// No description provided for @repeatYearly.
+  ///
+  /// In pl, this message translates to:
+  /// **'Co rok'**
+  String get repeatYearly;
+
+  /// No description provided for @eventReminderLabel.
+  ///
+  /// In pl, this message translates to:
+  /// **'Przypomnienie'**
+  String get eventReminderLabel;
+
+  /// No description provided for @reminderNone.
+  ///
+  /// In pl, this message translates to:
+  /// **'Bez'**
+  String get reminderNone;
+
+  /// No description provided for @reminderAtTime.
+  ///
+  /// In pl, this message translates to:
+  /// **'W porze'**
+  String get reminderAtTime;
+
+  /// No description provided for @reminderHour.
+  ///
+  /// In pl, this message translates to:
+  /// **'1 h wcześniej'**
+  String get reminderHour;
+
+  /// No description provided for @reminderDay.
+  ///
+  /// In pl, this message translates to:
+  /// **'Dzień wcześniej'**
+  String get reminderDay;
+
+  /// No description provided for @eventParticipantsLabel.
+  ///
+  /// In pl, this message translates to:
+  /// **'Kto bierze udział'**
+  String get eventParticipantsLabel;
+
+  /// No description provided for @eventDelete.
+  ///
+  /// In pl, this message translates to:
+  /// **'Usuń wydarzenie'**
+  String get eventDelete;
+
+  /// No description provided for @errEventTitle.
+  ///
+  /// In pl, this message translates to:
+  /// **'Wpisz nazwę wydarzenia'**
+  String get errEventTitle;
+
+  /// No description provided for @errEventEnd.
+  ///
+  /// In pl, this message translates to:
+  /// **'Koniec musi być po początku'**
+  String get errEventEnd;
+
+  /// No description provided for @toastEventRemoved.
+  ///
+  /// In pl, this message translates to:
+  /// **'Usunięto wydarzenie'**
+  String get toastEventRemoved;
+
+  /// No description provided for @readOnlyEvent.
+  ///
+  /// In pl, this message translates to:
+  /// **'Wydarzenie innej osoby – tylko do odczytu'**
+  String get readOnlyEvent;
+
+  /// No description provided for @allDayLabel.
+  ///
+  /// In pl, this message translates to:
+  /// **'cały dzień'**
+  String get allDayLabel;
+
+  /// No description provided for @repeatsLabel.
+  ///
+  /// In pl, this message translates to:
+  /// **'powtarza się'**
+  String get repeatsLabel;
+
+  /// No description provided for @homeNextEvent.
+  ///
+  /// In pl, this message translates to:
+  /// **'Najbliżej w kalendarzu'**
+  String get homeNextEvent;
+
+  /// No description provided for @homeNoEvents.
+  ///
+  /// In pl, this message translates to:
+  /// **'Nic zaplanowanego'**
+  String get homeNoEvents;
+
+  /// No description provided for @homeNotesCard.
+  ///
+  /// In pl, this message translates to:
+  /// **'Notatki'**
+  String get homeNotesCard;
+
+  /// No description provided for @homeNotesCount.
+  ///
+  /// In pl, this message translates to:
+  /// **'{count, plural, =0{Brak notatek} one{{count} notatka} few{{count} notatki} many{{count} notatek} other{{count} notatki}}'**
+  String homeNotesCount(int count);
+
+  /// No description provided for @dateToday.
+  ///
+  /// In pl, this message translates to:
+  /// **'Dziś'**
+  String get dateToday;
+
+  /// No description provided for @dateTomorrow.
+  ///
+  /// In pl, this message translates to:
+  /// **'Jutro'**
+  String get dateTomorrow;
 }
 
 class _AppLocalizationsDelegate

@@ -198,5 +198,90 @@
       }
     }
   },
-  "toastRemoved": "Usunięto z listy"
+  "toastRemoved": "Usunięto z listy",
+  "navCalendar": "Kalendarz",
+  "navNotes": "Notatki",
+  "notesTitle": "Notatki",
+  "notesSearchHint": "Szukaj w notatkach",
+  "notesFilterAll": "Wszystkie",
+  "notesFilterShared": "Wspólne",
+  "notesFilterMine": "Tylko moje",
+  "notesEmpty": "Brak notatek – dopisz pierwszą.",
+  "notesNoResults": "Nic nie znaleziono.",
+  "noteNew": "Nowa",
+  "noteNewTitle": "Nowa notatka",
+  "noteEditTitle": "Notatka",
+  "noteTitleHint": "Tytuł",
+  "noteBodyHint": "Treść… Listę zacznij od „- ”",
+  "noteVisibilityLabel": "Kto widzi",
+  "visibilityAll": "wszyscy w domu",
+  "visibilityMe": "tylko ja",
+  "notePin": "Przypnij",
+  "noteUnpin": "Odepnij",
+  "noteDelete": "Usuń notatkę",
+  "noteSave": "Gotowe",
+  "noteMeta": "{name} · {date}",
+  "@noteMeta": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "errNoteEmpty": "Wpisz tytuł albo treść",
+  "toastNoteRemoved": "Usunięto notatkę",
+  "readOnlyNote": "Notatka innej osoby – tylko do odczytu",
+  "calendarTitle": "Kalendarz",
+  "calendarMonth": "Miesiąc",
+  "calendarWeek": "Tydzień",
+  "calendarEmptyDay": "Nic zaplanowanego. Miś odpoczywa.",
+  "calendarLegendEvent": "wydarzenie",
+  "calendarLegendChore": "obowiązek",
+  "eventNew": "Nowe",
+  "eventNewTitle": "Nowe wydarzenie",
+  "eventEditTitle": "Wydarzenie",
+  "eventTitleHint": "Co się dzieje? np. Dentysta",
+  "eventTimed": "O godzinie",
+  "eventAllDay": "Cały dzień",
+  "eventStartLabel": "Początek",
+  "eventEndLabel": "Koniec",
+  "eventDateLabel": "Dzień",
+  "eventEndDateLabel": "Ostatni dzień",
+  "eventLocationLabel": "Miejsce",
+  "eventLocationHint": "np. Przychodnia",
+  "eventDescriptionLabel": "Opis",
+  "eventRepeatLabel": "Powtarzaj",
+  "repeatNone": "Nie",
+  "repeatWeekly": "Co tydzień",
+  "repeatMonthly": "Co miesiąc",
+  "repeatYearly": "Co rok",
+  "eventReminderLabel": "Przypomnienie",
+  "reminderNone": "Bez",
+  "reminderAtTime": "W porze",
+  "reminderHour": "1 h wcześniej",
+  "reminderDay": "Dzień wcześniej",
+  "eventParticipantsLabel": "Kto bierze udział",
+  "eventDelete": "Usuń wydarzenie",
+  "errEventTitle": "Wpisz nazwę wydarzenia",
+  "errEventEnd": "Koniec musi być po początku",
+  "toastEventRemoved": "Usunięto wydarzenie",
+  "readOnlyEvent": "Wydarzenie innej osoby – tylko do odczytu",
+  "allDayLabel": "cały dzień",
+  "repeatsLabel": "powtarza się",
+  "homeNextEvent": "Najbliżej w kalendarzu",
+  "homeNoEvents": "Nic zaplanowanego",
+  "homeNotesCard": "Notatki",
+  "homeNotesCount": "{count, plural, =0{Brak notatek} one{{count} notatka} few{{count} notatki} many{{count} notatek} other{{count} notatki}}",
+  "@homeNotesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dateToday": "Dziś",
+  "dateTomorrow": "Jutro"
 }

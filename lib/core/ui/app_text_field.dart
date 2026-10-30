@@ -20,10 +20,16 @@ class AppTextField extends StatelessWidget {
     this.inputFormatters,
     this.autofocus = false,
     this.focusNode,
+    this.readOnly = false,
+    this.minLines,
+    this.maxLines = 1,
   });
 
   final TextEditingController controller;
   final FocusNode? focusNode;
+  final bool readOnly;
+  final int? minLines;
+  final int? maxLines;
 
   /// Etykieta nad polem – tylko w formularzach wielopolowych.
   final String? label;
@@ -57,6 +63,9 @@ class AppTextField extends StatelessWidget {
         TextFormField(
           controller: controller,
           focusNode: focusNode,
+          readOnly: readOnly,
+          minLines: minLines,
+          maxLines: obscureText ? 1 : maxLines,
           obscureText: obscureText,
           keyboardType: keyboardType,
           textInputAction: textInputAction,

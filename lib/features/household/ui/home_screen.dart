@@ -3,6 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/ui/ui.dart';
+import '../../../core/util/dates.dart';
+import '../../calendar/data/events_repository.dart';
+import '../../calendar/domain/event_models.dart';
+import '../../notes/data/notes_repository.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../auth/data/auth_repository.dart';
 import '../../members/data/members_repository.dart';
@@ -24,6 +28,9 @@ class HomeScreen extends ConsumerWidget {
     final isAdmin = ref.watch(myRoleProvider) == Role.admin;
     final toBuy = (ref.watch(shoppingItemsProvider).value ?? const []).where((i) => !i.checked).length;
     final text = Theme.of(context).textTheme;
+    final now = DateTime.now();
+    final next = nextOccurrence(ref.watch(allEventsProvider), now);
+    final notesCount = ref.watch(allNotesProvider).length;
 
     return ScreenScaffold(
       title: l.homeGreeting(displayNameFor(user)),
@@ -31,6 +38,24 @@ class HomeScreen extends ConsumerWidget {
           ? PrimaryButton(label: l.inviteAction, onPressed: () => context.push('/invite'))
           : null,
       children: [
+        Text(formatDayLong(now), style: text.titleMedium),
+        AppCard(
+          title: l.homeNextEvent,
+          onTap: () => context.go('/calendar'),
+          child: next == null
+              ? Text(l.homeNoEvents, style: text.bodyLarge)
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(next.event.title, style: text.bodyLarge),
+                    const SizedBox(height: 4),
+                    Text(
+                      formatWhen(l, next.start, allDay: next.event.allDay, now: now),
+                      style: text.labelMedium,
+                    ),
+                  ],
+                ),
+        ),
         AppCard(
           title: l.homeHouseholdCard,
           onTap: () => context.push('/members'),
@@ -51,6 +76,11 @@ class HomeScreen extends ConsumerWidget {
             toBuy == 0 ? l.shoppingCardNone : l.shoppingCardCount(toBuy),
             style: text.bodyLarge,
           ),
+        ),
+        AppCard(
+          title: l.homeNotesCard,
+          onTap: () => context.go('/notes'),
+          child: Text(l.homeNotesCount(notesCount), style: text.bodyLarge),
         ),
         TertiaryButton(
           label: l.signOut,

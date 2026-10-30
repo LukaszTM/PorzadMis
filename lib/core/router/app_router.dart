@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/auth/data/auth_repository.dart';
+import '../../features/calendar/ui/calendar_screen.dart';
+import '../../features/notes/ui/notes_screen.dart';
 import '../../features/auth/ui/auth_screens.dart';
 import '../../features/household/data/household_repository.dart';
 import '../../features/household/ui/home_screen.dart';
@@ -69,6 +71,8 @@ final routerProvider = Provider<GoRouter>((ref) {
         routes: [
           GoRoute(path: '/home', builder: (_, _) => const HomeScreen()),
           GoRoute(path: '/shopping', builder: (_, _) => const ShoppingScreen()),
+          GoRoute(path: '/calendar', builder: (_, _) => const CalendarScreen()),
+          GoRoute(path: '/notes', builder: (_, _) => const NotesScreen()),
         ],
       ),
       GoRoute(path: '/members', builder: (_, _) => const MembersScreen()),

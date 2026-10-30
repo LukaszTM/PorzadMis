@@ -187,7 +187,9 @@ Dane wspólne żyją pod jednym dokumentem domu; dane prywatne pod użytkownikie
 Uwagi do modelu:
 
 - Kwoty jako liczby całkowite w groszach; nigdy float.
-- `recurrence.type` przyjmuje: `daily`, `weekly`, `monthly`, `customDates`. Dla `customDates` lista `dates[]` jest źródłem prawdy i wystąpienia powstają tylko dla nich.
+- `recurrence.type` przyjmuje: `daily`, `weekly`, `monthly`, `yearly`, `customDates`. Dla `customDates` lista `dates[]` jest źródłem prawdy i wystąpienia powstają tylko dla nich. Wydarzenia kalendarza używają w MVP tylko `weekly`, `monthly`, `yearly` (bez interwału), a ich wystąpienia liczy klient w locie z pola `recurrence` (bez zapisywania osobnych dokumentów); `until` (opcjonalne) kończy cykl.
+- Etap 3: notatka ma pola `title`, `body`, `pinned`, `createdBy`, `updatedAt` (`createdBy` tylko w kolekcji domu). Wydarzenie ma `title`, `start`, `end` (timestampy UTC; dla całodziennych północ czasu domu), `allDay`, `location`, `description`, `participants[]`, `reminderMinutes` (int lub null), `recurrence` (mapa lub null), `createdBy` (tylko w kolekcji domu). Wpisy prywatne mają identyczne pola bez `createdBy`/`participants`.
+- Przeniesienie prywatne ↔ wspólne robi klient jedną paczką zapisów (usunięcie i utworzenie pod tym samym identyfikatorem); reguły pilnują obu stron osobno.
 - Wystąpienia obowiązków generuje Cloud Function przy zapisie reguły i codziennie o 00:05 czasu domu, zawsze do 90 dni w przód; edycja reguły regeneruje tylko przyszłe, nieodhaczone wystąpienia.
 - Przełączenie notatki lub wydarzenia z prywatnego na wspólne to przeniesienie dokumentu między kolekcjami (transakcja), nie zmiana flagi.
 - Indeksy złożone: expenses (householdId, date), choreOccurrences (date, assigneeId). Pozycje zakupów sortuje klient po `createdAt` (zapytanie po jednym polu), więc nie potrzeba indeksu (checked, order).

@@ -11,10 +11,18 @@ class AppCard extends StatelessWidget {
     this.trailing,
     this.onTap,
     this.semanticsLabel,
+    this.backgroundColor,
+    this.borderColor,
+    this.borderWidth = 1,
   });
 
   final Widget child;
   final String? title;
+
+  /// Nadpisanie tła i obrysu (np. przypięta notatka: obrys 2 dp accent; prywatna: tło background).
+  final Color? backgroundColor;
+  final Color? borderColor;
+  final double borderWidth;
 
   /// Licznik lub akcja po prawej od tytułu.
   final Widget? trailing;
@@ -63,10 +71,10 @@ class AppCard extends StatelessWidget {
       label: semanticsLabel,
       button: onTap != null,
       child: Material(
-        color: t.surface,
+        color: backgroundColor ?? t.surface,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
-          side: BorderSide(color: t.border),
+          side: BorderSide(color: borderColor ?? t.border, width: borderWidth),
         ),
         clipBehavior: Clip.antiAlias,
         child: onTap == null ? content : InkWell(onTap: onTap, child: content),

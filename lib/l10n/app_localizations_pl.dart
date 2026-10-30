@@ -413,4 +413,221 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get toastRemoved => 'Usunięto z listy';
+
+  @override
+  String get navCalendar => 'Kalendarz';
+
+  @override
+  String get navNotes => 'Notatki';
+
+  @override
+  String get notesTitle => 'Notatki';
+
+  @override
+  String get notesSearchHint => 'Szukaj w notatkach';
+
+  @override
+  String get notesFilterAll => 'Wszystkie';
+
+  @override
+  String get notesFilterShared => 'Wspólne';
+
+  @override
+  String get notesFilterMine => 'Tylko moje';
+
+  @override
+  String get notesEmpty => 'Brak notatek – dopisz pierwszą.';
+
+  @override
+  String get notesNoResults => 'Nic nie znaleziono.';
+
+  @override
+  String get noteNew => 'Nowa';
+
+  @override
+  String get noteNewTitle => 'Nowa notatka';
+
+  @override
+  String get noteEditTitle => 'Notatka';
+
+  @override
+  String get noteTitleHint => 'Tytuł';
+
+  @override
+  String get noteBodyHint => 'Treść… Listę zacznij od „- ”';
+
+  @override
+  String get noteVisibilityLabel => 'Kto widzi';
+
+  @override
+  String get visibilityAll => 'wszyscy w domu';
+
+  @override
+  String get visibilityMe => 'tylko ja';
+
+  @override
+  String get notePin => 'Przypnij';
+
+  @override
+  String get noteUnpin => 'Odepnij';
+
+  @override
+  String get noteDelete => 'Usuń notatkę';
+
+  @override
+  String get noteSave => 'Gotowe';
+
+  @override
+  String noteMeta(String name, String date) {
+    return '$name · $date';
+  }
+
+  @override
+  String get errNoteEmpty => 'Wpisz tytuł albo treść';
+
+  @override
+  String get toastNoteRemoved => 'Usunięto notatkę';
+
+  @override
+  String get readOnlyNote => 'Notatka innej osoby – tylko do odczytu';
+
+  @override
+  String get calendarTitle => 'Kalendarz';
+
+  @override
+  String get calendarMonth => 'Miesiąc';
+
+  @override
+  String get calendarWeek => 'Tydzień';
+
+  @override
+  String get calendarEmptyDay => 'Nic zaplanowanego. Miś odpoczywa.';
+
+  @override
+  String get calendarLegendEvent => 'wydarzenie';
+
+  @override
+  String get calendarLegendChore => 'obowiązek';
+
+  @override
+  String get eventNew => 'Nowe';
+
+  @override
+  String get eventNewTitle => 'Nowe wydarzenie';
+
+  @override
+  String get eventEditTitle => 'Wydarzenie';
+
+  @override
+  String get eventTitleHint => 'Co się dzieje? np. Dentysta';
+
+  @override
+  String get eventTimed => 'O godzinie';
+
+  @override
+  String get eventAllDay => 'Cały dzień';
+
+  @override
+  String get eventStartLabel => 'Początek';
+
+  @override
+  String get eventEndLabel => 'Koniec';
+
+  @override
+  String get eventDateLabel => 'Dzień';
+
+  @override
+  String get eventEndDateLabel => 'Ostatni dzień';
+
+  @override
+  String get eventLocationLabel => 'Miejsce';
+
+  @override
+  String get eventLocationHint => 'np. Przychodnia';
+
+  @override
+  String get eventDescriptionLabel => 'Opis';
+
+  @override
+  String get eventRepeatLabel => 'Powtarzaj';
+
+  @override
+  String get repeatNone => 'Nie';
+
+  @override
+  String get repeatWeekly => 'Co tydzień';
+
+  @override
+  String get repeatMonthly => 'Co miesiąc';
+
+  @override
+  String get repeatYearly => 'Co rok';
+
+  @override
+  String get eventReminderLabel => 'Przypomnienie';
+
+  @override
+  String get reminderNone => 'Bez';
+
+  @override
+  String get reminderAtTime => 'W porze';
+
+  @override
+  String get reminderHour => '1 h wcześniej';
+
+  @override
+  String get reminderDay => 'Dzień wcześniej';
+
+  @override
+  String get eventParticipantsLabel => 'Kto bierze udział';
+
+  @override
+  String get eventDelete => 'Usuń wydarzenie';
+
+  @override
+  String get errEventTitle => 'Wpisz nazwę wydarzenia';
+
+  @override
+  String get errEventEnd => 'Koniec musi być po początku';
+
+  @override
+  String get toastEventRemoved => 'Usunięto wydarzenie';
+
+  @override
+  String get readOnlyEvent => 'Wydarzenie innej osoby – tylko do odczytu';
+
+  @override
+  String get allDayLabel => 'cały dzień';
+
+  @override
+  String get repeatsLabel => 'powtarza się';
+
+  @override
+  String get homeNextEvent => 'Najbliżej w kalendarzu';
+
+  @override
+  String get homeNoEvents => 'Nic zaplanowanego';
+
+  @override
+  String get homeNotesCard => 'Notatki';
+
+  @override
+  String homeNotesCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count notatki',
+      many: '$count notatek',
+      few: '$count notatki',
+      one: '$count notatka',
+      zero: 'Brak notatek',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get dateToday => 'Dziś';
+
+  @override
+  String get dateTomorrow => 'Jutro';
 }

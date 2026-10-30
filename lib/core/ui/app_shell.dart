@@ -5,21 +5,27 @@ import '../../l10n/app_localizations.dart';
 import '../theme/app_tokens.dart';
 import 'app_icon.dart';
 
-/// Pasek dolny (GUI 5.1). Na razie dwie zakładki; kolejne moduły dojdą w następnych etapach
-/// (docelowo: Dziś · Zakupy · Obowiązki · Kalendarz · Notatki/Więcej).
+/// Pasek dolny (GUI 5.1): Dziś · Zakupy · Kalendarz · Notatki. Obowiązki dojdą w etapie 4
+/// (wtedy Notatki trafią pod „Więcej” dla Administratora).
 class AppShell extends StatelessWidget {
   const AppShell({super.key, required this.location, required this.child});
 
   final String location;
   final Widget child;
 
-  static const _paths = ['/home', '/shopping'];
+  static const _paths = ['/home', '/shopping', '/calendar', '/notes'];
 
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     final t = context.tokens;
-    final index = location.startsWith('/shopping') ? 1 : 0;
+    final index = location.startsWith('/shopping')
+        ? 1
+        : location.startsWith('/calendar')
+            ? 2
+            : location.startsWith('/notes')
+                ? 3
+                : 0;
     return Scaffold(
       body: child,
       bottomNavigationBar: DecoratedBox(
@@ -37,6 +43,16 @@ class AppShell extends StatelessWidget {
               icon: const AppIcon(AppIcons.shopping, size: 26),
               selectedIcon: const AppIcon(AppIcons.shopping, size: 26),
               label: l.navShopping,
+            ),
+            NavigationDestination(
+              icon: const AppIcon(AppIcons.calendar, size: 26),
+              selectedIcon: const AppIcon(AppIcons.calendar, size: 26),
+              label: l.navCalendar,
+            ),
+            NavigationDestination(
+              icon: const AppIcon(AppIcons.notes, size: 26),
+              selectedIcon: const AppIcon(AppIcons.notes, size: 26),
+              label: l.navNotes,
             ),
           ],
         ),

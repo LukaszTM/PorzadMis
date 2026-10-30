@@ -51,6 +51,66 @@ service cloud.firestore {
         && shortText(d.get('unit', ''), 20);
     }
 
+    // Notatka (bez pól własności; te sprawdzają reguły kolekcji).
+    function validNoteFields(d) {
+      return shortText(d.title, 200)
+        && shortText(d.body, 20000)
+        && d.pinned is bool
+        && d.updatedAt is timestamp
+        && (d.title.size() >= 1 || d.body.size() >= 1);
+    }
+
+    function validRecurrence(r) {
+      return r == null
+        || (r is map
+            && r.keys().hasOnly(['type', 'until'])
+            && r.type in ['weekly', 'monthly', 'yearly']
+            && (r.get('until', null) == null || r.until is timestamp));
+    }
+
+    function validEventFields(d) {
+      return shortText(d.title, 200) && d.title.size() >= 1
+        && d.start is timestamp && d.end is timestamp && d.end >= d.start
+        && d.allDay is bool
+        && shortText(d.get('location', ''), 200)
+        && shortText(d.get('description', ''), 5000)
+        && (d.get('reminderMinutes', null) == null || d.reminderMinutes is int)
+        && validRecurrence(d.get('recurrence', null));
+    }
+
+    function validSharedNote(hid, d) {
+      return d.keys().hasOnly(['title', 'body', 'pinned', 'createdBy', 'updatedAt'])
+        && d.keys().hasAll(['title', 'body', 'pinned', 'createdBy', 'updatedAt'])
+        && validNoteFields(d) && d.createdBy is string && isMemberUid(hid, d.createdBy);
+    }
+
+    function validPrivateNote(d) {
+      return d.keys().hasOnly(['title', 'body', 'pinned', 'updatedAt'])
+        && d.keys().hasAll(['title', 'body', 'pinned', 'updatedAt'])
+        && validNoteFields(d);
+    }
+
+    function validSharedEvent(hid, d) {
+      return d.keys().hasOnly(['title', 'start', 'end', 'allDay', 'location', 'description',
+                               'participants', 'reminderMinutes', 'recurrence', 'createdBy'])
+        && d.keys().hasAll(['title', 'start', 'end', 'allDay', 'createdBy'])
+        && validEventFields(d)
+        && d.get('participants', []) is list
+        && d.createdBy is string && isMemberUid(hid, d.createdBy);
+    }
+
+    function validPrivateEvent(d) {
+      return d.keys().hasOnly(['title', 'start', 'end', 'allDay', 'location', 'description',
+                               'reminderMinutes', 'recurrence'])
+        && d.keys().hasAll(['title', 'start', 'end', 'allDay'])
+        && validEventFields(d);
+    }
+
+    // Autor wpisu wspólnego albo Administrator domu.
+    function isAuthorOrAdmin(hid) {
+      return resource.data.createdBy == request.auth.uid || isAdmin(hid);
+    }
+
     // Profil użytkownika. householdId ustawia wyłącznie serwer (Cloud Functions).
     match /users/{uid} {
       allow read: if signedIn() && request.auth.uid == uid;
@@ -59,6 +119,18 @@ service cloud.firestore {
       allow update: if signedIn() && request.auth.uid == uid
         && request.resource.data.get('householdId', null) == resource.data.get('householdId', null);
       allow delete: if false;
+
+      // Wpisy prywatne: wyłącznie właściciel, nawet Administrator ich nie widzi.
+      match /privateNotes/{id} {
+        allow read, delete: if signedIn() && request.auth.uid == uid;
+        allow create, update: if signedIn() && request.auth.uid == uid
+          && validPrivateNote(request.resource.data);
+      }
+      match /privateEvents/{id} {
+        allow read, delete: if signedIn() && request.auth.uid == uid;
+        allow create, update: if signedIn() && request.auth.uid == uid
+          && validPrivateEvent(request.resource.data);
+      }
     }
 
     match /households/{hid} {
@@ -99,6 +171,28 @@ service cloud.firestore {
       match /shoppingHistory/{key} {
         allow read, delete: if isMember(hid);
         allow create, update: if isMember(hid) && validShoppingHistory(request.resource.data);
+      }
+
+      // Notatki wspólne: wszyscy czytają; autor lub Administrator pisze.
+      match /notes/{id} {
+        allow read: if isMember(hid);
+        allow create: if isMember(hid) && validSharedNote(hid, request.resource.data)
+          && request.resource.data.createdBy == request.auth.uid;
+        allow update: if isMember(hid) && validSharedNote(hid, request.resource.data)
+          && request.resource.data.createdBy == resource.data.createdBy
+          && isAuthorOrAdmin(hid);
+        allow delete: if isMember(hid) && isAuthorOrAdmin(hid);
+      }
+
+      // Wydarzenia wspólne: wszyscy czytają; autor lub Administrator pisze.
+      match /events/{id} {
+        allow read: if isMember(hid);
+        allow create: if isMember(hid) && validSharedEvent(hid, request.resource.data)
+          && request.resource.data.createdBy == request.auth.uid;
+        allow update: if isMember(hid) && validSharedEvent(hid, request.resource.data)
+          && request.resource.data.createdBy == resource.data.createdBy
+          && isAuthorOrAdmin(hid);
+        allow delete: if isMember(hid) && isAuthorOrAdmin(hid);
       }
     }
 
