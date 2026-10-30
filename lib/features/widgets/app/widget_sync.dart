@@ -14,6 +14,7 @@ import '../domain/widget_payload.dart';
 
 const _todayProvider = 'TodayWidgetProvider';
 const _shoppingProvider = 'ShoppingWidgetProvider';
+const _calendarProvider = 'CalendarWidgetProvider';
 
 /// Zapisuje dane do widżetów przy każdej zmianie (z odstępem) i obsługuje dotknięcie widżetu.
 final widgetSyncProvider = Provider<void>((ref) {
@@ -33,12 +34,17 @@ final widgetSyncProvider = Provider<void>((ref) {
       nextEventLabel: (title, start, allDay) => '$title · ${formatWhen(l, start, allDay: allDay, now: now)}',
       todayEmptyText: l.choresEmptyMine,
       shoppingEmptyText: l.shoppingCardNone,
+      todayLabel: formatDayLong(now),
+      noEventText: l.homeNoEvents,
+      whenLabel: (start, allDay) => formatWhen(l, start, allDay: allDay, now: now),
     );
     try {
       await HomeWidget.saveWidgetData<String>('widget_today', payloads.today);
       await HomeWidget.saveWidgetData<String>('widget_shopping', payloads.shopping);
+      await HomeWidget.saveWidgetData<String>('widget_calendar', payloads.calendar);
       await HomeWidget.updateWidget(androidName: _todayProvider);
       await HomeWidget.updateWidget(androidName: _shoppingProvider);
+      await HomeWidget.updateWidget(androidName: _calendarProvider);
     } catch (_) {
       // Brak widżetów na ekranie albo platforma bez obsługi: nic do zrobienia.
     }

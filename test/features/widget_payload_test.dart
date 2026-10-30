@@ -47,9 +47,10 @@ void main() {
     expect(today['emptyText'], 'pusto');
   });
 
-  test('Dziś: najbliższe wydarzenie bez prywatnych', () {
+  test('Dziś: najbliższe wydarzenie bez prywatnych; kalendarz dostaje tytuł', () {
     final p = build(e: [ev('priv', DateTime(2026, 11, 2, 10), private: true), ev('pub', DateTime(2026, 11, 2, 12))]);
     expect((jsonDecode(p.today) as Map)['nextEvent'], 'pub @12');
+    expect((jsonDecode(p.calendar) as Map)['title'], 'pub');
   });
 
   test('Zakupy: liczba niekupionych i pierwsze 5 nazw od najstarszej', () {
@@ -64,6 +65,7 @@ void main() {
     ]);
     final s = jsonDecode(p.shopping) as Map<String, dynamic>;
     expect(s['count'], 6);
+    expect(s['bought'], 1);
     expect(s['names'], ['a', 'b', 'c', 'd', 'e']);
     expect((s['icons'] as List).length, 5);
   });
@@ -77,6 +79,8 @@ void main() {
   test('routeFromWidgetUri mapuje hosty, obce schematy ignoruje', () {
     expect(routeFromWidgetUri(Uri.parse('porzadmis://chores')), '/chores');
     expect(routeFromWidgetUri(Uri.parse('porzadmis://shopping')), '/shopping');
+    expect(routeFromWidgetUri(Uri.parse('porzadmis://shopping?add=1')), '/shopping?add=1');
+    expect(routeFromWidgetUri(Uri.parse('porzadmis://chores?add=1')), '/chores?add=1');
     expect(routeFromWidgetUri(Uri.parse('porzadmis://cokolwiek')), '/home');
     expect(routeFromWidgetUri(Uri.parse('https://example.com')), isNull);
     expect(routeFromWidgetUri(null), isNull);

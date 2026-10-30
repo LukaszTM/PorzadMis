@@ -17,7 +17,10 @@ import 'chore_sheet.dart';
 
 /// Obowiązki (GUI 6): pasek tygodnia z kropkami, „Moje · dzień”, „Inni domownicy”.
 class ChoresScreen extends ConsumerStatefulWidget {
-  const ChoresScreen({super.key});
+  const ChoresScreen({super.key, this.openAdd = false});
+
+  /// Z widżetu „+”: otwiera arkusz nowego zadania (tylko Administrator).
+  final bool openAdd;
 
   @override
   ConsumerState<ChoresScreen> createState() => _ChoresScreenState();
@@ -25,6 +28,7 @@ class ChoresScreen extends ConsumerStatefulWidget {
 
 class _ChoresScreenState extends ConsumerState<ChoresScreen> {
   DateTime _selected = DateTime.now();
+  bool _addOpened = false;
 
   void _toggle(ChoreOccurrence o) {
     final hid = ref.read(householdIdProvider);
@@ -45,6 +49,12 @@ class _ChoresScreenState extends ConsumerState<ChoresScreen> {
     final text = Theme.of(context).textTheme;
     final uid = ref.watch(authStateProvider).value?.uid ?? '';
     final isAdmin = ref.watch(myRoleProvider) == Role.admin;
+    if (widget.openAdd && isAdmin && !_addOpened) {
+      _addOpened = true;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) showChoreSheet(context, ref, null, initialDay: _selected);
+      });
+    }
     final members = ref.watch(membersProvider).value ?? const <Member>[];
     final names = {for (final m in members) m.uid: m.displayName};
     final all = ref.watch(choreOccurrencesProvider).value ?? const <ChoreOccurrence>[];

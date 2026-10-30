@@ -15,7 +15,10 @@ import 'shopping_sheets.dart';
 
 /// Wspólna lista zakupów (GUI 6): pole „Co dopisać?” u góry, „Do kupienia” i „Kupione”.
 class ShoppingScreen extends ConsumerStatefulWidget {
-  const ShoppingScreen({super.key});
+  const ShoppingScreen({super.key, this.autofocusAdd = false});
+
+  /// Z widżetu „+”: od razu klawiatura w polu „Co dopisać?”.
+  final bool autofocusAdd;
 
   @override
   ConsumerState<ShoppingScreen> createState() => _ShoppingScreenState();
@@ -31,6 +34,9 @@ class _ShoppingScreenState extends ConsumerState<ShoppingScreen> {
     super.initState();
     _controller.addListener(_rebuild);
     _focus.addListener(_rebuild);
+    if (widget.autofocusAdd) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => _focus.requestFocus());
+    }
   }
 
   void _rebuild() => setState(() {});

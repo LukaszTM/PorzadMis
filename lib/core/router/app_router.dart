@@ -82,8 +82,8 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (_, state, child) => AppShell(location: state.matchedLocation, child: child),
         routes: [
           GoRoute(path: '/home', builder: (_, _) => const HomeScreen()),
-          GoRoute(path: '/shopping', builder: (_, _) => const ShoppingScreen()),
-          GoRoute(path: '/chores', builder: (_, _) => const ChoresScreen()),
+          GoRoute(path: '/shopping', builder: (_, state) => ShoppingScreen(autofocusAdd: state.uri.queryParameters['add'] == '1')),
+          GoRoute(path: '/chores', builder: (_, state) => ChoresScreen(openAdd: state.uri.queryParameters['add'] == '1')),
           GoRoute(path: '/calendar', builder: (_, _) => const CalendarScreen()),
           GoRoute(path: '/notes', builder: (_, _) => const NotesScreen()),
           GoRoute(path: '/more', builder: (_, _) => const MoreScreen()),
