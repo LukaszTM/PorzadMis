@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'core/router/app_router.dart';
 import 'core/theme/app_theme.dart';
+import 'features/notifications/app/notifications_bootstrap.dart';
 import 'l10n/app_localizations.dart';
 
 class PorzadMisApp extends ConsumerWidget {
@@ -12,6 +13,8 @@ class PorzadMisApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themes = ref.watch(appThemesProvider);
+    // Uruchamia FCM i lokalne przypomnienia na czas życia aplikacji.
+    ref.watch(notificationsBootstrapProvider);
     return MaterialApp.router(
       onGenerateTitle: (context) => AppLocalizations.of(context).appName,
       debugShowCheckedModeBanner: false,

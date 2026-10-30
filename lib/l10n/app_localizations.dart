@@ -1881,6 +1881,126 @@ abstract class AppLocalizations {
   /// In pl, this message translates to:
   /// **'{name} · {date}'**
   String paidByMeta(String name, String date);
+
+  /// No description provided for @settingsTitle.
+  ///
+  /// In pl, this message translates to:
+  /// **'Ustawienia'**
+  String get settingsTitle;
+
+  /// No description provided for @moreSettings.
+  ///
+  /// In pl, this message translates to:
+  /// **'Ustawienia'**
+  String get moreSettings;
+
+  /// No description provided for @settingsNotifications.
+  ///
+  /// In pl, this message translates to:
+  /// **'Powiadomienia'**
+  String get settingsNotifications;
+
+  /// No description provided for @settingsNotificationsHint.
+  ///
+  /// In pl, this message translates to:
+  /// **'Każdy domownik ustawia to dla siebie.'**
+  String get settingsNotificationsHint;
+
+  /// No description provided for @prefChores.
+  ///
+  /// In pl, this message translates to:
+  /// **'Nowy obowiązek i poranne przypomnienia'**
+  String get prefChores;
+
+  /// No description provided for @prefEvents.
+  ///
+  /// In pl, this message translates to:
+  /// **'Przypomnienia o wydarzeniach'**
+  String get prefEvents;
+
+  /// No description provided for @prefShopping.
+  ///
+  /// In pl, this message translates to:
+  /// **'Nowa pozycja na liście zakupów'**
+  String get prefShopping;
+
+  /// No description provided for @prefMembers.
+  ///
+  /// In pl, this message translates to:
+  /// **'Nowy domownik dołączył'**
+  String get prefMembers;
+
+  /// No description provided for @prefBudget.
+  ///
+  /// In pl, this message translates to:
+  /// **'Przekroczenie planu budżetu (tylko Administrator)'**
+  String get prefBudget;
+
+  /// No description provided for @prefOn.
+  ///
+  /// In pl, this message translates to:
+  /// **'włączone'**
+  String get prefOn;
+
+  /// No description provided for @prefOff.
+  ///
+  /// In pl, this message translates to:
+  /// **'wyłączone'**
+  String get prefOff;
+
+  /// No description provided for @notifPermissionDenied.
+  ///
+  /// In pl, this message translates to:
+  /// **'Powiadomienia są wyłączone w systemie. Włącz je w ustawieniach telefonu.'**
+  String get notifPermissionDenied;
+
+  /// No description provided for @notifChannelName.
+  ///
+  /// In pl, this message translates to:
+  /// **'PorządMiś'**
+  String get notifChannelName;
+
+  /// No description provided for @notifChannelDescription.
+  ///
+  /// In pl, this message translates to:
+  /// **'Przypomnienia o obowiązkach i wydarzeniach, nowości w domu'**
+  String get notifChannelDescription;
+
+  /// No description provided for @reminderChoreTitle.
+  ///
+  /// In pl, this message translates to:
+  /// **'{title} – dziś'**
+  String reminderChoreTitle(String title);
+
+  /// No description provided for @reminderChoreBody.
+  ///
+  /// In pl, this message translates to:
+  /// **'Obowiązek na dziś.'**
+  String get reminderChoreBody;
+
+  /// No description provided for @reminderEventTitle.
+  ///
+  /// In pl, this message translates to:
+  /// **'{title} – {when}'**
+  String reminderEventTitle(String title, String when);
+
+  /// No description provided for @reminderEventBody.
+  ///
+  /// In pl, this message translates to:
+  /// **'Wydarzenie z kalendarza.'**
+  String get reminderEventBody;
+
+  /// No description provided for @settingsAbout.
+  ///
+  /// In pl, this message translates to:
+  /// **'O aplikacji'**
+  String get settingsAbout;
+
+  /// No description provided for @settingsVersion.
+  ///
+  /// In pl, this message translates to:
+  /// **'PorządMiś, wersja {version}'**
+  String settingsVersion(String version);
 }
 
 class _AppLocalizationsDelegate

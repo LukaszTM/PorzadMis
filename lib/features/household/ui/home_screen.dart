@@ -49,6 +49,12 @@ class HomeScreen extends ConsumerWidget {
 
     return ScreenScaffold(
       title: l.homeGreeting(displayNameFor(user)),
+      headerTrailing: IconButton(
+        tooltip: l.settingsTitle,
+        constraints: const BoxConstraints(minWidth: 48, minHeight: 48),
+        icon: const AppIcon(AppIcons.settings, size: 26),
+        onPressed: () => context.push('/settings'),
+      ),
       bottom: isAdmin
           ? PrimaryButton(label: l.inviteAction, onPressed: () => context.push('/invite'))
           : null,

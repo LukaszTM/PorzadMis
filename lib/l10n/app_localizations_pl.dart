@@ -979,4 +979,73 @@ class AppLocalizationsPl extends AppLocalizations {
   String paidByMeta(String name, String date) {
     return '$name · $date';
   }
+
+  @override
+  String get settingsTitle => 'Ustawienia';
+
+  @override
+  String get moreSettings => 'Ustawienia';
+
+  @override
+  String get settingsNotifications => 'Powiadomienia';
+
+  @override
+  String get settingsNotificationsHint =>
+      'Każdy domownik ustawia to dla siebie.';
+
+  @override
+  String get prefChores => 'Nowy obowiązek i poranne przypomnienia';
+
+  @override
+  String get prefEvents => 'Przypomnienia o wydarzeniach';
+
+  @override
+  String get prefShopping => 'Nowa pozycja na liście zakupów';
+
+  @override
+  String get prefMembers => 'Nowy domownik dołączył';
+
+  @override
+  String get prefBudget => 'Przekroczenie planu budżetu (tylko Administrator)';
+
+  @override
+  String get prefOn => 'włączone';
+
+  @override
+  String get prefOff => 'wyłączone';
+
+  @override
+  String get notifPermissionDenied =>
+      'Powiadomienia są wyłączone w systemie. Włącz je w ustawieniach telefonu.';
+
+  @override
+  String get notifChannelName => 'PorządMiś';
+
+  @override
+  String get notifChannelDescription =>
+      'Przypomnienia o obowiązkach i wydarzeniach, nowości w domu';
+
+  @override
+  String reminderChoreTitle(String title) {
+    return '$title – dziś';
+  }
+
+  @override
+  String get reminderChoreBody => 'Obowiązek na dziś.';
+
+  @override
+  String reminderEventTitle(String title, String when) {
+    return '$title – $when';
+  }
+
+  @override
+  String get reminderEventBody => 'Wydarzenie z kalendarza.';
+
+  @override
+  String get settingsAbout => 'O aplikacji';
+
+  @override
+  String settingsVersion(String version) {
+    return 'PorządMiś, wersja $version';
+  }
 }

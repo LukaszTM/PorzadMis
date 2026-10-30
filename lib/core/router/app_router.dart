@@ -15,6 +15,7 @@ import '../../features/household/ui/start_screens.dart';
 import '../../features/invites/ui/invite_screen.dart';
 import '../../features/invites/ui/join_screens.dart';
 import '../../features/members/ui/members_screen.dart';
+import '../../features/notifications/ui/settings_screen.dart';
 import '../../features/shopping/ui/shopping_screen.dart';
 import '../ui/app_shell.dart';
 import '../ui/mis_mark.dart';
@@ -82,6 +83,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(path: '/members', builder: (_, _) => const MembersScreen()),
       GoRoute(path: '/budget', builder: (_, _) => const BudgetScreen()),
+      GoRoute(path: '/settings', builder: (_, _) => const SettingsScreen()),
       GoRoute(path: '/invite', builder: (_, _) => const InviteScreen()),
     ],
   );

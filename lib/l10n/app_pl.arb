@@ -456,5 +456,49 @@
         "type": "String"
       }
     }
+  },
+  "settingsTitle": "Ustawienia",
+  "moreSettings": "Ustawienia",
+  "settingsNotifications": "Powiadomienia",
+  "settingsNotificationsHint": "Każdy domownik ustawia to dla siebie.",
+  "prefChores": "Nowy obowiązek i poranne przypomnienia",
+  "prefEvents": "Przypomnienia o wydarzeniach",
+  "prefShopping": "Nowa pozycja na liście zakupów",
+  "prefMembers": "Nowy domownik dołączył",
+  "prefBudget": "Przekroczenie planu budżetu (tylko Administrator)",
+  "prefOn": "włączone",
+  "prefOff": "wyłączone",
+  "notifPermissionDenied": "Powiadomienia są wyłączone w systemie. Włącz je w ustawieniach telefonu.",
+  "notifChannelName": "PorządMiś",
+  "notifChannelDescription": "Przypomnienia o obowiązkach i wydarzeniach, nowości w domu",
+  "reminderChoreTitle": "{title} – dziś",
+  "@reminderChoreTitle": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderChoreBody": "Obowiązek na dziś.",
+  "reminderEventTitle": "{title} – {when}",
+  "@reminderEventTitle": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderEventBody": "Wydarzenie z kalendarza.",
+  "settingsAbout": "O aplikacji",
+  "settingsVersion": "PorządMiś, wersja {version}",
+  "@settingsVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
   }
 }

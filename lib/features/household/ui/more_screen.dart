@@ -47,6 +47,8 @@ class MoreScreen extends ConsumerWidget {
               row(AppIcons.settings, l.moreMembers, () => context.push('/members')),
               const AppDivider(),
               row(AppIcons.qr, l.moreInvite, () => context.push('/invite')),
+              const AppDivider(),
+              row(AppIcons.notifications, l.moreSettings, () => context.push('/settings')),
             ],
           ),
         ),

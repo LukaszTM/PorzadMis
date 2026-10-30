@@ -162,10 +162,11 @@ service cloud.firestore {
     }
 
     function validBudgetPlan(d) {
-      return d.keys().hasOnly(['limits', 'total', 'updatedAt'])
+      return d.keys().hasOnly(['limits', 'total', 'updatedAt', 'alerted100'])
         && d.keys().hasAll(['limits', 'total', 'updatedAt'])
         && d.limits is map
         && d.total is int && d.total >= 0
+        && (!('alerted100' in d) || d.alerted100 is bool)
         && d.updatedAt is timestamp;
     }
 
