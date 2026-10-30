@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/app_tokens.dart';
 import '../../../core/ui/ui.dart';
 import '../../../core/util/dates.dart';
+import '../../../core/util/emoji.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../auth/data/auth_repository.dart';
 import '../../household/data/household_repository.dart';
@@ -65,6 +66,7 @@ class _ChoresScreenState extends ConsumerState<ChoresScreen> {
       return CheckRow(
         title: o.title,
         checked: o.isDone,
+        leading: Text(emojiFor(o.title, fallback: emojiChore), style: const TextStyle(fontSize: 22)),
         meta: meta.isEmpty ? null : meta,
         minHeight: 64,
         onChanged: can ? (_) => _toggle(o) : (_) {},

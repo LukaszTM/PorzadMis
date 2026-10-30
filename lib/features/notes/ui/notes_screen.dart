@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/app_tokens.dart';
 import '../../../core/ui/ui.dart';
 import '../../../core/util/dates.dart';
+import '../../../core/util/emoji.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../auth/data/auth_repository.dart';
 import '../../household/data/household_repository.dart';
@@ -88,7 +89,11 @@ class _NotesScreenState extends ConsumerState<NotesScreen> {
           AppCard(
             onTap: () => showNoteSheet(context, ref, n),
             semanticsLabel: n.displayTitle,
-            backgroundColor: n.isPrivate ? t.background : null,
+            // Pastel z tokenów wykresu, stały dla notatki (z identyfikatora); prywatne lekko ciemniejsze.
+            backgroundColor: Color.alphaBlend(
+              t.chart[n.id.hashCode.abs() % 5].withValues(alpha: n.isPrivate ? 0.10 : 0.16),
+              t.surface,
+            ),
             borderColor: n.pinned ? t.accent : null,
             borderWidth: n.pinned ? 2 : 1,
             child: Column(
@@ -96,6 +101,8 @@ class _NotesScreenState extends ConsumerState<NotesScreen> {
               children: [
                 Row(
                   children: [
+                    Text(emojiFor(n.displayTitle, fallback: '📝'), style: const TextStyle(fontSize: 22)),
+                    const SizedBox(width: 8),
                     if (n.pinned) ...[
                       Icon(Icons.push_pin, size: 18, color: t.accent),
                       const SizedBox(width: 6),
@@ -111,7 +118,12 @@ class _NotesScreenState extends ConsumerState<NotesScreen> {
                 ),
                 if (n.body.trim().isNotEmpty && n.title.trim().isNotEmpty) ...[
                   const SizedBox(height: 6),
-                  Text(n.body.trim(), style: text.bodyMedium, maxLines: 3, overflow: TextOverflow.ellipsis),
+                  Text(
+                    n.body.trim().split('\n').map((line) => line.trimLeft().startsWith('- ') ? '•  ${line.trimLeft().substring(2)}' : line).join('\n'),
+                    style: text.bodyMedium,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ],
                 const SizedBox(height: 8),
                 Text(

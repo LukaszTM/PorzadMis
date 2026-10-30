@@ -150,7 +150,7 @@ class _ThemeTile extends StatelessWidget {
       label: theme.name,
       excludeSemantics: true,
       child: Material(
-        color: theme.background,
+        color: theme.surface,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
           side: BorderSide(color: selected ? borderColor : theme.border, width: selected ? 3 : 1),
@@ -159,27 +159,30 @@ class _ThemeTile extends StatelessWidget {
         child: InkWell(
           onTap: onTap,
           child: SizedBox(
-            width: 104,
-            height: 92,
+            width: 150,
+            height: 112,
             child: Padding(
               padding: const EdgeInsets.all(10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    height: 22,
+                    height: 54,
                     decoration: BoxDecoration(
-                      color: theme.surface,
-                      borderRadius: BorderRadius.circular(8),
+                      color: theme.background,
+                      borderRadius: BorderRadius.circular(10),
                       border: Border.all(color: theme.border),
                     ),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Row(
                       children: [
-                        const SizedBox(width: 6),
-                        Container(width: 24, height: 6, decoration: BoxDecoration(color: theme.text, borderRadius: BorderRadius.circular(3))),
-                        const Spacer(),
-                        Container(width: 16, height: 10, decoration: BoxDecoration(color: theme.accent, borderRadius: BorderRadius.circular(4))),
-                        const SizedBox(width: 6),
+                        for (final c in [theme.surface, theme.accent, theme.text])
+                          Container(
+                            width: 18,
+                            height: 18,
+                            margin: const EdgeInsets.only(right: 8),
+                            decoration: BoxDecoration(color: c, shape: BoxShape.circle, border: Border.all(color: theme.border)),
+                          ),
                       ],
                     ),
                   ),

@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import '../../../core/theme/app_tokens.dart';
 import '../../../core/ui/ui.dart';
 import '../../../core/util/dates.dart';
+import '../../../core/util/emoji.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../household/data/household_repository.dart';
 import '../../household/domain/household_models.dart';
@@ -145,8 +146,11 @@ class _BudgetScreenState extends ConsumerState<BudgetScreen> {
                     Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text(l.budgetSpent, style: text.labelMedium),
-                        Text(formatPln(spent), style: text.titleLarge),
+                        Text(formatPln(spent), style: text.headlineMedium),
+                        Text(
+                          planTotal > 0 ? 'z ${formatPln(planTotal)}' : l.budgetSpent,
+                          style: text.labelMedium,
+                        ),
                       ],
                     ),
                   ],
@@ -261,11 +265,16 @@ class _BudgetScreenState extends ConsumerState<BudgetScreen> {
                     child: Row(
                       children: [
                         Container(
-                          width: 10,
-                          height: 10,
+                          width: 40,
+                          height: 40,
                           decoration: BoxDecoration(
-                            color: t.chart[(byId[listed[i].categoryId]?.colorIndex ?? 4)],
-                            shape: BoxShape.circle,
+                            color: t.chart[(byId[listed[i].categoryId]?.colorIndex ?? 4)].withValues(alpha: 0.14),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          alignment: Alignment.center,
+                          child: Text(
+                            emojiFor(listed[i].note, fallback: _categoryEmoji(listed[i].categoryId)),
+                            style: const TextStyle(fontSize: 20),
                           ),
                         ),
                         const SizedBox(width: 10),
@@ -304,6 +313,17 @@ class _BudgetScreenState extends ConsumerState<BudgetScreen> {
     );
   }
 }
+
+String _categoryEmoji(String id) => switch (id) {
+      'food' => '🛒',
+      'bills' => '💡',
+      'home' => '🏠',
+      'transport' => '🚗',
+      'health' => '❤️',
+      'kids' => '👶',
+      'fun' => '🎬',
+      _ => '📦',
+    };
 
 String _capitalize(String s) => s.isEmpty ? s : s[0].toUpperCase() + s.substring(1);
 

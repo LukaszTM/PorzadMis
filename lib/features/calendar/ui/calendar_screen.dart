@@ -5,6 +5,7 @@ import 'package:table_calendar/table_calendar.dart';
 import '../../../core/theme/app_tokens.dart';
 import '../../../core/ui/ui.dart';
 import '../../../core/util/dates.dart';
+import '../../../core/util/emoji.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../auth/data/auth_repository.dart';
 import '../../chores/data/chores_repository.dart';
@@ -274,7 +275,18 @@ class _OccurrenceRow extends StatelessWidget {
               height: 44,
               decoration: BoxDecoration(color: t.chart[e.colorIndex], borderRadius: BorderRadius.circular(2)),
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: 10),
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: t.chart[e.colorIndex].withValues(alpha: 0.14),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              alignment: Alignment.center,
+              child: Text(emojiFor(e.title, fallback: emojiEvent), style: const TextStyle(fontSize: 20)),
+            ),
+            const SizedBox(width: 10),
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
