@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "568093687427-g18u38qccvtompqkp7s0nu1f7vrln0sm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "pl.porzadmis.porzadmis",
+            "certificate_hash": "25960edbb5eb02e0a47bf847cf8707697039b23d"
+          }
+        },
+        {
           "client_id": "568093687427-pp33o3lrupbp80gtr8f1jife1vs4bnlk.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
