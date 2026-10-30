@@ -15,7 +15,7 @@ Cel: interfejs nowoczesny, ale ciepły; prosty dla dziecka i babci, a jednocześ
 5. **Każda ikona ma podpis** – w pasku dolnym, na przyciskach, w ustawieniach. Wyjątek: strzałka „wróć” i „X” zamykania, które mają `contentDescription`.
 6. **Miś to gospodarz, nie dekoracja.** Pojawia się w 5 miejscach (sekcja 7) i nigdzie indziej.
 7. **Kolory wyłącznie z tokenów motywu.** Żadnych hexów w widgetach. Ekran ma wyglądać dobrze w Kremowym, Darculi i Różu nocnym bez jednej poprawki.
-8. **Zaokrąglone, miękkie, płaskie.** Promienie 16–20 dp, cienkie obramowania zamiast cieni, bez gradientów.
+8. **Zaokrąglone, miękkie, z lekką głębią.** Promienie 16–24 dp. Karty mają cienki obrys i miękki cień (elevation 1–2, kolor `text` z kryciem ok. 15 %). Gradient jest dozwolony w dwóch miejscach: karta-bohater na Pulpicie (`accent` → ciemniejszy `accent`) i tło ekranu Pulpit (`accentSoft` → `background` w górnej 1/3). Nigdzie indziej. *(Zmiana z 30.10.2026 na życzenie właściciela produktu; wcześniej: bez cieni i gradientów.)*
 
 ---
 
@@ -32,7 +32,7 @@ Cel: interfejs nowoczesny, ale ciepły; prosty dla dziecka i babci, a jednocześ
 | Promień plakietek (chip) | 999 dp (pełna pigułka) |
 | Promień małych elementów (ikona w kółku, kafelek dnia) | 12–14 dp |
 | Obramowanie kart | 1 dp, kolor `border` |
-| Cienie | brak; wyjątek: arkusz dolny (bottom sheet) i pływający przycisk – elevation 2 |
+| Cienie | karty i kafelki: elevation 1–2, cień w kolorze `text` z kryciem ok. 15 %; karta-bohater: cień w kolorze `accent` (krycie 28 %, rozmycie 24 dp) |
 | Pasek dolny | 64 dp wysokości + bezpieczny margines systemowy |
 | Nagłówek ekranu | tytuł 28 sp ExtraBold, od góry 56 dp (pod paskiem statusu) |
 

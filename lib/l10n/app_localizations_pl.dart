@@ -285,7 +285,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get inviteQrSemantics => 'Kod QR zaproszenia';
 
   @override
-  String get navToday => 'Dziś';
+  String get navToday => 'Pulpit';
 
   @override
   String get navShopping => 'Zakupy';
@@ -632,10 +632,10 @@ class AppLocalizationsPl extends AppLocalizations {
   String get dateTomorrow => 'Jutro';
 
   @override
-  String get navChores => 'Obowiązki';
+  String get navChores => 'Zadania';
 
   @override
-  String get choresTitle => 'Obowiązki';
+  String get choresTitle => 'Zadania';
 
   @override
   String choresMine(String day) {
@@ -1121,4 +1121,89 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get homeActivityHint => 'Dotknij karty, żeby przejść dalej';
+
+  @override
+  String get homeBreadcrumb => 'Pulpit';
+
+  @override
+  String get homeEyebrow => 'TWOJA PRZESTRZEŃ';
+
+  @override
+  String get homeHello => 'Dzień dobry!';
+
+  @override
+  String homeHelloName(String name) {
+    return 'Dzień dobry, $name!';
+  }
+
+  @override
+  String homeSubtitle(String date) {
+    return 'Dzisiaj jest $date. Zobacz, co dzieje się w Twoim domu.';
+  }
+
+  @override
+  String get heroEyebrowCalm => 'SPOKOJNIE, WSZYSTKO POD KONTROLĄ';
+
+  @override
+  String get heroEyebrowBusy => 'DZIŚ JEST CO ROBIĆ';
+
+  @override
+  String get heroTitle => 'Małe sprawy. Więcej czasu dla siebie.';
+
+  @override
+  String get heroBody =>
+      'Domowe zadania, wspólne plany i zakupy – razem w jednym miejscu.';
+
+  @override
+  String get heroAdd => 'Dodaj coś nowego';
+
+  @override
+  String get statTasks => 'Moje zadania dziś';
+
+  @override
+  String get statShopping => 'Na liście zakupów';
+
+  @override
+  String get statEvents => 'Najbliższe wydarzenia';
+
+  @override
+  String get todayCardTitle => 'Do zrobienia dzisiaj';
+
+  @override
+  String get todayCardAll => 'Wszystkie';
+
+  @override
+  String todayCardWaiting(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count zadania czekają na wykonanie',
+      many: '$count zadań czeka na wykonanie',
+      few: '$count zadania czekają na wykonanie',
+      one: '$count zadanie czeka na wykonanie',
+      zero: 'Nic nie czeka na wykonanie',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get youLabel => 'Ty';
+
+  @override
+  String get quickAddTitle => 'Co dodać?';
+
+  @override
+  String get quickAddShopping => 'Produkt na listę zakupów';
+
+  @override
+  String get quickAddChore => 'Zadanie';
+
+  @override
+  String get quickAddEvent => 'Wydarzenie w kalendarzu';
+
+  @override
+  String get quickAddNote => 'Notatkę';
+
+  @override
+  String get settingsAccount => 'Konto';
 }

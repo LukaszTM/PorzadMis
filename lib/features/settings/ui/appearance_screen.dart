@@ -114,7 +114,11 @@ class _AppearanceScreenState extends ConsumerState<AppearanceScreen> {
                         theme: theme,
                         selected: theme.id == previewId,
                         borderColor: t.accent,
-                        onTap: () => setState(() => _previewId = theme.id),
+                        onTap: () => setState(() {
+                          _previewId = theme.id;
+                          // Wybrany motyw ma być widoczny od razu: tryb podąża za jego jasnością.
+                          _previewMode = theme.brightness == Brightness.light ? AppThemeMode.light : AppThemeMode.dark;
+                        }),
                       ),
                   ],
                 ),

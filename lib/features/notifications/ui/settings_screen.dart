@@ -6,8 +6,9 @@ import '../../../core/theme/app_tokens.dart';
 import '../../../core/ui/ui.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../auth/data/auth_repository.dart';
+import '../../household/data/household_repository.dart';
+import '../../members/data/members_repository.dart' show membersProvider, membersRepositoryProvider, myRoleProvider;
 import '../../household/domain/household_models.dart';
-import '../../members/data/members_repository.dart';
 import '../data/notifications_repository.dart';
 import '../domain/reminders.dart';
 
@@ -82,6 +83,39 @@ class SettingsScreen extends ConsumerWidget {
                 const AppDivider(),
                 row(l.prefBudget, prefs.budget, (v) => save(prefs.copyWith(budget: v))),
               ],
+            ],
+          ),
+        ),
+        AppCard(
+          title: l.settingsAccount,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SecondaryButton(label: l.signOut, onPressed: () => ref.read(authRepositoryProvider).signOut()),
+              TertiaryButton(
+                label: l.leaveAction,
+                danger: true,
+                onPressed: () async {
+                  final hid = ref.read(householdIdProvider);
+                  if (hid == null) return;
+                  final members = ref.read(membersProvider).value ?? const [];
+                  final household = ref.read(householdProvider).value;
+                  final ok = await confirmSheet(
+                    context,
+                    title: l.confirmLeaveTitle,
+                    body: members.length <= 1 ? l.confirmLeaveSoloBody(household?.name ?? '') : l.confirmLeaveBody,
+                    confirmLabel: l.confirmYes,
+                    cancelLabel: l.back,
+                    danger: true,
+                  );
+                  if (!ok) return;
+                  try {
+                    await ref.read(membersRepositoryProvider).leave(hid: hid);
+                  } catch (e) {
+                    if (context.mounted) showAppToast(context, callableMessage(e) ?? l.errGeneric, error: true);
+                  }
+                },
+              ),
             ],
           ),
         ),

@@ -601,7 +601,7 @@ abstract class AppLocalizations {
   /// No description provided for @navToday.
   ///
   /// In pl, this message translates to:
-  /// **'Dziś'**
+  /// **'Pulpit'**
   String get navToday;
 
   /// No description provided for @navShopping.
@@ -1237,13 +1237,13 @@ abstract class AppLocalizations {
   /// No description provided for @navChores.
   ///
   /// In pl, this message translates to:
-  /// **'Obowiązki'**
+  /// **'Zadania'**
   String get navChores;
 
   /// No description provided for @choresTitle.
   ///
   /// In pl, this message translates to:
-  /// **'Obowiązki'**
+  /// **'Zadania'**
   String get choresTitle;
 
   /// No description provided for @choresMine.
@@ -2139,6 +2139,144 @@ abstract class AppLocalizations {
   /// In pl, this message translates to:
   /// **'Dotknij karty, żeby przejść dalej'**
   String get homeActivityHint;
+
+  /// No description provided for @homeBreadcrumb.
+  ///
+  /// In pl, this message translates to:
+  /// **'Pulpit'**
+  String get homeBreadcrumb;
+
+  /// No description provided for @homeEyebrow.
+  ///
+  /// In pl, this message translates to:
+  /// **'TWOJA PRZESTRZEŃ'**
+  String get homeEyebrow;
+
+  /// No description provided for @homeHello.
+  ///
+  /// In pl, this message translates to:
+  /// **'Dzień dobry!'**
+  String get homeHello;
+
+  /// No description provided for @homeHelloName.
+  ///
+  /// In pl, this message translates to:
+  /// **'Dzień dobry, {name}!'**
+  String homeHelloName(String name);
+
+  /// No description provided for @homeSubtitle.
+  ///
+  /// In pl, this message translates to:
+  /// **'Dzisiaj jest {date}. Zobacz, co dzieje się w Twoim domu.'**
+  String homeSubtitle(String date);
+
+  /// No description provided for @heroEyebrowCalm.
+  ///
+  /// In pl, this message translates to:
+  /// **'SPOKOJNIE, WSZYSTKO POD KONTROLĄ'**
+  String get heroEyebrowCalm;
+
+  /// No description provided for @heroEyebrowBusy.
+  ///
+  /// In pl, this message translates to:
+  /// **'DZIŚ JEST CO ROBIĆ'**
+  String get heroEyebrowBusy;
+
+  /// No description provided for @heroTitle.
+  ///
+  /// In pl, this message translates to:
+  /// **'Małe sprawy. Więcej czasu dla siebie.'**
+  String get heroTitle;
+
+  /// No description provided for @heroBody.
+  ///
+  /// In pl, this message translates to:
+  /// **'Domowe zadania, wspólne plany i zakupy – razem w jednym miejscu.'**
+  String get heroBody;
+
+  /// No description provided for @heroAdd.
+  ///
+  /// In pl, this message translates to:
+  /// **'Dodaj coś nowego'**
+  String get heroAdd;
+
+  /// No description provided for @statTasks.
+  ///
+  /// In pl, this message translates to:
+  /// **'Moje zadania dziś'**
+  String get statTasks;
+
+  /// No description provided for @statShopping.
+  ///
+  /// In pl, this message translates to:
+  /// **'Na liście zakupów'**
+  String get statShopping;
+
+  /// No description provided for @statEvents.
+  ///
+  /// In pl, this message translates to:
+  /// **'Najbliższe wydarzenia'**
+  String get statEvents;
+
+  /// No description provided for @todayCardTitle.
+  ///
+  /// In pl, this message translates to:
+  /// **'Do zrobienia dzisiaj'**
+  String get todayCardTitle;
+
+  /// No description provided for @todayCardAll.
+  ///
+  /// In pl, this message translates to:
+  /// **'Wszystkie'**
+  String get todayCardAll;
+
+  /// No description provided for @todayCardWaiting.
+  ///
+  /// In pl, this message translates to:
+  /// **'{count, plural, =0{Nic nie czeka na wykonanie} one{{count} zadanie czeka na wykonanie} few{{count} zadania czekają na wykonanie} many{{count} zadań czeka na wykonanie} other{{count} zadania czekają na wykonanie}}'**
+  String todayCardWaiting(int count);
+
+  /// No description provided for @youLabel.
+  ///
+  /// In pl, this message translates to:
+  /// **'Ty'**
+  String get youLabel;
+
+  /// No description provided for @quickAddTitle.
+  ///
+  /// In pl, this message translates to:
+  /// **'Co dodać?'**
+  String get quickAddTitle;
+
+  /// No description provided for @quickAddShopping.
+  ///
+  /// In pl, this message translates to:
+  /// **'Produkt na listę zakupów'**
+  String get quickAddShopping;
+
+  /// No description provided for @quickAddChore.
+  ///
+  /// In pl, this message translates to:
+  /// **'Zadanie'**
+  String get quickAddChore;
+
+  /// No description provided for @quickAddEvent.
+  ///
+  /// In pl, this message translates to:
+  /// **'Wydarzenie w kalendarzu'**
+  String get quickAddEvent;
+
+  /// No description provided for @quickAddNote.
+  ///
+  /// In pl, this message translates to:
+  /// **'Notatkę'**
+  String get quickAddNote;
+
+  /// No description provided for @settingsAccount.
+  ///
+  /// In pl, this message translates to:
+  /// **'Konto'**
+  String get settingsAccount;
 }
 
 class _AppLocalizationsDelegate

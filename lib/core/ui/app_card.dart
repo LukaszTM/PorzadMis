@@ -87,6 +87,8 @@ class AppCard extends StatelessWidget {
       button: onTap != null,
       child: Material(
         color: backgroundColor ?? t.surface,
+        elevation: 1.5,
+        shadowColor: t.text.withValues(alpha: 0.16),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
           side: BorderSide(color: borderColor ?? t.border, width: borderWidth),

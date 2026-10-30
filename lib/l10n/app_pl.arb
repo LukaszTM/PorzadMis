@@ -133,7 +133,7 @@
   "inviteRevoke": "Unieważnij",
   "inviteRevoked": "Zaproszenie unieważniono",
   "inviteQrSemantics": "Kod QR zaproszenia",
-  "navToday": "Dziś",
+  "navToday": "Pulpit",
   "navShopping": "Zakupy",
   "shoppingTitle": "Zakupy",
   "shoppingAddHint": "Co dopisać? np. chleb",
@@ -284,8 +284,8 @@
   },
   "dateToday": "Dziś",
   "dateTomorrow": "Jutro",
-  "navChores": "Obowiązki",
-  "choresTitle": "Obowiązki",
+  "navChores": "Zadania",
+  "choresTitle": "Zadania",
   "choresMine": "Moje · {day}",
   "@choresMine": {
     "placeholders": {
@@ -523,5 +523,49 @@
   "onboardingSkip": "Pomiń",
   "themeAutoDarkHint": "Telefon jest teraz w trybie ciemnym, więc w „Auto” zobaczysz ciemny motyw. Wybierz „Jasny”, żeby użyć jasnego.",
   "themeAutoLightHint": "Telefon jest teraz w trybie jasnym, więc w „Auto” zobaczysz jasny motyw. Wybierz „Ciemny”, żeby użyć ciemnego.",
-  "homeActivityHint": "Dotknij karty, żeby przejść dalej"
+  "homeActivityHint": "Dotknij karty, żeby przejść dalej",
+  "homeBreadcrumb": "Pulpit",
+  "homeEyebrow": "TWOJA PRZESTRZEŃ",
+  "homeHello": "Dzień dobry!",
+  "homeHelloName": "Dzień dobry, {name}!",
+  "@homeHelloName": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "homeSubtitle": "Dzisiaj jest {date}. Zobacz, co dzieje się w Twoim domu.",
+  "@homeSubtitle": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "heroEyebrowCalm": "SPOKOJNIE, WSZYSTKO POD KONTROLĄ",
+  "heroEyebrowBusy": "DZIŚ JEST CO ROBIĆ",
+  "heroTitle": "Małe sprawy. Więcej czasu dla siebie.",
+  "heroBody": "Domowe zadania, wspólne plany i zakupy – razem w jednym miejscu.",
+  "heroAdd": "Dodaj coś nowego",
+  "statTasks": "Moje zadania dziś",
+  "statShopping": "Na liście zakupów",
+  "statEvents": "Najbliższe wydarzenia",
+  "todayCardTitle": "Do zrobienia dzisiaj",
+  "todayCardAll": "Wszystkie",
+  "todayCardWaiting": "{count, plural, =0{Nic nie czeka na wykonanie} one{{count} zadanie czeka na wykonanie} few{{count} zadania czekają na wykonanie} many{{count} zadań czeka na wykonanie} other{{count} zadania czekają na wykonanie}}",
+  "@todayCardWaiting": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "youLabel": "Ty",
+  "quickAddTitle": "Co dodać?",
+  "quickAddShopping": "Produkt na listę zakupów",
+  "quickAddChore": "Zadanie",
+  "quickAddEvent": "Wydarzenie w kalendarzu",
+  "quickAddNote": "Notatkę",
+  "settingsAccount": "Konto"
 }
