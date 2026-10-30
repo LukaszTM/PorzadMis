@@ -1,0 +1,24 @@
+{
+  "id": "roz_intensywny",
+  "name": "Róż intensywny",
+  "group": "Różowe",
+  "brightness": "light",
+  "tokens": {
+    "background": "#FFE4EF",
+    "surface": "#FFFFFF",
+    "text": "#2A0F1B",
+    "textMuted": "#5E4450",
+    "border": "#F4C6D8",
+    "accent": "#C2185B",
+    "onAccent": "#FFFFFF",
+    "accentSoft": "#FCE3EC",
+    "warning": "#B26A00",
+    "danger": "#9C5A00",
+    "success": "#2B7A57",
+    "chart1": "#C2185B",
+    "chart2": "#E08A2E",
+    "chart3": "#2B7A57",
+    "chart4": "#7B5EA7",
+    "chart5": "#8A8F98"
+  }
+}

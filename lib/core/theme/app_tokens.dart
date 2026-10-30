@@ -6,6 +6,7 @@ class AppTokens extends ThemeExtension<AppTokens> {
   const AppTokens({
     required this.id,
     required this.name,
+    this.group = 'Domyślne',
     required this.brightness,
     required this.background,
     required this.surface,
@@ -23,6 +24,9 @@ class AppTokens extends ThemeExtension<AppTokens> {
 
   final String id;
   final String name;
+
+  /// Grupa w ustawieniach: „Domyślne”, „Inspirowane PyCharm”, „Różowe”.
+  final String group;
   final Brightness brightness;
   final Color background;
   final Color surface;
@@ -45,6 +49,7 @@ class AppTokens extends ThemeExtension<AppTokens> {
     return AppTokens(
       id: json['id'] as String,
       name: json['name'] as String,
+      group: (json['group'] as String?) ?? 'Domyślne',
       brightness: json['brightness'] == 'dark' ? Brightness.dark : Brightness.light,
       background: c('background'),
       surface: c('surface'),
@@ -69,6 +74,7 @@ class AppTokens extends ThemeExtension<AppTokens> {
   AppTokens copyWith({Color? accent, Color? onAccent}) => AppTokens(
         id: id,
         name: name,
+        group: group,
         brightness: brightness,
         background: background,
         surface: surface,

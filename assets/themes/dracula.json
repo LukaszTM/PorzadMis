@@ -1,0 +1,24 @@
+{
+  "id": "dracula",
+  "name": "Dracula",
+  "group": "Inspirowane PyCharm",
+  "brightness": "dark",
+  "tokens": {
+    "background": "#282A36",
+    "surface": "#343746",
+    "text": "#F8F8F2",
+    "textMuted": "#C2C5D1",
+    "border": "#44475A",
+    "accent": "#BD93F9",
+    "onAccent": "#1B1430",
+    "accentSoft": "#2F2A44",
+    "warning": "#FFB86C",
+    "danger": "#FF5555",
+    "success": "#50FA7B",
+    "chart1": "#BD93F9",
+    "chart2": "#FFB86C",
+    "chart3": "#50FA7B",
+    "chart4": "#8BE9FD",
+    "chart5": "#FF79C6"
+  }
+}

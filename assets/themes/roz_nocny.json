@@ -1,0 +1,24 @@
+{
+  "id": "roz_nocny",
+  "name": "Róż nocny",
+  "group": "Różowe",
+  "brightness": "dark",
+  "tokens": {
+    "background": "#1F1218",
+    "surface": "#2C1A24",
+    "text": "#FBE7EF",
+    "textMuted": "#C9B3BD",
+    "border": "#45303A",
+    "accent": "#FF6FA3",
+    "onAccent": "#2A0F1B",
+    "accentSoft": "#3A1F2C",
+    "warning": "#F0B24A",
+    "danger": "#FFB74D",
+    "success": "#5CC48F",
+    "chart1": "#FF6FA3",
+    "chart2": "#F0A04B",
+    "chart3": "#5CC48F",
+    "chart4": "#B48EE0",
+    "chart5": "#C9B3BD"
+  }
+}

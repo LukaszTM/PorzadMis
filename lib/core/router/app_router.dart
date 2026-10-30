@@ -16,6 +16,8 @@ import '../../features/invites/ui/invite_screen.dart';
 import '../../features/invites/ui/join_screens.dart';
 import '../../features/members/ui/members_screen.dart';
 import '../../features/notifications/ui/settings_screen.dart';
+import '../../features/onboarding/ui/onboarding_screen.dart';
+import '../../features/settings/ui/appearance_screen.dart';
 import '../../features/shopping/ui/shopping_screen.dart';
 import '../ui/app_shell.dart';
 import '../ui/mis_mark.dart';
@@ -29,9 +31,13 @@ String? resolveRedirect({
   required bool loading,
   required bool signedIn,
   required String? householdId,
+  bool onboardingDone = true,
 }) {
   if (loading) return location == '/splash' ? null : '/splash';
   if (!signedIn) return _authRoutes.contains(location) ? null : '/login';
+  // Onboarding raz, po pierwszym zalogowaniu, przed domem.
+  if (!onboardingDone) return location == '/onboarding' ? null : '/onboarding';
+  if (location == '/onboarding') return householdId == null ? '/start' : '/home';
   if (householdId == null) return _startRoutes.contains(location) ? null : '/start';
   if (_authRoutes.contains(location) || _startRoutes.contains(location) || location == '/splash') {
     return '/home';
@@ -60,11 +66,13 @@ final routerProvider = Provider<GoRouter>((ref) {
             (signedIn && profile.isLoading && !profile.hasError),
         signedIn: signedIn,
         householdId: profile.value?.householdId,
+        onboardingDone: profile.value?.onboardingDone ?? true,
       );
     },
     routes: [
       GoRoute(path: '/splash', builder: (_, _) => const _SplashScreen()),
       GoRoute(path: '/login', builder: (_, _) => const LoginScreen()),
+      GoRoute(path: '/onboarding', builder: (_, _) => const OnboardingScreen()),
       GoRoute(path: '/register', builder: (_, _) => const RegisterScreen()),
       GoRoute(path: '/start', builder: (_, _) => const StartScreen()),
       GoRoute(path: '/create', builder: (_, _) => const CreateHouseholdScreen()),
@@ -84,6 +92,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(path: '/members', builder: (_, _) => const MembersScreen()),
       GoRoute(path: '/budget', builder: (_, _) => const BudgetScreen()),
       GoRoute(path: '/settings', builder: (_, _) => const SettingsScreen()),
+      GoRoute(path: '/settings/appearance', builder: (_, _) => const AppearanceScreen()),
       GoRoute(path: '/invite', builder: (_, _) => const InviteScreen()),
     ],
   );

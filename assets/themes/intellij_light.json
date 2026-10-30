@@ -1,0 +1,24 @@
+{
+  "id": "intellij_light",
+  "name": "IntelliJ Light",
+  "group": "Inspirowane PyCharm",
+  "brightness": "light",
+  "tokens": {
+    "background": "#F7F8FA",
+    "surface": "#FFFFFF",
+    "text": "#1F1F1F",
+    "textMuted": "#5A5D63",
+    "border": "#D9DBDF",
+    "accent": "#2A62D6",
+    "onAccent": "#FFFFFF",
+    "accentSoft": "#E3ECFD",
+    "warning": "#B26A00",
+    "danger": "#C7222B",
+    "success": "#2E7D32",
+    "chart1": "#2A62D6",
+    "chart2": "#E08A2E",
+    "chart3": "#2E7D32",
+    "chart4": "#8E4DB8",
+    "chart5": "#6B7280"
+  }
+}

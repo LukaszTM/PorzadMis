@@ -1048,4 +1048,66 @@ class AppLocalizationsPl extends AppLocalizations {
   String settingsVersion(String version) {
     return 'PorządMiś, wersja $version';
   }
+
+  @override
+  String get settingsAppearance => 'Wygląd';
+
+  @override
+  String get appearanceTitle => 'Wygląd';
+
+  @override
+  String get themeModeLabel => 'Tryb';
+
+  @override
+  String get themeModeLight => 'Jasny';
+
+  @override
+  String get themeModeDark => 'Ciemny';
+
+  @override
+  String get themeModeAuto => 'Auto';
+
+  @override
+  String get themeModeHint =>
+      'Auto: jasny w dzień, ciemny w nocy, według ustawienia telefonu.';
+
+  @override
+  String get themeGroupDefault => 'PorządMiś';
+
+  @override
+  String get themeGroupPycharm => 'Inspirowane PyCharm';
+
+  @override
+  String get themeGroupPink => 'Różowe';
+
+  @override
+  String get themeApply => 'Zastosuj motyw';
+
+  @override
+  String get themeApplied => 'Zastosowano motyw';
+
+  @override
+  String get themePreviewHint =>
+      'Dotknij kafelka, żeby zobaczyć podgląd. Zapis po „Zastosuj motyw”.';
+
+  @override
+  String get themeSample => 'Tak wygląda tekst i przycisk';
+
+  @override
+  String get onboarding1 => 'Cześć, jestem PorządMiś';
+
+  @override
+  String get onboarding2 => 'Pomagam ogarnąć dom razem z rodziną';
+
+  @override
+  String get onboarding3 => 'Dołącz do domu albo załóż nowy';
+
+  @override
+  String get onboardingNext => 'Dalej';
+
+  @override
+  String get onboardingStart => 'Zaczynamy';
+
+  @override
+  String get onboardingSkip => 'Pomiń';
 }

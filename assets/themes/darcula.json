@@ -1,0 +1,24 @@
+{
+  "id": "darcula",
+  "name": "Darcula",
+  "group": "Inspirowane PyCharm",
+  "brightness": "dark",
+  "tokens": {
+    "background": "#2B2B2B",
+    "surface": "#3C3F41",
+    "text": "#A9B7C6",
+    "textMuted": "#A6B3C0",
+    "border": "#4E5254",
+    "accent": "#6897BB",
+    "onAccent": "#121416",
+    "accentSoft": "#1C2733",
+    "warning": "#E5B567",
+    "danger": "#FF6B68",
+    "success": "#6A8759",
+    "chart1": "#6897BB",
+    "chart2": "#CC7832",
+    "chart3": "#6A8759",
+    "chart4": "#9876AA",
+    "chart5": "#BBB529"
+  }
+}

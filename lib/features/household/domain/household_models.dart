@@ -6,14 +6,28 @@ enum Role {
 }
 
 class UserProfile {
-  const UserProfile({this.displayName, this.householdId});
+  const UserProfile({
+    this.displayName,
+    this.householdId,
+    this.themeId,
+    this.themeMode = 'auto',
+    this.onboardingDone = false,
+  });
 
   final String? displayName;
   final String? householdId;
 
+  /// Motyw i tryb wybrane przez użytkownika (działają na każdym telefonie po zalogowaniu).
+  final String? themeId;
+  final String themeMode;
+  final bool onboardingDone;
+
   factory UserProfile.fromMap(Map<String, dynamic>? data) => UserProfile(
         displayName: data?['displayName'] as String?,
         householdId: data?['householdId'] as String?,
+        themeId: data?['themeId'] as String?,
+        themeMode: (data?['themeMode'] as String?) ?? 'auto',
+        onboardingDone: data?['onboardingDone'] == true,
       );
 }
 

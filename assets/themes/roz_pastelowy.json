@@ -1,0 +1,24 @@
+{
+  "id": "roz_pastelowy",
+  "name": "Róż pastelowy",
+  "group": "Różowe",
+  "brightness": "light",
+  "tokens": {
+    "background": "#FFF3F7",
+    "surface": "#FFFFFF",
+    "text": "#3B1F2B",
+    "textMuted": "#6B5560",
+    "border": "#F1D7E1",
+    "accent": "#C42A5F",
+    "onAccent": "#FFFFFF",
+    "accentSoft": "#FDEDF3",
+    "warning": "#B26A00",
+    "danger": "#9C5A00",
+    "success": "#2B7A57",
+    "chart1": "#C42A5F",
+    "chart2": "#E08A2E",
+    "chart3": "#2B7A57",
+    "chart4": "#7B5EA7",
+    "chart5": "#8A8F98"
+  }
+}

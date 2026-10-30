@@ -2001,6 +2001,126 @@ abstract class AppLocalizations {
   /// In pl, this message translates to:
   /// **'PorządMiś, wersja {version}'**
   String settingsVersion(String version);
+
+  /// No description provided for @settingsAppearance.
+  ///
+  /// In pl, this message translates to:
+  /// **'Wygląd'**
+  String get settingsAppearance;
+
+  /// No description provided for @appearanceTitle.
+  ///
+  /// In pl, this message translates to:
+  /// **'Wygląd'**
+  String get appearanceTitle;
+
+  /// No description provided for @themeModeLabel.
+  ///
+  /// In pl, this message translates to:
+  /// **'Tryb'**
+  String get themeModeLabel;
+
+  /// No description provided for @themeModeLight.
+  ///
+  /// In pl, this message translates to:
+  /// **'Jasny'**
+  String get themeModeLight;
+
+  /// No description provided for @themeModeDark.
+  ///
+  /// In pl, this message translates to:
+  /// **'Ciemny'**
+  String get themeModeDark;
+
+  /// No description provided for @themeModeAuto.
+  ///
+  /// In pl, this message translates to:
+  /// **'Auto'**
+  String get themeModeAuto;
+
+  /// No description provided for @themeModeHint.
+  ///
+  /// In pl, this message translates to:
+  /// **'Auto: jasny w dzień, ciemny w nocy, według ustawienia telefonu.'**
+  String get themeModeHint;
+
+  /// No description provided for @themeGroupDefault.
+  ///
+  /// In pl, this message translates to:
+  /// **'PorządMiś'**
+  String get themeGroupDefault;
+
+  /// No description provided for @themeGroupPycharm.
+  ///
+  /// In pl, this message translates to:
+  /// **'Inspirowane PyCharm'**
+  String get themeGroupPycharm;
+
+  /// No description provided for @themeGroupPink.
+  ///
+  /// In pl, this message translates to:
+  /// **'Różowe'**
+  String get themeGroupPink;
+
+  /// No description provided for @themeApply.
+  ///
+  /// In pl, this message translates to:
+  /// **'Zastosuj motyw'**
+  String get themeApply;
+
+  /// No description provided for @themeApplied.
+  ///
+  /// In pl, this message translates to:
+  /// **'Zastosowano motyw'**
+  String get themeApplied;
+
+  /// No description provided for @themePreviewHint.
+  ///
+  /// In pl, this message translates to:
+  /// **'Dotknij kafelka, żeby zobaczyć podgląd. Zapis po „Zastosuj motyw”.'**
+  String get themePreviewHint;
+
+  /// No description provided for @themeSample.
+  ///
+  /// In pl, this message translates to:
+  /// **'Tak wygląda tekst i przycisk'**
+  String get themeSample;
+
+  /// No description provided for @onboarding1.
+  ///
+  /// In pl, this message translates to:
+  /// **'Cześć, jestem PorządMiś'**
+  String get onboarding1;
+
+  /// No description provided for @onboarding2.
+  ///
+  /// In pl, this message translates to:
+  /// **'Pomagam ogarnąć dom razem z rodziną'**
+  String get onboarding2;
+
+  /// No description provided for @onboarding3.
+  ///
+  /// In pl, this message translates to:
+  /// **'Dołącz do domu albo załóż nowy'**
+  String get onboarding3;
+
+  /// No description provided for @onboardingNext.
+  ///
+  /// In pl, this message translates to:
+  /// **'Dalej'**
+  String get onboardingNext;
+
+  /// No description provided for @onboardingStart.
+  ///
+  /// In pl, this message translates to:
+  /// **'Zaczynamy'**
+  String get onboardingStart;
+
+  /// No description provided for @onboardingSkip.
+  ///
+  /// In pl, this message translates to:
+  /// **'Pomiń'**
+  String get onboardingSkip;
 }
 
 class _AppLocalizationsDelegate

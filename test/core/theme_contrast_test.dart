@@ -12,8 +12,8 @@ void main() {
       .where((f) => f.path.endsWith('.json'))
       .toList();
 
-  test('są co najmniej dwa motywy domyślne', () {
-    expect(files.length, greaterThanOrEqualTo(2));
+  test('jest 13 motywów z PLAN.md', () {
+    expect(files.length, 13);
   });
 
   for (final file in files) {

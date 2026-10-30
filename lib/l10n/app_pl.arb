@@ -500,5 +500,25 @@
         "type": "String"
       }
     }
-  }
+  },
+  "settingsAppearance": "Wygląd",
+  "appearanceTitle": "Wygląd",
+  "themeModeLabel": "Tryb",
+  "themeModeLight": "Jasny",
+  "themeModeDark": "Ciemny",
+  "themeModeAuto": "Auto",
+  "themeModeHint": "Auto: jasny w dzień, ciemny w nocy, według ustawienia telefonu.",
+  "themeGroupDefault": "PorządMiś",
+  "themeGroupPycharm": "Inspirowane PyCharm",
+  "themeGroupPink": "Różowe",
+  "themeApply": "Zastosuj motyw",
+  "themeApplied": "Zastosowano motyw",
+  "themePreviewHint": "Dotknij kafelka, żeby zobaczyć podgląd. Zapis po „Zastosuj motyw”.",
+  "themeSample": "Tak wygląda tekst i przycisk",
+  "onboarding1": "Cześć, jestem PorządMiś",
+  "onboarding2": "Pomagam ogarnąć dom razem z rodziną",
+  "onboarding3": "Dołącz do domu albo załóż nowy",
+  "onboardingNext": "Dalej",
+  "onboardingStart": "Zaczynamy",
+  "onboardingSkip": "Pomiń"
 }

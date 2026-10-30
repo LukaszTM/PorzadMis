@@ -1,0 +1,24 @@
+{
+  "id": "monokai",
+  "name": "Monokai",
+  "group": "Inspirowane PyCharm",
+  "brightness": "dark",
+  "tokens": {
+    "background": "#272822",
+    "surface": "#32332B",
+    "text": "#F8F8F2",
+    "textMuted": "#BDBDB3",
+    "border": "#49483E",
+    "accent": "#A6E22E",
+    "onAccent": "#1A1F08",
+    "accentSoft": "#28321A",
+    "warning": "#E6DB74",
+    "danger": "#F92672",
+    "success": "#A6E22E",
+    "chart1": "#A6E22E",
+    "chart2": "#FD971F",
+    "chart3": "#66D9EF",
+    "chart4": "#AE81FF",
+    "chart5": "#F92672"
+  }
+}

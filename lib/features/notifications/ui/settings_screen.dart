@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_tokens.dart';
 import '../../../core/ui/ui.dart';
@@ -58,6 +59,11 @@ class SettingsScreen extends ConsumerWidget {
       onBack: () => Navigator.of(context).maybePop(),
       backLabel: l.back,
       children: [
+        AppCard(
+          title: l.settingsAppearance,
+          onTap: () => context.push('/settings/appearance'),
+          child: Text(l.themePreviewHint, style: text.bodyMedium),
+        ),
         AppCard(
           title: l.settingsNotifications,
           child: Column(

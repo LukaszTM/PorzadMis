@@ -1,0 +1,24 @@
+{
+  "id": "one_dark",
+  "name": "One Dark",
+  "group": "Inspirowane PyCharm",
+  "brightness": "dark",
+  "tokens": {
+    "background": "#282C34",
+    "surface": "#2F343D",
+    "text": "#ABB2BF",
+    "textMuted": "#9DA5B4",
+    "border": "#3E4451",
+    "accent": "#61AFEF",
+    "onAccent": "#0D1B2A",
+    "accentSoft": "#1E2A38",
+    "warning": "#E5C07B",
+    "danger": "#E06C75",
+    "success": "#98C379",
+    "chart1": "#61AFEF",
+    "chart2": "#D19A66",
+    "chart3": "#98C379",
+    "chart4": "#C678DD",
+    "chart5": "#56B6C2"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "nord",
+  "name": "Nord",
+  "group": "Inspirowane PyCharm",
+  "brightness": "dark",
+  "tokens": {
+    "background": "#2E3440",
+    "surface": "#3B4252",
+    "text": "#ECEFF4",
+    "textMuted": "#C2C8D2",
+    "border": "#4C566A",
+    "accent": "#88C0D0",
+    "onAccent": "#1C2430",
+    "accentSoft": "#243240",
+    "warning": "#EBCB8B",
+    "danger": "#D9737B",
+    "success": "#A3BE8C",
+    "chart1": "#88C0D0",
+    "chart2": "#D08770",
+    "chart3": "#A3BE8C",
+    "chart4": "#B48EAD",
+    "chart5": "#EBCB8B"
+  }
+}

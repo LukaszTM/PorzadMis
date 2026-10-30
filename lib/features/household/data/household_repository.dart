@@ -22,6 +22,12 @@ class HouseholdRepository {
         (snap) => snap.exists ? Household(id: hid, name: (snap.get('name') as String?) ?? '') : null,
       );
 
+  Future<void> saveTheme({required String uid, required String themeId, required String themeMode}) =>
+      _db.doc('users/$uid').set({'themeId': themeId, 'themeMode': themeMode}, SetOptions(merge: true));
+
+  Future<void> markOnboardingDone(String uid) =>
+      _db.doc('users/$uid').set({'onboardingDone': true}, SetOptions(merge: true));
+
   Future<void> createHousehold({required String name, required String displayName}) async {
     await _functions.httpsCallable('createHousehold').call<Object?>({
       'householdId': _newId(),
