@@ -1321,4 +1321,40 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get eventColorLabel => 'Kolor wydarzenia';
+
+  @override
+  String get eventTypeLabel => 'Typ wydarzenia';
+
+  @override
+  String get eventTypeNone => 'Bez typu';
+
+  @override
+  String get eventTypesButton => 'Typy';
+
+  @override
+  String get eventTypesTitle => 'Typy wydarzeń';
+
+  @override
+  String get eventTypesHint =>
+      'Nazwa i kolor typu obowiązują w całym domu. Zmiana koloru przebarwia wszystkie wydarzenia tego typu.';
+
+  @override
+  String get eventTypeNameHint => 'np. Lekarz';
+
+  @override
+  String get eventTypeAdd => 'Dodaj typ';
+
+  @override
+  String get eventTypeDelete => 'Usuń typ';
+
+  @override
+  String eventTypeDeleteBody(String name) {
+    return 'Typ „$name” zniknie, a jego wydarzenia zostaną bez typu.';
+  }
+
+  @override
+  String get errEventTypeName => 'Wpisz nazwę typu';
+
+  @override
+  String get toastEventTypeRemoved => 'Usunięto typ';
 }

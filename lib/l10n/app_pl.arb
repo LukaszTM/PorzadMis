@@ -627,5 +627,23 @@
   "themeCardTitle": "Motyw aplikacji",
   "themeCardSubtitle": "13 palet do wyboru · podgląd na żywo",
   "shoppingToBuyTitle": "Do kupienia",
-  "eventColorLabel": "Kolor wydarzenia"
+  "eventColorLabel": "Kolor wydarzenia",
+  "eventTypeLabel": "Typ wydarzenia",
+  "eventTypeNone": "Bez typu",
+  "eventTypesButton": "Typy",
+  "eventTypesTitle": "Typy wydarzeń",
+  "eventTypesHint": "Nazwa i kolor typu obowiązują w całym domu. Zmiana koloru przebarwia wszystkie wydarzenia tego typu.",
+  "eventTypeNameHint": "np. Lekarz",
+  "eventTypeAdd": "Dodaj typ",
+  "eventTypeDelete": "Usuń typ",
+  "eventTypeDeleteBody": "Typ „{name}” zniknie, a jego wydarzenia zostaną bez typu.",
+  "@eventTypeDeleteBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "errEventTypeName": "Wpisz nazwę typu",
+  "toastEventTypeRemoved": "Usunięto typ"
 }

@@ -76,6 +76,7 @@ service cloud.firestore {
         && shortText(d.get('description', ''), 5000)
         && (d.get('reminderMinutes', null) == null || d.reminderMinutes is int)
         && (!('colorIndex' in d) || (d.colorIndex is int && d.colorIndex >= 0 && d.colorIndex <= 4))
+        && (d.get('typeId', null) == null || shortText(d.typeId, 64))
         && validRecurrence(d.get('recurrence', null));
     }
 
@@ -93,7 +94,7 @@ service cloud.firestore {
 
     function validSharedEvent(hid, d) {
       return d.keys().hasOnly(['title', 'start', 'end', 'allDay', 'location', 'description',
-                               'participants', 'reminderMinutes', 'recurrence', 'createdBy', 'colorIndex'])
+                               'participants', 'reminderMinutes', 'recurrence', 'createdBy', 'colorIndex', 'typeId'])
         && d.keys().hasAll(['title', 'start', 'end', 'allDay', 'createdBy'])
         && validEventFields(d)
         && d.get('participants', []) is list
@@ -102,7 +103,7 @@ service cloud.firestore {
 
     function validPrivateEvent(d) {
       return d.keys().hasOnly(['title', 'start', 'end', 'allDay', 'location', 'description',
-                               'reminderMinutes', 'recurrence', 'colorIndex'])
+                               'reminderMinutes', 'recurrence', 'colorIndex', 'typeId'])
         && d.keys().hasAll(['title', 'start', 'end', 'allDay'])
         && validEventFields(d);
     }
@@ -169,6 +170,14 @@ service cloud.firestore {
         && d.total is int && d.total >= 0
         && (!('alerted100' in d) || d.alerted100 is bool)
         && d.updatedAt is timestamp;
+    }
+
+    function validEventType(d) {
+      return d.keys().hasOnly(['name', 'colorIndex', 'order'])
+        && d.keys().hasAll(['name', 'colorIndex', 'order'])
+        && shortText(d.name, 40) && d.name.size() >= 1
+        && d.colorIndex is int && d.colorIndex >= 0 && d.colorIndex <= 4
+        && d.order is int;
     }
 
     // Autor wpisu wspólnego albo Administrator domu.
@@ -296,6 +305,13 @@ service cloud.firestore {
                  && request.resource.data.get('doneAt', null) == null)
               : (request.resource.data.doneBy == request.auth.uid
                  && request.resource.data.doneAt is timestamp));
+      }
+
+      // Typy wydarzeń (nazwa + kolor) definiuje Administrator; czytają wszyscy.
+      match /eventTypes/{id} {
+        allow read: if isMember(hid);
+        allow create, update: if isAdmin(hid) && validEventType(request.resource.data);
+        allow delete: if isAdmin(hid);
       }
 
       // Wydarzenia wspólne: wszyscy czytają; autor lub Administrator pisze.

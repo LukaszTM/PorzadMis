@@ -25,6 +25,7 @@ Future<void> showEventSheet(
   if (hid == null || uid == null) return;
   final isAdmin = ref.read(myRoleProvider) == Role.admin;
   final members = ref.read(membersProvider).value ?? const <Member>[];
+  final types = ref.read(eventTypesProvider).value ?? const <EventType>[];
   final readOnly = event != null && !event.isPrivate && event.createdBy != uid && !isAdmin;
   final repo = ref.read(eventsRepositoryProvider);
 
@@ -43,7 +44,7 @@ Future<void> showEventSheet(
   final result = await showAppSheet<_EventResult>(
     context,
     title: event == null ? l.eventNewTitle : l.eventEditTitle,
-    builder: (_) => _EventForm(event: draft, isNew: event == null, readOnly: readOnly, members: members),
+    builder: (_) => _EventForm(event: draft, isNew: event == null, readOnly: readOnly, members: members, types: types),
   );
   if (result == null || !context.mounted) return;
 
@@ -71,12 +72,13 @@ class _EventResult {
 }
 
 class _EventForm extends StatefulWidget {
-  const _EventForm({required this.event, required this.isNew, required this.readOnly, required this.members});
+  const _EventForm({required this.event, required this.isNew, required this.readOnly, required this.members, required this.types});
 
   final CalendarEvent event;
   final bool isNew;
   final bool readOnly;
   final List<Member> members;
+  final List<EventType> types;
 
   @override
   State<_EventForm> createState() => _EventFormState();
@@ -96,6 +98,7 @@ class _EventFormState extends State<_EventForm> {
   late RecurrenceType? _repeat = widget.event.recurrence?.type;
   late int? _reminder = widget.event.reminderMinutes;
   late int _color = widget.event.colorIndex;
+  late String? _typeId = widget.types.any((t) => t.id == widget.event.typeId) ? widget.event.typeId : null;
   late final Set<String> _participants = widget.event.participants.toSet();
   String? _error;
 
@@ -188,7 +191,9 @@ class _EventFormState extends State<_EventForm> {
       clearReminder: _reminder == null,
       recurrence: _repeat == null ? null : Recurrence(type: _repeat!),
       clearRecurrence: _repeat == null,
-      colorIndex: _color,
+      colorIndex: _typeId == null ? _color : (widget.types.firstWhere((t) => t.id == _typeId).colorIndex),
+      typeId: _typeId,
+      clearType: _typeId == null,
     );
     Navigator.of(context).pop(_EventResult(saved: saved));
   }
@@ -248,6 +253,23 @@ class _EventFormState extends State<_EventForm> {
         label(l.eventDescriptionLabel),
         AppTextField(controller: _description, keyboardType: TextInputType.multiline, minLines: 2, maxLines: 5, readOnly: ro),
         if (!ro) ...[
+          if (widget.types.isNotEmpty) ...[
+            label(l.eventTypeLabel),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                for (final type in [null, ...widget.types])
+                  _TypeChip(
+                    label: type?.name ?? l.eventTypeNone,
+                    color: type == null ? null : t.chart[type.colorIndex],
+                    selected: _typeId == type?.id,
+                    onTap: () => setState(() => _typeId = type?.id),
+                  ),
+              ],
+            ),
+          ],
+          if (_typeId == null) ...[
           label(l.eventColorLabel),
           Row(
             children: [
@@ -276,6 +298,7 @@ class _EventFormState extends State<_EventForm> {
                 ),
             ],
           ),
+          ],
           label(l.eventRepeatLabel),
           ChoiceChips<RecurrenceType?>(
             options: [
@@ -329,6 +352,52 @@ class _EventFormState extends State<_EventForm> {
           PrimaryButton(label: l.back, onPressed: () => Navigator.of(context).pop()),
         ],
       ],
+    );
+  }
+}
+
+/// Pigułka typu z kolorową kropką.
+class _TypeChip extends StatelessWidget {
+  const _TypeChip({required this.label, required this.color, required this.selected, required this.onTap});
+
+  final String label;
+  final Color? color;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final t = context.tokens;
+    final text = Theme.of(context).textTheme;
+    return Semantics(
+      button: true,
+      selected: selected,
+      label: label,
+      excludeSemantics: true,
+      child: Material(
+        color: selected ? t.accent : t.surface,
+        shape: StadiumBorder(side: BorderSide(color: selected ? t.accent : t.border, width: 2)),
+        child: InkWell(
+          customBorder: const StadiumBorder(),
+          onTap: onTap,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(minHeight: 48),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 14),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (color != null) ...[
+                    Container(width: 12, height: 12, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
+                    const SizedBox(width: 8),
+                  ],
+                  Text(label, style: text.bodyMedium!.copyWith(fontWeight: FontWeight.w800, color: selected ? t.onAccent : t.text)),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

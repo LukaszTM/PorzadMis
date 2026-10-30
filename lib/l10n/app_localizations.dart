@@ -2451,6 +2451,72 @@ abstract class AppLocalizations {
   /// In pl, this message translates to:
   /// **'Kolor wydarzenia'**
   String get eventColorLabel;
+
+  /// No description provided for @eventTypeLabel.
+  ///
+  /// In pl, this message translates to:
+  /// **'Typ wydarzenia'**
+  String get eventTypeLabel;
+
+  /// No description provided for @eventTypeNone.
+  ///
+  /// In pl, this message translates to:
+  /// **'Bez typu'**
+  String get eventTypeNone;
+
+  /// No description provided for @eventTypesButton.
+  ///
+  /// In pl, this message translates to:
+  /// **'Typy'**
+  String get eventTypesButton;
+
+  /// No description provided for @eventTypesTitle.
+  ///
+  /// In pl, this message translates to:
+  /// **'Typy wydarzeń'**
+  String get eventTypesTitle;
+
+  /// No description provided for @eventTypesHint.
+  ///
+  /// In pl, this message translates to:
+  /// **'Nazwa i kolor typu obowiązują w całym domu. Zmiana koloru przebarwia wszystkie wydarzenia tego typu.'**
+  String get eventTypesHint;
+
+  /// No description provided for @eventTypeNameHint.
+  ///
+  /// In pl, this message translates to:
+  /// **'np. Lekarz'**
+  String get eventTypeNameHint;
+
+  /// No description provided for @eventTypeAdd.
+  ///
+  /// In pl, this message translates to:
+  /// **'Dodaj typ'**
+  String get eventTypeAdd;
+
+  /// No description provided for @eventTypeDelete.
+  ///
+  /// In pl, this message translates to:
+  /// **'Usuń typ'**
+  String get eventTypeDelete;
+
+  /// No description provided for @eventTypeDeleteBody.
+  ///
+  /// In pl, this message translates to:
+  /// **'Typ „{name}” zniknie, a jego wydarzenia zostaną bez typu.'**
+  String eventTypeDeleteBody(String name);
+
+  /// No description provided for @errEventTypeName.
+  ///
+  /// In pl, this message translates to:
+  /// **'Wpisz nazwę typu'**
+  String get errEventTypeName;
+
+  /// No description provided for @toastEventTypeRemoved.
+  ///
+  /// In pl, this message translates to:
+  /// **'Usunięto typ'**
+  String get toastEventTypeRemoved;
 }
 
 class _AppLocalizationsDelegate

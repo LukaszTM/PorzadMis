@@ -17,6 +17,7 @@ import '../../household/ui/home_top_bar.dart';
 import '../data/events_repository.dart';
 import '../domain/event_models.dart';
 import 'event_sheet.dart';
+import 'event_types_sheet.dart';
 
 enum _View { month, week }
 
@@ -30,6 +31,7 @@ class CalendarScreen extends ConsumerStatefulWidget {
 
 class _CalendarScreenState extends ConsumerState<CalendarScreen> {
   _View _view = _View.month;
+  bool _seeded = false;
   DateTime _focused = DateTime.now();
   DateTime _selected = dateOnly(DateTime.now());
 
@@ -44,6 +46,13 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
     final names = {for (final m in members) m.uid: m.displayName};
     final uid = ref.watch(authStateProvider).value?.uid ?? '';
     final isAdmin = ref.watch(myRoleProvider) == Role.admin;
+    final types = ref.watch(eventTypesMapProvider);
+    final typesLoaded = ref.watch(eventTypesProvider).hasValue;
+    final hid = ref.watch(householdIdProvider);
+    if (isAdmin && !_seeded && hid != null && typesLoaded && types.isEmpty) {
+      _seeded = true;
+      ref.read(eventTypesRepositoryProvider).seedIfEmpty(hid).catchError((Object _) {});
+    }
     final dayItems = occurrencesOnDay(events, _selected);
     final dayChores = chores.where((c) => c.date == dayKey(_selected)).toList()
       ..sort((a, b) => (a.isDone ? 1 : 0).compareTo(b.isDone ? 1 : 0));
@@ -63,7 +72,17 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
       kicker: l.kickerHome,
       subtitle: l.calendarSubtitle,
       topBar: const HomeTopBar(),
-      headerTrailing: SizedBox(
+      headerTrailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (isAdmin)
+            IconButton(
+              tooltip: l.eventTypesButton,
+              constraints: const BoxConstraints(minWidth: 48, minHeight: 48),
+              icon: Icon(Icons.palette_outlined, color: t.text),
+              onPressed: () => showEventTypesSheet(context, ref),
+            ),
+          SizedBox(
         height: 48,
         child: FilledButton.icon(
           onPressed: () => showEventSheet(context, ref, null, initialDay: _selected),
@@ -76,6 +95,8 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
           icon: const Icon(Icons.add, size: 22),
           label: Text(l.eventNew, style: text.bodyMedium!.copyWith(fontWeight: FontWeight.w800, color: t.onAccent)),
         ),
+      ),
+        ],
       ),
       children: [
         SegmentedSwitch<_View>(
@@ -117,7 +138,7 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          if (hasEvent) _dot(t.chart[firstEvent.event.colorIndex]),
+                          if (hasEvent) _dot(t.chart[eventColorIndex(firstEvent.event, types)]),
                           if (hasEvent && hasChore) const SizedBox(width: 3),
                           if (hasChore) _dot(t.chart[1]),
                         ],
@@ -218,6 +239,8 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
                   if (i > 0) const AppDivider(),
                   _OccurrenceRow(
                     occurrence: dayItems[i],
+                    colorIndex: eventColorIndex(dayItems[i].event, types),
+                    typeName: dayItems[i].event.typeId == null ? null : types[dayItems[i].event.typeId]?.name,
                     onTap: () => showEventSheet(context, ref, dayItems[i].event, initialDay: _selected),
                   ),
                 ],
@@ -250,10 +273,12 @@ class _LegendDot extends StatelessWidget {
 }
 
 class _OccurrenceRow extends StatelessWidget {
-  const _OccurrenceRow({required this.occurrence, required this.onTap});
+  const _OccurrenceRow({required this.occurrence, required this.onTap, required this.colorIndex, this.typeName});
 
   final EventOccurrence occurrence;
   final VoidCallback onTap;
+  final int colorIndex;
+  final String? typeName;
 
   @override
   Widget build(BuildContext context) {
@@ -273,14 +298,14 @@ class _OccurrenceRow extends StatelessWidget {
             Container(
               width: 4,
               height: 44,
-              decoration: BoxDecoration(color: t.chart[e.colorIndex], borderRadius: BorderRadius.circular(2)),
+              decoration: BoxDecoration(color: t.chart[colorIndex], borderRadius: BorderRadius.circular(2)),
             ),
             const SizedBox(width: 10),
             Container(
               width: 40,
               height: 40,
               decoration: BoxDecoration(
-                color: t.chart[e.colorIndex].withValues(alpha: 0.14),
+                color: t.chart[colorIndex].withValues(alpha: 0.14),
                 borderRadius: BorderRadius.circular(12),
               ),
               alignment: Alignment.center,
@@ -295,7 +320,7 @@ class _OccurrenceRow extends StatelessWidget {
                   Text(e.title, style: text.bodyLarge, maxLines: 1, overflow: TextOverflow.ellipsis),
                   const SizedBox(height: 2),
                   Text(
-                    [when, if (e.location.isNotEmpty) e.location, if (e.recurrence != null) l.repeatsLabel].join(' · '),
+                    [?typeName, when, if (e.location.isNotEmpty) e.location, if (e.recurrence != null) l.repeatsLabel].join(' · '),
                     style: text.labelMedium,
                   ),
                 ],

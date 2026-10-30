@@ -58,6 +58,7 @@ class EventsRepository {
         'description': e.description.trim(),
         'reminderMinutes': e.reminderMinutes,
         'colorIndex': e.colorIndex,
+        'typeId': e.typeId,
         'recurrence': e.recurrence == null
             ? null
             : {
@@ -96,6 +97,7 @@ class EventsRepository {
       recurrence: recurrence,
       createdBy: d['createdBy'] as String?,
       colorIndex: ((d['colorIndex'] as num?)?.toInt() ?? 0).clamp(0, 4),
+      typeId: d['typeId'] as String?,
     );
   }
 }
@@ -120,3 +122,58 @@ final allEventsProvider = Provider<List<CalendarEvent>>((ref) => [
       ...?ref.watch(sharedEventsProvider).value,
       ...?ref.watch(privateEventsProvider).value,
     ]);
+
+/// Typy wydarzeń domu (Administrator pisze, wszyscy czytają).
+class EventTypesRepository {
+  EventTypesRepository(this._db, this._newId);
+
+  final FirebaseFirestore _db;
+  final String Function() _newId;
+
+  CollectionReference<Map<String, dynamic>> _col(String hid) => _db.collection('households/$hid/eventTypes');
+
+  String newId() => _newId();
+
+  Stream<List<EventType>> watch(String hid) => _col(hid).snapshots().map((s) {
+        final list = [
+          for (final d in s.docs)
+            EventType(
+              id: d.id,
+              name: (d.data()['name'] as String?) ?? '',
+              colorIndex: ((d.data()['colorIndex'] as num?)?.toInt() ?? 4).clamp(0, 4),
+              order: (d.data()['order'] as num?)?.toInt() ?? 0,
+            ),
+        ]..sort((a, b) => a.order.compareTo(b.order));
+        return list;
+      });
+
+  Future<void> seedIfEmpty(String hid) async {
+    final existing = await _col(hid).limit(1).get();
+    if (existing.docs.isNotEmpty) return;
+    final batch = _db.batch();
+    for (final t in seedEventTypes) {
+      batch.set(_col(hid).doc(t.id), {'name': t.name, 'colorIndex': t.colorIndex, 'order': t.order});
+    }
+    await batch.commit();
+  }
+
+  Future<void> save(String hid, EventType t) =>
+      _col(hid).doc(t.id).set({'name': t.name.trim(), 'colorIndex': t.colorIndex, 'order': t.order});
+
+  Future<void> delete(String hid, String id) => _col(hid).doc(id).delete();
+}
+
+final eventTypesRepositoryProvider = Provider<EventTypesRepository>(
+  (ref) => EventTypesRepository(ref.watch(firestoreProvider), ref.watch(uuidProvider).v4),
+);
+
+final eventTypesProvider = StreamProvider<List<EventType>>((ref) {
+  final hid = ref.watch(householdIdProvider);
+  if (hid == null) return Stream.value(const []);
+  return ref.watch(eventTypesRepositoryProvider).watch(hid);
+});
+
+/// Mapa typów po identyfikatorze, do szybkiego doboru koloru.
+final eventTypesMapProvider = Provider<Map<String, EventType>>(
+  (ref) => {for (final t in ref.watch(eventTypesProvider).value ?? const <EventType>[]) t.id: t},
+);

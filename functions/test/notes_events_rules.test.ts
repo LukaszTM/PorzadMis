@@ -159,3 +159,26 @@ describe("kolor wydarzenia", () => {
     await assertFails(setDoc(doc(db, `households/${HID}/events/c4`), sharedEvent({ colorIndex: "2" })));
   });
 });
+
+describe("typy wydarzeń", () => {
+  const type = (over: Record<string, unknown> = {}) => ({ name: "Lekarz", colorIndex: 2, order: 0, ...over });
+  test("allow: Administrator tworzy, edytuje, usuwa; członek czyta; wydarzenie z typeId", async () => {
+    const a = env.authenticatedContext("admin1").firestore();
+    await assertSucceeds(setDoc(doc(a, `households/${HID}/eventTypes/t1`), type()));
+    await assertSucceeds(updateDoc(doc(a, `households/${HID}/eventTypes/t1`), { colorIndex: 4 }));
+    const m = env.authenticatedContext("member1").firestore();
+    await assertSucceeds(getDocs(collection(m, `households/${HID}/eventTypes`)));
+    await assertSucceeds(setDoc(doc(m, `households/${HID}/events/ty1`), sharedEvent({ typeId: "t1" })));
+    await assertSucceeds(setDoc(doc(m, "users/member1/privateEvents/ty2"), privEvent({ typeId: "t1" })));
+    await assertSucceeds(deleteDoc(doc(a, `households/${HID}/eventTypes/t1`)));
+  });
+  test("deny: Domownik nie pisze typów; złe dane; obcy nie czyta", async () => {
+    const m = env.authenticatedContext("member1").firestore();
+    await assertFails(setDoc(doc(m, `households/${HID}/eventTypes/x`), type()));
+    const a = env.authenticatedContext("admin1").firestore();
+    await assertFails(setDoc(doc(a, `households/${HID}/eventTypes/b1`), type({ name: "" })));
+    await assertFails(setDoc(doc(a, `households/${HID}/eventTypes/b2`), type({ colorIndex: 9 })));
+    await assertFails(setDoc(doc(a, `households/${HID}/eventTypes/b3`), type({ icon: "x" })));
+    await assertFails(getDocs(collection(env.authenticatedContext("obcy").firestore(), `households/${HID}/eventTypes`)));
+  });
+});

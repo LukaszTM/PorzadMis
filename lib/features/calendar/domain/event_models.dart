@@ -35,6 +35,7 @@ class CalendarEvent {
     this.recurrence,
     this.createdBy,
     this.colorIndex = 0,
+    this.typeId,
   });
 
   final String id;
@@ -56,6 +57,9 @@ class CalendarEvent {
   /// 0–4: kolor z tokenów chart1…chart5 (typ wydarzenia wybrany przez użytkownika).
   final int colorIndex;
 
+  /// Typ zdefiniowany przez Administratora (kolor wynika z typu); null = bez typu.
+  final String? typeId;
+
   Duration get duration => end.difference(start);
 
   CalendarEvent copyWith({
@@ -72,6 +76,8 @@ class CalendarEvent {
     bool clearRecurrence = false,
     bool clearReminder = false,
     int? colorIndex,
+    String? typeId,
+    bool clearType = false,
   }) =>
       CalendarEvent(
         id: id,
@@ -87,6 +93,7 @@ class CalendarEvent {
         recurrence: clearRecurrence ? null : (recurrence ?? this.recurrence),
         createdBy: createdBy,
         colorIndex: colorIndex ?? this.colorIndex,
+        typeId: clearType ? null : (typeId ?? this.typeId),
       );
 }
 
@@ -172,3 +179,26 @@ EventOccurrence? nextOccurrence(List<CalendarEvent> events, DateTime now) {
     ..sort((a, b) => a.start.compareTo(b.start));
   return list.isEmpty ? null : list.first;
 }
+
+/// Typ wydarzenia zdefiniowany przez Administratora domu.
+class EventType {
+  const EventType({required this.id, required this.name, required this.colorIndex, required this.order});
+
+  final String id;
+  final String name;
+  final int colorIndex;
+  final int order;
+}
+
+/// Zestaw startowy typów; zakładany, gdy dom nie ma jeszcze żadnego.
+const seedEventTypes = [
+  EventType(id: 'home', name: 'Dom', colorIndex: 0, order: 0),
+  EventType(id: 'family', name: 'Rodzina', colorIndex: 1, order: 1),
+  EventType(id: 'health', name: 'Zdrowie', colorIndex: 2, order: 2),
+  EventType(id: 'work', name: 'Praca', colorIndex: 3, order: 3),
+  EventType(id: 'other', name: 'Inne', colorIndex: 4, order: 4),
+];
+
+/// Indeks koloru wydarzenia: z typu, gdy istnieje; inaczej własny.
+int eventColorIndex(CalendarEvent e, Map<String, EventType> types) =>
+    (e.typeId != null ? types[e.typeId]?.colorIndex : null) ?? e.colorIndex;

@@ -71,6 +71,14 @@ void main() {
     expect(e.copyWith(title: 'x').colorIndex, 0);
   });
 
+  test('eventColorIndex: kolor z typu, bez typu lub z nieznanym typem – własny', () {
+    const types = {'t1': EventType(id: 't1', name: 'Lekarz', colorIndex: 4, order: 0)};
+    expect(eventColorIndex(ev(start: monday).copyWith(colorIndex: 1, typeId: 't1'), types), 4);
+    expect(eventColorIndex(ev(start: monday).copyWith(colorIndex: 1), types), 1);
+    expect(eventColorIndex(ev(start: monday).copyWith(colorIndex: 2, typeId: 'nie-ma'), types), 2);
+    expect(seedEventTypes.map((t) => t.colorIndex).toSet().length, 5);
+  });
+
   group('occurrencesOnDay / nextOccurrence', () {
     test('całodzienne wielodniowe liczy się każdego dnia trwania', () {
       final e = ev(start: DateTime(2026, 11, 2), duration: const Duration(days: 3), allDay: true);
