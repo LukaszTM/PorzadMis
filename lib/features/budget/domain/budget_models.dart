@@ -15,7 +15,17 @@ String shiftMonth(String key, int delta) {
   return monthKey(DateTime(d.year, d.month + delta));
 }
 
-/// „1 420,50 zł” (GUI 3): odstęp tysięcy, przecinek, zawsze dwa miejsca po przecinku.
+/// Symbole walut obsługiwanych w ustawieniach domu.
+const currencySymbols = {'PLN': 'zł', 'EUR': '€', 'USD': '\$', 'GBP': '£', 'CZK': 'Kč'};
+
+/// „1 420,50 zł” w walucie domu (GUI 3): odstęp tysięcy, przecinek, dwa miejsca.
+String formatMoney(int grosze, {String currency = 'PLN'}) =>
+    formatPln(grosze).replaceFirst(RegExp(r' zł$'), ' ${currencySymbols[currency] ?? currency}');
+
+/// Kwota bez symbolu do pola tekstowego: „24,99”.
+String amountToText(int grosze) => grosze == 0 ? '' : (grosze / 100).toStringAsFixed(2).replaceAll('.', ',');
+
+/// „1 420,50 zł”: odstęp tysięcy, przecinek, zawsze dwa miejsca po przecinku.
 String formatPln(int grosze) {
   final negative = grosze < 0;
   final abs = grosze.abs();

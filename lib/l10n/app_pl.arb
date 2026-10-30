@@ -649,5 +649,29 @@
   "loginSubtitle": "Witaj z powrotem. Twój dom czeka.",
   "registerSubtitle": "Jedno konto, cały dom w jednym miejscu.",
   "renameTitle": "Zmień imię",
-  "renameAction": "Zmień imię"
+  "renameAction": "Zmień imię",
+  "settingsComfort": "Wygoda korzystania",
+  "largeTextLabel": "Duży tekst",
+  "largeTextHint": "Większe litery w całej aplikacji – dla osób, które czytają bez okularów.",
+  "settingsHousehold": "Dom",
+  "saveNameAction": "Zapisz nazwę",
+  "currencyLabel": "Waluta",
+  "weekStartLabel": "Tydzień zaczyna się w",
+  "weekStartMonday": "Poniedziałek",
+  "weekStartSunday": "Niedzielę",
+  "categoriesTitle": "Kategorie wydatków",
+  "categoriesHint": "Nazwa i kolor kategorii obowiązują w całym domu. Usunięta kategoria zostawia wydatki bez nazwy.",
+  "categoryNameHint": "np. Zwierzęta",
+  "categoryAdd": "Dodaj kategorię",
+  "categoryDelete": "Usuń kategorię",
+  "categoryDeleteBody": "Kategoria „{name}” zniknie z listy i planu.",
+  "@categoryDeleteBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "errCategoryName": "Wpisz nazwę kategorii",
+  "toastCategoryRemoved": "Usunięto kategorię"
 }

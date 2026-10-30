@@ -49,6 +49,15 @@ class BudgetRepository {
     await batch.commit();
   }
 
+  Future<void> saveCategory(String hid, Category c) => _categories(hid).doc(c.id).set({
+        'name': c.name.trim(),
+        'icon': c.icon,
+        'colorIndex': c.colorIndex,
+        'order': c.order,
+      });
+
+  Future<void> deleteCategory(String hid, String id) => _categories(hid).doc(id).delete();
+
   Stream<List<Expense>> watchExpenses(String hid, String month) =>
       _expenses(hid).where('month', isEqualTo: month).snapshots().map(
             (s) => [

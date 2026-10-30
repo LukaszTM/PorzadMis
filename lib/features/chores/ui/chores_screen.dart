@@ -117,6 +117,7 @@ class _ChoresScreenState extends ConsumerState<ChoresScreen> {
         _WeekStrip(
           selected: _selected,
           now: now,
+          weekStart: ref.watch(weekStartProvider),
           openCount: (d) => openCountOn(all, dayKey(d)),
           onSelect: (d) => setState(() => _selected = d),
         ),
@@ -169,12 +170,14 @@ class _WeekStrip extends StatelessWidget {
   const _WeekStrip({
     required this.selected,
     required this.now,
+    this.weekStart = 1,
     required this.openCount,
     required this.onSelect,
   });
 
   final DateTime selected;
   final DateTime now;
+  final int weekStart;
   final int Function(DateTime) openCount;
   final ValueChanged<DateTime> onSelect;
 
@@ -183,8 +186,11 @@ class _WeekStrip extends StatelessWidget {
     final l = AppLocalizations.of(context);
     final t = context.tokens;
     final text = Theme.of(context).textTheme;
-    final monday = DateTime(selected.year, selected.month, selected.day).subtract(Duration(days: selected.weekday - 1));
-    final labels = [l.weekdayMon, l.weekdayTue, l.weekdayWed, l.weekdayThu, l.weekdayFri, l.weekdaySat, l.weekdaySun];
+    // Pierwszy dzień paska: poniedziałek albo niedziela, według ustawień domu.
+    final offset = (selected.weekday - weekStart + 7) % 7;
+    final monday = DateTime(selected.year, selected.month, selected.day).subtract(Duration(days: offset));
+    final base = [l.weekdayMon, l.weekdayTue, l.weekdayWed, l.weekdayThu, l.weekdayFri, l.weekdaySat, l.weekdaySun];
+    final labels = [for (var i = 0; i < 7; i++) base[(weekStart - 1 + i) % 7]];
     final today = DateTime(now.year, now.month, now.day);
     return Row(
       children: [

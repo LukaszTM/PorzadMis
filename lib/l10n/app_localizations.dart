@@ -2541,6 +2541,108 @@ abstract class AppLocalizations {
   /// In pl, this message translates to:
   /// **'Zmień imię'**
   String get renameAction;
+
+  /// No description provided for @settingsComfort.
+  ///
+  /// In pl, this message translates to:
+  /// **'Wygoda korzystania'**
+  String get settingsComfort;
+
+  /// No description provided for @largeTextLabel.
+  ///
+  /// In pl, this message translates to:
+  /// **'Duży tekst'**
+  String get largeTextLabel;
+
+  /// No description provided for @largeTextHint.
+  ///
+  /// In pl, this message translates to:
+  /// **'Większe litery w całej aplikacji – dla osób, które czytają bez okularów.'**
+  String get largeTextHint;
+
+  /// No description provided for @settingsHousehold.
+  ///
+  /// In pl, this message translates to:
+  /// **'Dom'**
+  String get settingsHousehold;
+
+  /// No description provided for @saveNameAction.
+  ///
+  /// In pl, this message translates to:
+  /// **'Zapisz nazwę'**
+  String get saveNameAction;
+
+  /// No description provided for @currencyLabel.
+  ///
+  /// In pl, this message translates to:
+  /// **'Waluta'**
+  String get currencyLabel;
+
+  /// No description provided for @weekStartLabel.
+  ///
+  /// In pl, this message translates to:
+  /// **'Tydzień zaczyna się w'**
+  String get weekStartLabel;
+
+  /// No description provided for @weekStartMonday.
+  ///
+  /// In pl, this message translates to:
+  /// **'Poniedziałek'**
+  String get weekStartMonday;
+
+  /// No description provided for @weekStartSunday.
+  ///
+  /// In pl, this message translates to:
+  /// **'Niedzielę'**
+  String get weekStartSunday;
+
+  /// No description provided for @categoriesTitle.
+  ///
+  /// In pl, this message translates to:
+  /// **'Kategorie wydatków'**
+  String get categoriesTitle;
+
+  /// No description provided for @categoriesHint.
+  ///
+  /// In pl, this message translates to:
+  /// **'Nazwa i kolor kategorii obowiązują w całym domu. Usunięta kategoria zostawia wydatki bez nazwy.'**
+  String get categoriesHint;
+
+  /// No description provided for @categoryNameHint.
+  ///
+  /// In pl, this message translates to:
+  /// **'np. Zwierzęta'**
+  String get categoryNameHint;
+
+  /// No description provided for @categoryAdd.
+  ///
+  /// In pl, this message translates to:
+  /// **'Dodaj kategorię'**
+  String get categoryAdd;
+
+  /// No description provided for @categoryDelete.
+  ///
+  /// In pl, this message translates to:
+  /// **'Usuń kategorię'**
+  String get categoryDelete;
+
+  /// No description provided for @categoryDeleteBody.
+  ///
+  /// In pl, this message translates to:
+  /// **'Kategoria „{name}” zniknie z listy i planu.'**
+  String categoryDeleteBody(String name);
+
+  /// No description provided for @errCategoryName.
+  ///
+  /// In pl, this message translates to:
+  /// **'Wpisz nazwę kategorii'**
+  String get errCategoryName;
+
+  /// No description provided for @toastCategoryRemoved.
+  ///
+  /// In pl, this message translates to:
+  /// **'Usunięto kategorię'**
+  String get toastCategoryRemoved;
 }
 
 class _AppLocalizationsDelegate

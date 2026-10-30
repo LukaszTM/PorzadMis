@@ -1369,4 +1369,59 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get renameAction => 'Zmień imię';
+
+  @override
+  String get settingsComfort => 'Wygoda korzystania';
+
+  @override
+  String get largeTextLabel => 'Duży tekst';
+
+  @override
+  String get largeTextHint =>
+      'Większe litery w całej aplikacji – dla osób, które czytają bez okularów.';
+
+  @override
+  String get settingsHousehold => 'Dom';
+
+  @override
+  String get saveNameAction => 'Zapisz nazwę';
+
+  @override
+  String get currencyLabel => 'Waluta';
+
+  @override
+  String get weekStartLabel => 'Tydzień zaczyna się w';
+
+  @override
+  String get weekStartMonday => 'Poniedziałek';
+
+  @override
+  String get weekStartSunday => 'Niedzielę';
+
+  @override
+  String get categoriesTitle => 'Kategorie wydatków';
+
+  @override
+  String get categoriesHint =>
+      'Nazwa i kolor kategorii obowiązują w całym domu. Usunięta kategoria zostawia wydatki bez nazwy.';
+
+  @override
+  String get categoryNameHint => 'np. Zwierzęta';
+
+  @override
+  String get categoryAdd => 'Dodaj kategorię';
+
+  @override
+  String get categoryDelete => 'Usuń kategorię';
+
+  @override
+  String categoryDeleteBody(String name) {
+    return 'Kategoria „$name” zniknie z listy i planu.';
+  }
+
+  @override
+  String get errCategoryName => 'Wpisz nazwę kategorii';
+
+  @override
+  String get toastCategoryRemoved => 'Usunięto kategorię';
 }

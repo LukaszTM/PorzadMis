@@ -113,7 +113,7 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
                 lastDay: DateTime(now.year + 3, 12, 31),
                 focusedDay: _focused,
                 calendarFormat: _view == _View.month ? CalendarFormat.month : CalendarFormat.week,
-                startingDayOfWeek: StartingDayOfWeek.monday,
+                startingDayOfWeek: ref.watch(weekStartProvider) == 7 ? StartingDayOfWeek.sunday : StartingDayOfWeek.monday,
                 availableGestures: AvailableGestures.horizontalSwipe,
                 rowHeight: 48,
                 selectedDayPredicate: (d) => isSameDay(d, _selected),

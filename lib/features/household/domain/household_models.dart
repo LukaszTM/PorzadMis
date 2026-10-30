@@ -12,6 +12,7 @@ class UserProfile {
     this.themeId,
     this.themeMode = 'auto',
     this.onboardingDone = false,
+    this.largeText = false,
   });
 
   final String? displayName;
@@ -22,20 +23,30 @@ class UserProfile {
   final String themeMode;
   final bool onboardingDone;
 
+  /// „Duży tekst” (GUI 3): +2 sp w każdej roli, zapis w profilu.
+  final bool largeText;
+
   factory UserProfile.fromMap(Map<String, dynamic>? data) => UserProfile(
         displayName: data?['displayName'] as String?,
         householdId: data?['householdId'] as String?,
         themeId: data?['themeId'] as String?,
         themeMode: (data?['themeMode'] as String?) ?? 'auto',
         onboardingDone: data?['onboardingDone'] == true,
+        largeText: data?['largeText'] == true,
       );
 }
 
 class Household {
-  const Household({required this.id, required this.name});
+  const Household({required this.id, required this.name, this.currency = 'PLN', this.weekStartsOn = 1});
 
   final String id;
   final String name;
+
+  /// Kod waluty (PLN, EUR, USD, GBP, CZK).
+  final String currency;
+
+  /// 1 = poniedziałek, 7 = niedziela.
+  final int weekStartsOn;
 }
 
 class Member {

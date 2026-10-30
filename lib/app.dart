@@ -27,6 +27,13 @@ class PorzadMisApp extends ConsumerWidget {
       theme: buildTheme(pair.light),
       darkTheme: buildTheme(pair.dark),
       themeMode: AppThemeMode.parse(profile?.themeMode).themeMode,
+      // „Duży tekst” (GUI 3): wszystkie role o ~2 sp większe.
+      builder: (context, child) => MediaQuery(
+        data: MediaQuery.of(context).copyWith(
+          textScaler: (profile?.largeText ?? false) ? const TextScaler.linear(1.15) : MediaQuery.of(context).textScaler,
+        ),
+        child: child ?? const SizedBox.shrink(),
+      ),
       locale: const Locale('pl'),
       supportedLocales: AppLocalizations.supportedLocales,
       localizationsDelegates: const [

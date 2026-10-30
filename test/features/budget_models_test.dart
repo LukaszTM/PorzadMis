@@ -15,6 +15,16 @@ void main() {
     });
   });
 
+  group('formatMoney', () {
+    test('symbol waluty domu, PLN domyślnie', () {
+      expect(formatMoney(142050), '1\u00A0420,50 zł');
+      expect(formatMoney(142050, currency: 'EUR'), '1\u00A0420,50 €');
+      expect(formatMoney(5, currency: 'XYZ'), '0,05 XYZ');
+      expect(amountToText(2499), '24,99');
+      expect(amountToText(0), '');
+    });
+  });
+
   group('parsePln', () {
     test('przecinek, kropka, spacje, zł', () {
       expect(parsePln('24,99'), 2499);

@@ -19,11 +19,29 @@ class HouseholdRepository {
       .map((snap) => snap.exists ? UserProfile.fromMap(snap.data()) : null);
 
   Stream<Household?> watchHousehold(String hid) => _db.doc('households/$hid').snapshots().map(
-        (snap) => snap.exists ? Household(id: hid, name: (snap.get('name') as String?) ?? '') : null,
+        (snap) => snap.exists
+            ? Household(
+                id: hid,
+                name: (snap.data()?['name'] as String?) ?? '',
+                currency: (snap.data()?['currency'] as String?) ?? 'PLN',
+                weekStartsOn: (snap.data()?['weekStartsOn'] as num?)?.toInt() == 7 ? 7 : 1,
+              )
+            : null,
       );
 
   Future<void> saveTheme({required String uid, required String themeId, required String themeMode}) =>
       _db.doc('users/$uid').set({'themeId': themeId, 'themeMode': themeMode}, SetOptions(merge: true));
+
+  Future<void> setLargeText(String uid, bool value) =>
+      _db.doc('users/$uid').set({'largeText': value}, SetOptions(merge: true));
+
+  /// Ustawienia domu (Administrator): nazwa, waluta, początek tygodnia.
+  Future<void> updateHousehold(String hid, {String? name, String? currency, int? weekStartsOn}) =>
+      _db.doc('households/$hid').update({
+        if (name != null) 'name': name.trim(),
+        'currency': ?currency,
+        'weekStartsOn': ?weekStartsOn,
+      });
 
   Future<void> markOnboardingDone(String uid) =>
       _db.doc('users/$uid').set({'onboardingDone': true}, SetOptions(merge: true));
@@ -69,3 +87,7 @@ final householdProvider = StreamProvider<Household?>((ref) {
 /// Czytelny komunikat z błędu funkcji (serwer zwraca po polsku) albo null.
 String? callableMessage(Object error) =>
     error is FirebaseFunctionsException ? error.message : null;
+
+/// Waluta domu (do formatowania kwot) i pierwszy dzień tygodnia (1 = poniedziałek, 7 = niedziela).
+final householdCurrencyProvider = Provider<String>((ref) => ref.watch(householdProvider).value?.currency ?? 'PLN');
+final weekStartProvider = Provider<int>((ref) => ref.watch(householdProvider).value?.weekStartsOn ?? 1);

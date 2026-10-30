@@ -40,7 +40,7 @@ Future<void> showChoreSheet(
   final result = await showAppSheet<_ChoreResult>(
     context,
     title: rule == null ? l.choreNewTitle : l.choreEditTitle,
-    builder: (_) => _ChoreForm(rule: draft, isNew: rule == null, members: members),
+    builder: (_) => _ChoreForm(rule: draft, isNew: rule == null, members: members, weekStart: ref.read(weekStartProvider)),
   );
   if (result == null || !context.mounted) return;
 
@@ -77,7 +77,9 @@ class _ChoreResult {
 }
 
 class _ChoreForm extends StatefulWidget {
-  const _ChoreForm({required this.rule, required this.isNew, required this.members});
+  const _ChoreForm({required this.rule, required this.isNew, required this.members, this.weekStart = 1});
+
+  final int weekStart;
 
   final ChoreRule rule;
   final bool isNew;
@@ -284,7 +286,7 @@ class _ChoreFormState extends State<_ChoreForm> {
                 firstDay: DateTime(DateTime.now().year - 1),
                 lastDay: DateTime(DateTime.now().year + 3, 12, 31),
                 focusedDay: _calendarFocus,
-                startingDayOfWeek: StartingDayOfWeek.monday,
+                startingDayOfWeek: widget.weekStart == 7 ? StartingDayOfWeek.sunday : StartingDayOfWeek.monday,
                 rowHeight: 44,
                 availableGestures: AvailableGestures.horizontalSwipe,
                 selectedDayPredicate: (d) => _dates.contains(dayKey(d)),

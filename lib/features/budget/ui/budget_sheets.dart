@@ -77,9 +77,7 @@ class _ExpenseForm extends StatefulWidget {
 }
 
 class _ExpenseFormState extends State<_ExpenseForm> {
-  late final _amount = TextEditingController(
-    text: widget.expense.amount == 0 ? '' : formatPln(widget.expense.amount).replaceAll(RegExp(r'[\s ]zł$'), ''),
-  );
+  late final _amount = TextEditingController(text: amountToText(widget.expense.amount));
   late final _note = TextEditingController(text: widget.expense.note);
   late DateTime _date = widget.expense.day;
   late String _category = widget.expense.categoryId;

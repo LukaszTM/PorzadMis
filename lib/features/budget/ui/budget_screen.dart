@@ -14,6 +14,7 @@ import '../../members/data/members_repository.dart';
 import '../data/budget_repository.dart';
 import '../domain/budget_models.dart';
 import 'budget_sheets.dart';
+import 'categories_sheet.dart';
 
 /// Budżet domowy (GUI 6, 5.11): tylko Administrator. Plakietka pod tytułem zawsze widoczna.
 class BudgetScreen extends ConsumerStatefulWidget {
@@ -45,6 +46,8 @@ class _BudgetScreenState extends ConsumerState<BudgetScreen> {
       );
     }
 
+    final currency = ref.watch(householdCurrencyProvider);
+    String money(int g) => formatMoney(g, currency: currency);
     final categories = ref.watch(categoriesProvider).value ?? const <Category>[];
     if (!_seeded && hid != null && ref.watch(categoriesProvider).hasValue && categories.isEmpty) {
       _seeded = true;
@@ -73,7 +76,12 @@ class _BudgetScreenState extends ConsumerState<BudgetScreen> {
       subtitle: l.budgetSubtitle,
       onBack: () => Navigator.of(context).maybePop(),
       backLabel: l.back,
-      headerTrailing: StatusChip(label: l.budgetAdminBadge, tone: ChipTone.neutral, icon: Icons.lock_outline),
+      headerTrailing: IconButton(
+        tooltip: l.categoriesTitle,
+        constraints: const BoxConstraints(minWidth: 48, minHeight: 48),
+        icon: Icon(Icons.category_outlined, color: t.text),
+        onPressed: () => showCategoriesSheet(context, ref),
+      ),
       bottom: PrimaryButton(
         label: l.budgetAdd,
         onPressed: () => showExpenseSheet(context, ref, null, month: month),
@@ -146,9 +154,9 @@ class _BudgetScreenState extends ConsumerState<BudgetScreen> {
                     Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text(formatPln(spent), style: text.headlineMedium),
+                        Text(money(spent), style: text.headlineMedium),
                         Text(
-                          planTotal > 0 ? 'z ${formatPln(planTotal)}' : l.budgetSpent,
+                          planTotal > 0 ? 'z ${money(planTotal)}' : l.budgetSpent,
                           style: text.labelMedium,
                         ),
                       ],
@@ -169,7 +177,7 @@ class _BudgetScreenState extends ConsumerState<BudgetScreen> {
                       ),
                       const SizedBox(width: 8),
                       Expanded(child: Text(ct.category.name, style: text.bodyMedium)),
-                      Text(formatPln(ct.amount), style: text.bodyMedium!.copyWith(fontWeight: FontWeight.w700)),
+                      Text(money(ct.amount), style: text.bodyMedium!.copyWith(fontWeight: FontWeight.w700)),
                     ],
                   ),
                 ),
@@ -185,7 +193,7 @@ class _BudgetScreenState extends ConsumerState<BudgetScreen> {
                 const SizedBox(height: 6),
                 Row(
                   children: [
-                    Expanded(child: Text(l.budgetOfPlan(formatPln(spent), formatPln(planTotal)), style: text.labelMedium)),
+                    Expanded(child: Text(l.budgetOfPlan(money(spent), money(planTotal)), style: text.labelMedium)),
                     if (level == PlanLevel.warning) StatusChip(label: l.budgetWarn80, tone: ChipTone.warning),
                     if (level == PlanLevel.over) StatusChip(label: l.budgetOver, tone: ChipTone.warning, icon: Icons.warning_amber_outlined),
                   ],
@@ -214,7 +222,7 @@ class _BudgetScreenState extends ConsumerState<BudgetScreen> {
                           Row(
                             children: [
                               Expanded(child: Text(c.name, style: text.bodyMedium)),
-                              Text(l.categoryLimit(formatPln(s), formatPln(lim)), style: text.labelMedium),
+                              Text(l.categoryLimit(money(s), money(lim)), style: text.labelMedium),
                             ],
                           ),
                           const SizedBox(height: 4),
@@ -300,7 +308,7 @@ class _BudgetScreenState extends ConsumerState<BudgetScreen> {
                           ),
                         ),
                         const SizedBox(width: 8),
-                        Text(formatPln(listed[i].amount), style: text.bodyLarge),
+                        Text(money(listed[i].amount), style: text.bodyLarge),
                       ],
                     ),
                   ),

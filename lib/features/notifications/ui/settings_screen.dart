@@ -9,6 +9,7 @@ import '../../auth/data/auth_repository.dart';
 import '../../household/data/household_repository.dart';
 import '../../members/data/members_repository.dart' show membersProvider, membersRepositoryProvider, myRoleProvider;
 import '../../household/domain/household_models.dart';
+import '../../budget/domain/budget_models.dart' show currencySymbols;
 import '../data/notifications_repository.dart';
 import '../domain/reminders.dart';
 
@@ -24,6 +25,8 @@ class SettingsScreen extends ConsumerWidget {
     final uid = ref.watch(authStateProvider).value?.uid;
     final prefs = ref.watch(notificationPrefsProvider).value ?? const NotificationPrefs();
     final isAdmin = ref.watch(myRoleProvider) == Role.admin;
+    final household = ref.watch(householdProvider).value;
+    final profile = ref.watch(profileProvider).value;
 
     void save(NotificationPrefs p) {
       if (uid == null) return;
@@ -67,6 +70,19 @@ class SettingsScreen extends ConsumerWidget {
           onTap: () => context.push('/settings/appearance'),
           child: Text(l.themeCardSubtitle, style: text.bodyMedium),
         ),
+        AppCard(
+          title: l.settingsComfort,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(l.largeTextHint, style: text.labelMedium),
+              row(l.largeTextLabel, profile?.largeText ?? false, (v) {
+                if (uid != null) ref.read(householdRepositoryProvider).setLargeText(uid, v).catchError((Object _) {});
+              }),
+            ],
+          ),
+        ),
+        if (isAdmin && household != null) _HouseholdSettingsCard(household: household),
         AppCard(
           title: l.settingsNotifications,
           child: Column(
@@ -126,6 +142,78 @@ class SettingsScreen extends ConsumerWidget {
           child: Text(l.settingsVersion('0.1.0'), style: text.bodyMedium),
         ),
       ],
+    );
+  }
+}
+
+/// Ustawienia domu (Administrator): nazwa, waluta, początek tygodnia.
+class _HouseholdSettingsCard extends ConsumerStatefulWidget {
+  const _HouseholdSettingsCard({required this.household});
+
+  final Household household;
+
+  @override
+  ConsumerState<_HouseholdSettingsCard> createState() => _HouseholdSettingsCardState();
+}
+
+class _HouseholdSettingsCardState extends ConsumerState<_HouseholdSettingsCard> {
+  late final _name = TextEditingController(text: widget.household.name);
+
+  @override
+  void dispose() {
+    _name.dispose();
+    super.dispose();
+  }
+
+  void _saveName() {
+    final l = AppLocalizations.of(context);
+    if (_name.text.trim().isEmpty) {
+      showAppToast(context, l.errHouseholdNameEmpty, error: true);
+      return;
+    }
+    ref.read(householdRepositoryProvider).updateHousehold(widget.household.id, name: _name.text).catchError((Object _) {});
+    FocusScope.of(context).unfocus();
+    showAppToast(context, l.toastSaved);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
+    final text = Theme.of(context).textTheme;
+    final repo = ref.read(householdRepositoryProvider);
+    final h = widget.household;
+    return AppCard(
+      title: l.settingsHousehold,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          AppTextField(
+            controller: _name,
+            label: l.householdNameLabel,
+            textCapitalization: TextCapitalization.sentences,
+            textInputAction: TextInputAction.done,
+            onSubmitted: (_) => _saveName(),
+          ),
+          const SizedBox(height: 8),
+          Align(alignment: Alignment.centerRight, child: TertiaryButton(label: l.saveNameAction, onPressed: _saveName)),
+          const SizedBox(height: 8),
+          Text(l.currencyLabel, style: text.labelMedium),
+          const SizedBox(height: 8),
+          ChoiceChips<String>(
+            options: [for (final c in currencySymbols.keys) ChoiceOption(c, c)],
+            selected: {h.currency},
+            onToggle: (c) => repo.updateHousehold(h.id, currency: c).catchError((Object _) {}),
+          ),
+          const SizedBox(height: 14),
+          Text(l.weekStartLabel, style: text.labelMedium),
+          const SizedBox(height: 8),
+          SegmentedSwitch<int>(
+            options: [SegmentOption(1, l.weekStartMonday), SegmentOption(7, l.weekStartSunday)],
+            value: h.weekStartsOn,
+            onChanged: (v) => repo.updateHousehold(h.id, weekStartsOn: v).catchError((Object _) {}),
+          ),
+        ],
+      ),
     );
   }
 }
