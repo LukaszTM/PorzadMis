@@ -81,6 +81,27 @@ ThemeData buildTheme(AppTokens t) {
         side: BorderSide(color: t.border),
       ),
     ),
+    navigationBarTheme: NavigationBarThemeData(
+      height: 64,
+      backgroundColor: t.surface,
+      surfaceTintColor: Colors.transparent,
+      elevation: 0,
+      indicatorColor: t.accent.withValues(alpha: 0.12),
+      labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+      iconTheme: WidgetStateProperty.resolveWith(
+        (states) => IconThemeData(
+          size: 26,
+          color: states.contains(WidgetState.selected) ? t.accent : t.textMuted,
+        ),
+      ),
+      labelTextStyle: WidgetStateProperty.resolveWith(
+        (states) => _style(
+          13,
+          FontWeight.w700,
+          states.contains(WidgetState.selected) ? t.accent : t.textMuted,
+        ),
+      ),
+    ),
     bottomSheetTheme: BottomSheetThemeData(
       backgroundColor: t.surface,
       elevation: 2,

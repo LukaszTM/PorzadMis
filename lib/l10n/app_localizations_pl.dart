@@ -283,4 +283,134 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get inviteQrSemantics => 'Kod QR zaproszenia';
+
+  @override
+  String get navToday => 'Dziś';
+
+  @override
+  String get navShopping => 'Zakupy';
+
+  @override
+  String get shoppingTitle => 'Zakupy';
+
+  @override
+  String get shoppingAddHint => 'Co dopisać? np. chleb';
+
+  @override
+  String get shoppingAddAction => 'Dodaj do listy';
+
+  @override
+  String shoppingToBuy(int count) {
+    return 'Do kupienia · $count';
+  }
+
+  @override
+  String shoppingBought(int count) {
+    return 'Kupione · $count';
+  }
+
+  @override
+  String get shoppingClear => 'Wyczyść';
+
+  @override
+  String get shoppingEmpty => 'Lista pusta – dopisz pierwszą rzecz.';
+
+  @override
+  String get shoppingAllBought => 'Wszystko kupione. Miś odpoczywa.';
+
+  @override
+  String get errShoppingName => 'Wpisz nazwę produktu';
+
+  @override
+  String get errShoppingDuplicate => 'Już jest na liście';
+
+  @override
+  String get toastAddedToList => 'Dodano do listy';
+
+  @override
+  String get toastCleared => 'Wyczyszczono kupione';
+
+  @override
+  String get toastUndo => 'Cofnij';
+
+  @override
+  String get toastOffline => 'Brak połączenia – zmiany wyślą się później';
+
+  @override
+  String get itemEditTitle => 'Pozycja na liście';
+
+  @override
+  String get itemEditAction => 'Edytuj pozycję';
+
+  @override
+  String get itemNameLabel => 'Nazwa';
+
+  @override
+  String get itemQuantityLabel => 'Ilość';
+
+  @override
+  String get itemQuantityHint => 'np. 2';
+
+  @override
+  String get itemUnitLabel => 'Jednostka';
+
+  @override
+  String get itemUnitHint => 'np. szt';
+
+  @override
+  String get itemCategoryLabel => 'Dział';
+
+  @override
+  String get itemDone => 'Gotowe';
+
+  @override
+  String get itemDelete => 'Usuń pozycję';
+
+  @override
+  String get catProduce => 'Warzywa i owoce';
+
+  @override
+  String get catBakery => 'Pieczywo';
+
+  @override
+  String get catDairy => 'Nabiał';
+
+  @override
+  String get catMeat => 'Mięso i ryby';
+
+  @override
+  String get catDrinks => 'Napoje';
+
+  @override
+  String get catHousehold => 'Chemia i dom';
+
+  @override
+  String get catOther => 'Inne';
+
+  @override
+  String get shoppingCardTitle => 'Lista zakupów';
+
+  @override
+  String get shoppingCardNone => 'Nic do kupienia';
+
+  @override
+  String shoppingCardCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count rzeczy do kupienia',
+      many: '$count rzeczy do kupienia',
+      few: '$count rzeczy do kupienia',
+      one: '$count rzecz do kupienia',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String shoppingAddedBy(String name) {
+    return 'dodał(a): $name';
+  }
+
+  @override
+  String get toastRemoved => 'Usunięto z listy';
 }

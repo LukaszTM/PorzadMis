@@ -145,6 +145,7 @@ Rekomendacja: Flutter po stronie telefonu i Firebase jako backend. To najkrótsz
 | QR | mobile_scanner (skan), qr_flutter (generowanie) | dojrzałe pakiety |
 | Wykresy | fl_chart (wykres kołowy, paski planu) | lekki, bez opłat |
 | Kalendarz | table_calendar + własny widok dnia/tygodnia | konfigurowalne zaznaczanie wielu dat |
+| Ikony | flutter_svg | ikony interfejsu SVG z paczki marki (kolor z motywu) |
 
 Skoro tylko Android, realna jest też wersja natywna: Kotlin + Jetpack Compose z tym samym backendem Firebase; wybierz ją, jeśli na pewno nie planujesz iOS. Alternatywa, jeśli wolisz unikać Google: React Native (Expo) + Supabase (Postgres, Realtime, Auth, Edge Functions) + Expo Notifications. Plan działa tak samo, zmienia się tylko warstwa danych.
 
@@ -178,7 +179,8 @@ Dane wspólne żyją pod jednym dokumentem domu; dane prywatne pod użytkownikie
 | `households/{hid}/choreRules/{id}` | title, description, assigneeId, mode: once | recurring, recurrence (type, interval, weekdays[], monthDay, dates[], until), reminderTime | członkowie czytają; admin pisze |
 | `households/{hid}/choreOccurrences/{id}` | ruleId, date, assigneeId, status: todo | done | skipped, doneBy, doneAt | członkowie czytają; assignee lub admin pisze |
 | `households/{hid}/shoppingLists/{id}` | name, order | członkowie |
-| `households/{hid}/shoppingLists/{id}/items/{id}` | name, quantity, unit, storeCategory, checked, checkedBy, addedBy | członkowie |
+| `households/{hid}/shoppingLists/{id}/items/{id}` | name, quantity, unit (teksty, puste = brak), storeCategory (produce, bakery, dairy, meat, drinks, household, other), checked, checkedBy (uid lub null), addedBy (uid członka), createdAt | członkowie |
+| `households/{hid}/shoppingHistory/{klucz}` | name, count, lastAddedAt, storeCategory, quantity, unit | członkowie (podpowiedzi nazw; klucz = nazwa małymi literami bez nadmiarowych spacji) |
 | `households/{hid}/notes/{id}` | title, body, pinned, createdBy, updatedAt | członkowie czytają; autor lub admin pisze |
 | `households/{hid}/events/{id}` | title, start, end, allDay, location, participants[], reminderMinutes, recurrence, createdBy | członkowie czytają; autor lub admin pisze |
 
@@ -188,7 +190,10 @@ Uwagi do modelu:
 - `recurrence.type` przyjmuje: `daily`, `weekly`, `monthly`, `customDates`. Dla `customDates` lista `dates[]` jest źródłem prawdy i wystąpienia powstają tylko dla nich.
 - Wystąpienia obowiązków generuje Cloud Function przy zapisie reguły i codziennie o 00:05 czasu domu, zawsze do 90 dni w przód; edycja reguły regeneruje tylko przyszłe, nieodhaczone wystąpienia.
 - Przełączenie notatki lub wydarzenia z prywatnego na wspólne to przeniesienie dokumentu między kolekcjami (transakcja), nie zmiana flagi.
-- Indeksy złożone: expenses (householdId, date), choreOccurrences (date, assigneeId), items (checked, order).
+- Indeksy złożone: expenses (householdId, date), choreOccurrences (date, assigneeId). Pozycje zakupów sortuje klient po `createdAt` (zapytanie po jednym polu), więc nie potrzeba indeksu (checked, order).
+- Etap 2 używa jednej listy zakupów o stałym identyfikatorze `main`; dokument listy nie jest wymagany (pozycje leżą w podkolekcji), kilka list dojdzie po MVP.
+- Historia zakupów (`shoppingHistory`) przeżywa „Wyczyść kupione”: stąd podpowiedzi i zapamiętany dział produktu. Klucz dokumentu jest deterministyczny (nie UUID), bo ma łączyć te same nazwy.
+- Zapisy z listy zakupów klient wysyła bez czekania na serwer (praca offline); kolejka wyśle je po odzyskaniu sieci.
 
 ## Plan prac w etapach
 

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../theme/app_tokens.dart';
 
-/// Ptaszek w kształcie uśmiechu misia (ścieżka `M50 84l6 6 14-14` z logo).
+/// Ptaszek w kształcie uśmiechu misia: ta sama krzywa co w logo v1.1
+/// (`M50.5 82.5 C53 88.5 56.5 91.5 60 91 C65 90.5 68.5 85 70 78`, układ 120 × 120).
 class SmileCheckPainter extends CustomPainter {
   const SmileCheckPainter(this.color);
 
@@ -10,14 +11,15 @@ class SmileCheckPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    // Ścieżka w układzie logo: (50,84) → (56,90) → (70,76); obszar 20 × 14.
-    final scale = size.width / 20;
-    final dy = (size.height - 14 * scale) / 2;
-    Offset p(double x, double y) => Offset((x - 50) * scale, (y - 76) * scale + dy);
+    // Obszar krzywej w układzie logo: x 50,5–70 (19,5), y 78–91 (13).
+    final scale = size.width / 19.5;
+    final dy = (size.height - 13 * scale) / 2;
+    Offset p(double x, double y) => Offset((x - 50.5) * scale, (y - 78) * scale + dy);
+    final a = p(50.5, 82.5);
     final path = Path()
-      ..moveTo(p(50, 84).dx, p(50, 84).dy)
-      ..lineTo(p(56, 90).dx, p(56, 90).dy)
-      ..lineTo(p(70, 76).dx, p(70, 76).dy);
+      ..moveTo(a.dx, a.dy)
+      ..cubicTo(p(53, 88.5).dx, p(53, 88.5).dy, p(56.5, 91.5).dx, p(56.5, 91.5).dy, p(60, 91).dx, p(60, 91).dy)
+      ..cubicTo(p(65, 90.5).dx, p(65, 90.5).dy, p(68.5, 85).dx, p(68.5, 85).dy, p(70, 78).dx, p(70, 78).dy);
     canvas.drawPath(
       path,
       Paint()
@@ -41,6 +43,8 @@ class CheckRow extends StatelessWidget {
     required this.checked,
     required this.onChanged,
     this.meta,
+    this.trailing,
+    this.onLongPress,
     this.minHeight = 60,
   });
 
@@ -50,6 +54,10 @@ class CheckRow extends StatelessWidget {
 
   /// „Tomek · codziennie” – 14 sp textMuted po prawej.
   final String? meta;
+
+  /// Dodatkowa akcja po prawej (np. edycja); poza celem odhaczania.
+  final Widget? trailing;
+  final VoidCallback? onLongPress;
   final double minHeight;
 
   @override
@@ -62,6 +70,7 @@ class CheckRow extends StatelessWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(12),
         onTap: () => onChanged(!checked),
+        onLongPress: onLongPress,
         child: ConstrainedBox(
           constraints: BoxConstraints(minHeight: minHeight),
           child: Row(
@@ -95,6 +104,7 @@ class CheckRow extends StatelessWidget {
                 const SizedBox(width: 8),
                 Text(meta!, style: text.labelMedium),
               ],
+              ?trailing,
             ],
           ),
         ),

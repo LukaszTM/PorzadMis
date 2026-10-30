@@ -10,6 +10,8 @@ import '../../features/household/ui/start_screens.dart';
 import '../../features/invites/ui/invite_screen.dart';
 import '../../features/invites/ui/join_screens.dart';
 import '../../features/members/ui/members_screen.dart';
+import '../../features/shopping/ui/shopping_screen.dart';
+import '../ui/app_shell.dart';
 import '../ui/mis_mark.dart';
 
 const _authRoutes = {'/login', '/register'};
@@ -62,7 +64,13 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(path: '/create', builder: (_, _) => const CreateHouseholdScreen()),
       GoRoute(path: '/join', builder: (_, _) => const JoinScreen()),
       GoRoute(path: '/scan', builder: (_, _) => const ScanScreen()),
-      GoRoute(path: '/home', builder: (_, _) => const HomeScreen()),
+      ShellRoute(
+        builder: (_, state, child) => AppShell(location: state.matchedLocation, child: child),
+        routes: [
+          GoRoute(path: '/home', builder: (_, _) => const HomeScreen()),
+          GoRoute(path: '/shopping', builder: (_, _) => const ShoppingScreen()),
+        ],
+      ),
       GoRoute(path: '/members', builder: (_, _) => const MembersScreen()),
       GoRoute(path: '/invite', builder: (_, _) => const InviteScreen()),
     ],

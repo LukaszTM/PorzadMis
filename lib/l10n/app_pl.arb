@@ -3,7 +3,6 @@
   "appName": "PorządMiś",
   "back": "Wróć",
   "loading": "Wczytywanie…",
-
   "loginTitle": "Zaloguj się",
   "registerTitle": "Załóż konto",
   "emailLabel": "E-mail",
@@ -27,20 +26,17 @@
   "errNetwork": "Brak połączenia z internetem",
   "errGeneric": "Coś poszło nie tak. Spróbuj ponownie",
   "errGoogleCancelled": "Logowanie przez Google przerwano",
-
   "startTitle": "Cześć, jestem PorządMiś",
   "startSubtitle": "Korzystaj sam albo razem z domownikami.",
   "soloAction": "Zacznij tylko dla siebie",
   "soloHouseholdName": "Mój dom",
   "createHouseholdAction": "Załóż dom z rodziną",
   "joinAction": "Dołącz do domu",
-
   "createHouseholdTitle": "Nowy dom",
   "householdNameLabel": "Nazwa domu",
   "householdNameHint": "np. Dom Kowalskich",
   "errHouseholdNameEmpty": "Wpisz nazwę domu",
   "createAction": "Załóż dom",
-
   "joinTitle": "Dołącz do domu",
   "joinCodeLabel": "Kod z zaproszenia",
   "joinCodeHint": "np. K7M2QX",
@@ -52,20 +48,36 @@
   "errScanInvalid": "To nie jest kod PorządMisia",
   "errCamera": "Brak dostępu do aparatu. Wpisz kod ręcznie",
   "toastJoined": "Dołączono do domu",
-
   "homeGreeting": "Dzień dobry, {name}",
-  "@homeGreeting": { "placeholders": { "name": { "type": "String" } } },
+  "@homeGreeting": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "homeHouseholdCard": "Twój dom",
   "membersCount": "{count, plural, one{{count} osoba} few{{count} osoby} many{{count} osób} other{{count} osoby}}",
-  "@membersCount": { "placeholders": { "count": { "type": "int" } } },
+  "@membersCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "inviteAction": "Zaproś domownika",
   "signOut": "Wyloguj",
   "leaveAction": "Opuść dom",
   "confirmLeaveTitle": "Opuścić dom?",
   "confirmLeaveBody": "Stracisz dostęp do wspólnych danych tego domu.",
   "confirmLeaveSoloBody": "Dom „{name}” zostanie usunięty razem ze wszystkimi danymi.",
-  "@confirmLeaveSoloBody": { "placeholders": { "name": { "type": "String" } } },
-
+  "@confirmLeaveSoloBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "membersTitle": "Domownicy",
   "roleAdmin": "Administrator",
   "roleMember": "Domownik",
@@ -75,15 +87,32 @@
   "removeMember": "Usuń z domu",
   "confirmRoleTitle": "Zmienić rolę?",
   "confirmGiveAdminBody": "{name} zostanie Administratorem.",
-  "@confirmGiveAdminBody": { "placeholders": { "name": { "type": "String" } } },
+  "@confirmGiveAdminBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "confirmTakeAdminBody": "{name} przestanie być Administratorem.",
-  "@confirmTakeAdminBody": { "placeholders": { "name": { "type": "String" } } },
+  "@confirmTakeAdminBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "confirmRemoveTitle": "Usunąć z domu?",
   "confirmRemoveBody": "{name} straci dostęp do wspólnych danych.",
-  "@confirmRemoveBody": { "placeholders": { "name": { "type": "String" } } },
+  "@confirmRemoveBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "confirmYes": "Tak",
   "toastSaved": "Zapisano",
-
   "inviteTitle": "Zaproszenie",
   "adminOnlyBadge": "tylko Administrator",
   "inviteSingleUse": "Jednorazowe",
@@ -92,10 +121,82 @@
   "inviteCodeLabel": "Kod tekstowy",
   "inviteValid": "Ważne 24 godziny",
   "inviteUsedBy": "Dołączyli: {count}",
-  "@inviteUsedBy": { "placeholders": { "count": { "type": "int" } } },
+  "@inviteUsedBy": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "inviteCopy": "Skopiuj kod",
   "toastCopied": "Skopiowano kod",
   "inviteRevoke": "Unieważnij",
   "inviteRevoked": "Zaproszenie unieważniono",
-  "inviteQrSemantics": "Kod QR zaproszenia"
+  "inviteQrSemantics": "Kod QR zaproszenia",
+  "navToday": "Dziś",
+  "navShopping": "Zakupy",
+  "shoppingTitle": "Zakupy",
+  "shoppingAddHint": "Co dopisać? np. chleb",
+  "shoppingAddAction": "Dodaj do listy",
+  "shoppingToBuy": "Do kupienia · {count}",
+  "@shoppingToBuy": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "shoppingBought": "Kupione · {count}",
+  "@shoppingBought": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "shoppingClear": "Wyczyść",
+  "shoppingEmpty": "Lista pusta – dopisz pierwszą rzecz.",
+  "shoppingAllBought": "Wszystko kupione. Miś odpoczywa.",
+  "errShoppingName": "Wpisz nazwę produktu",
+  "errShoppingDuplicate": "Już jest na liście",
+  "toastAddedToList": "Dodano do listy",
+  "toastCleared": "Wyczyszczono kupione",
+  "toastUndo": "Cofnij",
+  "toastOffline": "Brak połączenia – zmiany wyślą się później",
+  "itemEditTitle": "Pozycja na liście",
+  "itemEditAction": "Edytuj pozycję",
+  "itemNameLabel": "Nazwa",
+  "itemQuantityLabel": "Ilość",
+  "itemQuantityHint": "np. 2",
+  "itemUnitLabel": "Jednostka",
+  "itemUnitHint": "np. szt",
+  "itemCategoryLabel": "Dział",
+  "itemDone": "Gotowe",
+  "itemDelete": "Usuń pozycję",
+  "catProduce": "Warzywa i owoce",
+  "catBakery": "Pieczywo",
+  "catDairy": "Nabiał",
+  "catMeat": "Mięso i ryby",
+  "catDrinks": "Napoje",
+  "catHousehold": "Chemia i dom",
+  "catOther": "Inne",
+  "shoppingCardTitle": "Lista zakupów",
+  "shoppingCardNone": "Nic do kupienia",
+  "shoppingCardCount": "{count, plural, one{{count} rzecz do kupienia} few{{count} rzeczy do kupienia} many{{count} rzeczy do kupienia} other{{count} rzeczy do kupienia}}",
+  "@shoppingCardCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "shoppingAddedBy": "dodał(a): {name}",
+  "@shoppingAddedBy": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "toastRemoved": "Usunięto z listy"
 }

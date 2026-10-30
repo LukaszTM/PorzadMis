@@ -597,6 +597,234 @@ abstract class AppLocalizations {
   /// In pl, this message translates to:
   /// **'Kod QR zaproszenia'**
   String get inviteQrSemantics;
+
+  /// No description provided for @navToday.
+  ///
+  /// In pl, this message translates to:
+  /// **'Dziś'**
+  String get navToday;
+
+  /// No description provided for @navShopping.
+  ///
+  /// In pl, this message translates to:
+  /// **'Zakupy'**
+  String get navShopping;
+
+  /// No description provided for @shoppingTitle.
+  ///
+  /// In pl, this message translates to:
+  /// **'Zakupy'**
+  String get shoppingTitle;
+
+  /// No description provided for @shoppingAddHint.
+  ///
+  /// In pl, this message translates to:
+  /// **'Co dopisać? np. chleb'**
+  String get shoppingAddHint;
+
+  /// No description provided for @shoppingAddAction.
+  ///
+  /// In pl, this message translates to:
+  /// **'Dodaj do listy'**
+  String get shoppingAddAction;
+
+  /// No description provided for @shoppingToBuy.
+  ///
+  /// In pl, this message translates to:
+  /// **'Do kupienia · {count}'**
+  String shoppingToBuy(int count);
+
+  /// No description provided for @shoppingBought.
+  ///
+  /// In pl, this message translates to:
+  /// **'Kupione · {count}'**
+  String shoppingBought(int count);
+
+  /// No description provided for @shoppingClear.
+  ///
+  /// In pl, this message translates to:
+  /// **'Wyczyść'**
+  String get shoppingClear;
+
+  /// No description provided for @shoppingEmpty.
+  ///
+  /// In pl, this message translates to:
+  /// **'Lista pusta – dopisz pierwszą rzecz.'**
+  String get shoppingEmpty;
+
+  /// No description provided for @shoppingAllBought.
+  ///
+  /// In pl, this message translates to:
+  /// **'Wszystko kupione. Miś odpoczywa.'**
+  String get shoppingAllBought;
+
+  /// No description provided for @errShoppingName.
+  ///
+  /// In pl, this message translates to:
+  /// **'Wpisz nazwę produktu'**
+  String get errShoppingName;
+
+  /// No description provided for @errShoppingDuplicate.
+  ///
+  /// In pl, this message translates to:
+  /// **'Już jest na liście'**
+  String get errShoppingDuplicate;
+
+  /// No description provided for @toastAddedToList.
+  ///
+  /// In pl, this message translates to:
+  /// **'Dodano do listy'**
+  String get toastAddedToList;
+
+  /// No description provided for @toastCleared.
+  ///
+  /// In pl, this message translates to:
+  /// **'Wyczyszczono kupione'**
+  String get toastCleared;
+
+  /// No description provided for @toastUndo.
+  ///
+  /// In pl, this message translates to:
+  /// **'Cofnij'**
+  String get toastUndo;
+
+  /// No description provided for @toastOffline.
+  ///
+  /// In pl, this message translates to:
+  /// **'Brak połączenia – zmiany wyślą się później'**
+  String get toastOffline;
+
+  /// No description provided for @itemEditTitle.
+  ///
+  /// In pl, this message translates to:
+  /// **'Pozycja na liście'**
+  String get itemEditTitle;
+
+  /// No description provided for @itemEditAction.
+  ///
+  /// In pl, this message translates to:
+  /// **'Edytuj pozycję'**
+  String get itemEditAction;
+
+  /// No description provided for @itemNameLabel.
+  ///
+  /// In pl, this message translates to:
+  /// **'Nazwa'**
+  String get itemNameLabel;
+
+  /// No description provided for @itemQuantityLabel.
+  ///
+  /// In pl, this message translates to:
+  /// **'Ilość'**
+  String get itemQuantityLabel;
+
+  /// No description provided for @itemQuantityHint.
+  ///
+  /// In pl, this message translates to:
+  /// **'np. 2'**
+  String get itemQuantityHint;
+
+  /// No description provided for @itemUnitLabel.
+  ///
+  /// In pl, this message translates to:
+  /// **'Jednostka'**
+  String get itemUnitLabel;
+
+  /// No description provided for @itemUnitHint.
+  ///
+  /// In pl, this message translates to:
+  /// **'np. szt'**
+  String get itemUnitHint;
+
+  /// No description provided for @itemCategoryLabel.
+  ///
+  /// In pl, this message translates to:
+  /// **'Dział'**
+  String get itemCategoryLabel;
+
+  /// No description provided for @itemDone.
+  ///
+  /// In pl, this message translates to:
+  /// **'Gotowe'**
+  String get itemDone;
+
+  /// No description provided for @itemDelete.
+  ///
+  /// In pl, this message translates to:
+  /// **'Usuń pozycję'**
+  String get itemDelete;
+
+  /// No description provided for @catProduce.
+  ///
+  /// In pl, this message translates to:
+  /// **'Warzywa i owoce'**
+  String get catProduce;
+
+  /// No description provided for @catBakery.
+  ///
+  /// In pl, this message translates to:
+  /// **'Pieczywo'**
+  String get catBakery;
+
+  /// No description provided for @catDairy.
+  ///
+  /// In pl, this message translates to:
+  /// **'Nabiał'**
+  String get catDairy;
+
+  /// No description provided for @catMeat.
+  ///
+  /// In pl, this message translates to:
+  /// **'Mięso i ryby'**
+  String get catMeat;
+
+  /// No description provided for @catDrinks.
+  ///
+  /// In pl, this message translates to:
+  /// **'Napoje'**
+  String get catDrinks;
+
+  /// No description provided for @catHousehold.
+  ///
+  /// In pl, this message translates to:
+  /// **'Chemia i dom'**
+  String get catHousehold;
+
+  /// No description provided for @catOther.
+  ///
+  /// In pl, this message translates to:
+  /// **'Inne'**
+  String get catOther;
+
+  /// No description provided for @shoppingCardTitle.
+  ///
+  /// In pl, this message translates to:
+  /// **'Lista zakupów'**
+  String get shoppingCardTitle;
+
+  /// No description provided for @shoppingCardNone.
+  ///
+  /// In pl, this message translates to:
+  /// **'Nic do kupienia'**
+  String get shoppingCardNone;
+
+  /// No description provided for @shoppingCardCount.
+  ///
+  /// In pl, this message translates to:
+  /// **'{count, plural, one{{count} rzecz do kupienia} few{{count} rzeczy do kupienia} many{{count} rzeczy do kupienia} other{{count} rzeczy do kupienia}}'**
+  String shoppingCardCount(int count);
+
+  /// No description provided for @shoppingAddedBy.
+  ///
+  /// In pl, this message translates to:
+  /// **'dodał(a): {name}'**
+  String shoppingAddedBy(String name);
+
+  /// No description provided for @toastRemoved.
+  ///
+  /// In pl, this message translates to:
+  /// **'Usunięto z listy'**
+  String get toastRemoved;
 }
 
 class _AppLocalizationsDelegate

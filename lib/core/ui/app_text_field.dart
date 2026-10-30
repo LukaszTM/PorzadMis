@@ -19,9 +19,11 @@ class AppTextField extends StatelessWidget {
     this.onSubmitted,
     this.inputFormatters,
     this.autofocus = false,
+    this.focusNode,
   });
 
   final TextEditingController controller;
+  final FocusNode? focusNode;
 
   /// Etykieta nad polem – tylko w formularzach wielopolowych.
   final String? label;
@@ -54,6 +56,7 @@ class AppTextField extends StatelessWidget {
           ),
         TextFormField(
           controller: controller,
+          focusNode: focusNode,
           obscureText: obscureText,
           keyboardType: keyboardType,
           textInputAction: textInputAction,

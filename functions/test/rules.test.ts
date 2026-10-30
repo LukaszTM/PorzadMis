@@ -6,7 +6,9 @@ import {
   initializeTestEnvironment,
   RulesTestEnvironment,
 } from "@firebase/rules-unit-testing";
-import { doc, getDoc, setDoc, updateDoc, deleteDoc, collection, getDocs } from "firebase/firestore";
+import {
+  doc, getDoc, setDoc, updateDoc, deleteDoc, collection, getDocs, serverTimestamp, Timestamp,
+} from "firebase/firestore";
 
 const HID = "11111111-1111-4111-8111-111111111111";
 let env: RulesTestEnvironment;
@@ -123,5 +125,104 @@ describe("domyślne odrzucenie", () => {
   test("deny: nieznana kolekcja", async () => {
     const db = env.authenticatedContext("admin1").firestore();
     await assertFails(getDoc(doc(db, "cokolwiek/1")));
+  });
+});
+
+describe("lista zakupów", () => {
+  const item = (id: string) => `households/${HID}/shoppingLists/main/items/${id}`;
+  const newItem = (over: Record<string, unknown> = {}) => ({
+    name: "Mleko",
+    quantity: "2",
+    unit: "szt",
+    storeCategory: "dairy",
+    checked: false,
+    checkedBy: null,
+    addedBy: "member1",
+    createdAt: serverTimestamp(),
+    ...over,
+  });
+
+  beforeEach(async () => {
+    await env.withSecurityRulesDisabled(async (ctx) => {
+      await setDoc(doc(ctx.firestore(), item("i1")), {
+        name: "Chleb", quantity: "", unit: "", storeCategory: "bakery", checked: false,
+        checkedBy: null, addedBy: "admin1", createdAt: Timestamp.now(),
+      });
+    });
+  });
+
+  test("allow: członek czyta listę i dodaje pozycję", async () => {
+    const db = env.authenticatedContext("member1").firestore();
+    await assertSucceeds(getDocs(collection(db, `households/${HID}/shoppingLists/main/items`)));
+    await assertSucceeds(setDoc(doc(db, item("i2")), newItem()));
+  });
+  test("allow: członek odhacza cudzą pozycję i cofa odhaczenie", async () => {
+    const db = env.authenticatedContext("member1").firestore();
+    await assertSucceeds(updateDoc(doc(db, item("i1")), { checked: true, checkedBy: "member1" }));
+    await assertSucceeds(updateDoc(doc(db, item("i1")), { checked: false, checkedBy: null }));
+  });
+  test("allow: edycja nazwy, ilości i działu oraz usunięcie", async () => {
+    const db = env.authenticatedContext("member1").firestore();
+    await assertSucceeds(updateDoc(doc(db, item("i1")), { name: "Chleb żytni", quantity: "1", storeCategory: "bakery" }));
+    await assertSucceeds(deleteDoc(doc(db, item("i1"))));
+  });
+  test("allow: przywrócenie pozycji z dawnym czasem i autorem-domownikiem (Cofnij)", async () => {
+    const db = env.authenticatedContext("member1").firestore();
+    await assertSucceeds(setDoc(doc(db, item("i3")), newItem({
+      addedBy: "admin1", checked: true, checkedBy: "member1", createdAt: Timestamp.fromMillis(Date.now() - 60_000),
+    })));
+  });
+  test("deny: obcy nie czyta, nie pisze i nie usuwa", async () => {
+    const db = env.authenticatedContext("obcy").firestore();
+    await assertFails(getDocs(collection(db, `households/${HID}/shoppingLists/main/items`)));
+    await assertFails(setDoc(doc(db, item("x")), newItem({ addedBy: "obcy" })));
+    await assertFails(updateDoc(doc(db, item("i1")), { checked: true, checkedBy: "obcy" }));
+    await assertFails(deleteDoc(doc(db, item("i1"))));
+  });
+  test("deny: niezalogowany", async () => {
+    const db = env.unauthenticatedContext().firestore();
+    await assertFails(getDoc(doc(db, item("i1"))));
+    await assertFails(setDoc(doc(db, item("x")), newItem()));
+  });
+  test("deny: pusta, za długa nazwa i nadmiarowe pole", async () => {
+    const db = env.authenticatedContext("member1").firestore();
+    await assertFails(setDoc(doc(db, item("a")), newItem({ name: "" })));
+    await assertFails(setDoc(doc(db, item("b")), newItem({ name: "x".repeat(101) })));
+    await assertFails(setDoc(doc(db, item("c")), newItem({ sekret: "1" })));
+  });
+  test("deny: autor niebędący członkiem domu i data z przyszłości", async () => {
+    const db = env.authenticatedContext("member1").firestore();
+    await assertFails(setDoc(doc(db, item("d")), newItem({ addedBy: "nikt" })));
+    await assertFails(setDoc(doc(db, item("e")), newItem({ createdAt: Timestamp.fromMillis(Date.now() + 86_400_000) })));
+  });
+  test("deny: odhaczenie na cudze konto, zmiana autora i daty", async () => {
+    const db = env.authenticatedContext("member1").firestore();
+    await assertFails(updateDoc(doc(db, item("i1")), { checked: true, checkedBy: "admin1" }));
+    await assertFails(updateDoc(doc(db, item("i1")), { checked: true }));
+    await assertFails(updateDoc(doc(db, item("i1")), { addedBy: "member1" }));
+    await assertFails(updateDoc(doc(db, item("i1")), { createdAt: Timestamp.fromMillis(1) }));
+  });
+
+  describe("historia podpowiedzi", () => {
+    const hist = (key: string) => `households/${HID}/shoppingHistory/${key}`;
+    const entry = (over: Record<string, unknown> = {}) => ({
+      name: "Mleko", count: 1, lastAddedAt: serverTimestamp(), storeCategory: "dairy", quantity: "", unit: "", ...over,
+    });
+    test("allow: członek zapisuje, czyta i usuwa wpis", async () => {
+      const db = env.authenticatedContext("member1").firestore();
+      await assertSucceeds(setDoc(doc(db, hist("mleko")), entry()));
+      await assertSucceeds(getDoc(doc(db, hist("mleko"))));
+      await assertSucceeds(deleteDoc(doc(db, hist("mleko"))));
+    });
+    test("deny: obcy, pusta nazwa, zły licznik i obce pole", async () => {
+      const outsider = env.authenticatedContext("obcy").firestore();
+      await assertFails(setDoc(doc(outsider, hist("mleko")), entry()));
+      await assertFails(getDoc(doc(outsider, hist("mleko"))));
+      const db = env.authenticatedContext("member1").firestore();
+      await assertFails(setDoc(doc(db, hist("a")), entry({ name: "" })));
+      await assertFails(setDoc(doc(db, hist("b")), entry({ count: 0 })));
+      await assertFails(setDoc(doc(db, hist("c")), entry({ count: "1" })));
+      await assertFails(setDoc(doc(db, hist("d")), entry({ extra: true })));
+    });
   });
 });

@@ -17,6 +17,40 @@ service cloud.firestore {
         get(/databases/$(database)/documents/households/$(hid)/members/$(request.auth.uid)).data.role == 'admin';
     }
 
+    function isMemberUid(hid, uid) {
+      return exists(/databases/$(database)/documents/households/$(hid)/members/$(uid));
+    }
+
+    function shortText(value, max) {
+      return value is string && value.size() <= max;
+    }
+
+    // Pozycja listy zakupów. Pola opcjonalne są zawsze tekstami (puste = brak).
+    function validShoppingItem(hid, d) {
+      return d.keys().hasOnly(['name', 'quantity', 'unit', 'storeCategory', 'checked',
+                               'checkedBy', 'addedBy', 'createdAt'])
+        && d.keys().hasAll(['name', 'storeCategory', 'checked', 'addedBy', 'createdAt'])
+        && shortText(d.name, 100) && d.name.size() >= 1
+        && shortText(d.get('quantity', ''), 20)
+        && shortText(d.get('unit', ''), 20)
+        && shortText(d.storeCategory, 30)
+        && d.checked is bool
+        && (d.get('checkedBy', null) == null || d.checkedBy is string)
+        && d.addedBy is string && isMemberUid(hid, d.addedBy)
+        && d.createdAt is timestamp && d.createdAt <= request.time;
+    }
+
+    function validShoppingHistory(d) {
+      return d.keys().hasOnly(['name', 'count', 'lastAddedAt', 'storeCategory', 'quantity', 'unit'])
+        && d.keys().hasAll(['name', 'count', 'lastAddedAt'])
+        && shortText(d.name, 100) && d.name.size() >= 1
+        && d.count is int && d.count >= 1
+        && d.lastAddedAt is timestamp
+        && shortText(d.get('storeCategory', ''), 30)
+        && shortText(d.get('quantity', ''), 20)
+        && shortText(d.get('unit', ''), 20);
+    }
+
     // Profil użytkownika. householdId ustawia wyłącznie serwer (Cloud Functions).
     match /users/{uid} {
       allow read: if signedIn() && request.auth.uid == uid;
@@ -44,6 +78,27 @@ service cloud.firestore {
       match /invites/{code} {
         allow read: if isAdmin(hid);
         allow write: if false;
+      }
+
+      // Lista zakupów: wspólna dla całego domu.
+      match /shoppingLists/{listId}/items/{itemId} {
+        allow read: if isMember(hid);
+        allow create: if isMember(hid) && validShoppingItem(hid, request.resource.data)
+          && (request.resource.data.checked == false
+              || request.resource.data.get('checkedBy', null) != null);
+        allow update: if isMember(hid) && validShoppingItem(hid, request.resource.data)
+          && request.resource.data.addedBy == resource.data.addedBy
+          && request.resource.data.createdAt == resource.data.createdAt
+          && (request.resource.data.checked
+              ? request.resource.data.get('checkedBy', null) == request.auth.uid
+              : request.resource.data.get('checkedBy', null) == null);
+        allow delete: if isMember(hid);
+      }
+
+      // Historia nazw do podpowiedzi (przeżywa „Wyczyść kupione”).
+      match /shoppingHistory/{key} {
+        allow read, delete: if isMember(hid);
+        allow create, update: if isMember(hid) && validShoppingHistory(request.resource.data);
       }
     }
 

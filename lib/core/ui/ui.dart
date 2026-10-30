@@ -1,5 +1,7 @@
 export 'app_buttons.dart';
 export 'app_card.dart';
+export 'app_icon.dart';
+export 'app_shell.dart';
 export 'app_sheet.dart';
 export 'app_text_field.dart';
 export 'app_toast.dart';

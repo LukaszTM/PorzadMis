@@ -6,6 +6,7 @@ import '../../../core/ui/ui.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../auth/data/auth_repository.dart';
 import '../../members/data/members_repository.dart';
+import '../../shopping/data/shopping_repository.dart';
 import '../data/household_repository.dart';
 import '../domain/household_models.dart';
 import 'start_screens.dart';
@@ -21,6 +22,7 @@ class HomeScreen extends ConsumerWidget {
     final household = ref.watch(householdProvider).value;
     final members = ref.watch(membersProvider).value ?? const <Member>[];
     final isAdmin = ref.watch(myRoleProvider) == Role.admin;
+    final toBuy = (ref.watch(shoppingItemsProvider).value ?? const []).where((i) => !i.checked).length;
     final text = Theme.of(context).textTheme;
 
     return ScreenScaffold(
@@ -40,6 +42,14 @@ class HomeScreen extends ConsumerWidget {
               const SizedBox(height: 4),
               Text(l.membersCount(members.length), style: text.labelMedium),
             ],
+          ),
+        ),
+        AppCard(
+          title: l.shoppingCardTitle,
+          onTap: () => context.go('/shopping'),
+          child: Text(
+            toBuy == 0 ? l.shoppingCardNone : l.shoppingCardCount(toBuy),
+            style: text.bodyLarge,
           ),
         ),
         TertiaryButton(
