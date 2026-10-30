@@ -17,7 +17,8 @@ enum Illustration {
   dates('terminy'),
   bearHouse('mis-z-domem'),
   bearResting('mis-odpoczywa'),
-  bearLogo('mis-logo');
+  // Logo = miś z domkiem (plik 1254 px był za duży do APK).
+  bearLogo('mis-z-domem');
 
   const Illustration(this.file);
 

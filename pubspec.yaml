@@ -48,5 +48,3 @@ flutter:
     - family: Nunito
       fonts:
         - asset: assets/fonts/Nunito-Variable.ttf
-        - asset: assets/fonts/Nunito-Italic-Variable.ttf
-          style: italic
