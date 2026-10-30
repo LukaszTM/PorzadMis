@@ -29,8 +29,10 @@
   "errGoogleCancelled": "Logowanie przez Google przerwano",
 
   "startTitle": "Cześć, jestem PorządMiś",
-  "startSubtitle": "Dołącz do domu albo załóż nowy.",
-  "createHouseholdAction": "Załóż nowy dom",
+  "startSubtitle": "Korzystaj sam albo razem z domownikami.",
+  "soloAction": "Zacznij tylko dla siebie",
+  "soloHouseholdName": "Mój dom",
+  "createHouseholdAction": "Załóż dom z rodziną",
   "joinAction": "Dołącz do domu",
 
   "createHouseholdTitle": "Nowy dom",
@@ -58,6 +60,11 @@
   "@membersCount": { "placeholders": { "count": { "type": "int" } } },
   "inviteAction": "Zaproś domownika",
   "signOut": "Wyloguj",
+  "leaveAction": "Opuść dom",
+  "confirmLeaveTitle": "Opuścić dom?",
+  "confirmLeaveBody": "Stracisz dostęp do wspólnych danych tego domu.",
+  "confirmLeaveSoloBody": "Dom „{name}” zostanie usunięty razem ze wszystkimi danymi.",
+  "@confirmLeaveSoloBody": { "placeholders": { "name": { "type": "String" } } },
 
   "membersTitle": "Domownicy",
   "roleAdmin": "Administrator",

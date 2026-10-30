@@ -259,13 +259,25 @@ abstract class AppLocalizations {
   /// No description provided for @startSubtitle.
   ///
   /// In pl, this message translates to:
-  /// **'Dołącz do domu albo załóż nowy.'**
+  /// **'Korzystaj sam albo razem z domownikami.'**
   String get startSubtitle;
+
+  /// No description provided for @soloAction.
+  ///
+  /// In pl, this message translates to:
+  /// **'Zacznij tylko dla siebie'**
+  String get soloAction;
+
+  /// No description provided for @soloHouseholdName.
+  ///
+  /// In pl, this message translates to:
+  /// **'Mój dom'**
+  String get soloHouseholdName;
 
   /// No description provided for @createHouseholdAction.
   ///
   /// In pl, this message translates to:
-  /// **'Załóż nowy dom'**
+  /// **'Załóż dom z rodziną'**
   String get createHouseholdAction;
 
   /// No description provided for @joinAction.
@@ -399,6 +411,30 @@ abstract class AppLocalizations {
   /// In pl, this message translates to:
   /// **'Wyloguj'**
   String get signOut;
+
+  /// No description provided for @leaveAction.
+  ///
+  /// In pl, this message translates to:
+  /// **'Opuść dom'**
+  String get leaveAction;
+
+  /// No description provided for @confirmLeaveTitle.
+  ///
+  /// In pl, this message translates to:
+  /// **'Opuścić dom?'**
+  String get confirmLeaveTitle;
+
+  /// No description provided for @confirmLeaveBody.
+  ///
+  /// In pl, this message translates to:
+  /// **'Stracisz dostęp do wspólnych danych tego domu.'**
+  String get confirmLeaveBody;
+
+  /// No description provided for @confirmLeaveSoloBody.
+  ///
+  /// In pl, this message translates to:
+  /// **'Dom „{name}” zostanie usunięty razem ze wszystkimi danymi.'**
+  String confirmLeaveSoloBody(String name);
 
   /// No description provided for @membersTitle.
   ///

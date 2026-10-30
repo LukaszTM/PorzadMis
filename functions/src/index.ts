@@ -30,3 +30,6 @@ export const setMemberRole = onCall(options, (r) =>
 export const removeMember = onCall(options, (r) =>
   h.removeMember(getFirestore(), authUid(r), r.data),
 );
+export const leaveHousehold = onCall(options, (r) =>
+  h.leaveHousehold(getFirestore(), authUid(r), r.data),
+);

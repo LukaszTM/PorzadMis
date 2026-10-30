@@ -30,6 +30,10 @@ class MembersRepository {
         'role': role.name,
       });
 
+  /// Zalogowana osoba opuszcza dom; jako ostatnia – usuwa go.
+  Future<void> leave({required String hid}) =>
+      _functions.httpsCallable('leaveHousehold').call<Object?>({'householdId': hid});
+
   Future<void> remove({required String hid, required String uid}) =>
       _functions.httpsCallable('removeMember').call<Object?>({
         'householdId': hid,

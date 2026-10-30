@@ -14,6 +14,7 @@ Założenia, które porządkują resztę planu:
 - Budżet jest widoczny wyłącznie dla Administratorów, również w powiadomieniach i widżetach.
 - Platforma: na początek tylko Android; Flutter zostawia otwartą drogę do iOS bez przepisywania. Pierwsza wersja (MVP) po polsku, z walutą PLN i tygodniem od poniedziałku.
 - Jeden dom może mieć kilku Administratorów; pierwszy, kto założy dom, jest Administratorem automatycznie.
+- Tryb jednoosobowy: aplikacja działa też dla jednej osoby. To zwykły dom z jednym członkiem (Administratorem); na ekranie startowym ścieżka „Zacznij tylko dla siebie” zakłada go jednym dotknięciem pod nazwą „Mój dom”. Nie ma osobnego modelu danych ani osobnych ekranów; domowników można zaprosić później kodem QR.
 
 ## Role i uprawnienia
 
@@ -34,6 +35,7 @@ Zasady, które muszą być egzekwowane po stronie serwera, nie tylko ukryte w in
 - Dane budżetu nigdy nie są wysyłane na urządzenie Domownika (reguły dostępu w bazie, nie filtr w aplikacji).
 - Wpis prywatny (notatka, wydarzenie) jest czytelny wyłącznie dla autora, nawet dla Administratora.
 - Ostatniego Administratora nie da się zdegradować ani usunąć; dom musi mieć co najmniej jednego.
+- Opuszczenie domu: każdy domownik może wyjść z domu. Jedyny Administrator wychodzi dopiero po nadaniu roli komuś innemu. Ostatnia osoba, opuszczając dom, usuwa go razem z danymi (po potwierdzeniu); to droga powrotu na ekran startowy, np. by przejść na tryb jednoosobowy.
 
 ## Funkcje
 

@@ -12,6 +12,8 @@ Future<void> main() async {
   final themes = await AppThemes.load();
   runApp(
     ProviderScope(
+      // Bez automatycznych ponowień: błąd odczytu ma od razu trafić do UI, a nie wisieć w pętli.
+      retry: (_, _) => null,
       overrides: [appThemesProvider.overrideWithValue(themes)],
       child: const PorzadMisApp(),
     ),

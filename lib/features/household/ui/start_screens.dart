@@ -15,12 +15,37 @@ String displayNameFor(User? user) {
   return user?.email?.split('@').first ?? '';
 }
 
-/// Ekran po zalogowaniu bez domu: miś wita i prowadzi do założenia albo dołączenia.
-class StartScreen extends ConsumerWidget {
+/// Ekran po zalogowaniu bez domu: miś wita i prowadzi do trybu solo, założenia domu albo dołączenia.
+class StartScreen extends ConsumerStatefulWidget {
   const StartScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<StartScreen> createState() => _StartScreenState();
+}
+
+class _StartScreenState extends ConsumerState<StartScreen> {
+  bool _busy = false;
+
+  /// Tryb jednoosobowy: zwykły dom z jednym członkiem, założony od razu.
+  Future<void> _startSolo() async {
+    final l = AppLocalizations.of(context);
+    final user = ref.read(authStateProvider).value;
+    setState(() => _busy = true);
+    try {
+      await ref.read(householdRepositoryProvider).createHousehold(
+            name: l.soloHouseholdName,
+            displayName: displayNameFor(user),
+          );
+      // Profil z householdId przyjdzie strumieniem i router przeniesie na ekran domu.
+    } catch (e) {
+      if (mounted) showAppToast(context, callableMessage(e) ?? l.errGeneric, error: true);
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     final text = Theme.of(context).textTheme;
     return Scaffold(
@@ -42,12 +67,16 @@ class StartScreen extends ConsumerWidget {
                   ],
                 ),
               ),
-              PrimaryButton(
-                label: l.createHouseholdAction,
-                onPressed: () => context.go('/create'),
-              ),
+              PrimaryButton(label: l.soloAction, loading: _busy, onPressed: _startSolo),
               const SizedBox(height: 12),
-              SecondaryButton(label: l.joinAction, onPressed: () => context.go('/join')),
+              SecondaryButton(
+                label: l.createHouseholdAction,
+                onPressed: _busy ? null : () => context.go('/create'),
+              ),
+              TertiaryButton(
+                label: l.joinAction,
+                onPressed: _busy ? null : () => context.go('/join'),
+              ),
               TertiaryButton(
                 label: l.signOut,
                 onPressed: () => ref.read(authRepositoryProvider).signOut(),

@@ -64,19 +64,19 @@ class _MisPainter extends CustomPainter {
       circle(75, 66, 4.5, _ink);
     }
     canvas.drawOval(
-      Rect.fromCenter(center: const Offset(60, 79), width: 10, height: 7),
+      Rect.fromCenter(center: const Offset(60, 73), width: 10, height: 7),
       fill..color = _ink,
     );
     final tick = Path()
-      ..moveTo(50, 88)
-      ..lineTo(56.5, 94.5)
-      ..lineTo(72, 77);
+      ..moveTo(50.5, 82.5)
+      ..cubicTo(53, 88.5, 56.5, 91.5, 60, 91)
+      ..cubicTo(65, 90.5, 68.5, 85, 70, 78);
     canvas.drawPath(
       tick,
       Paint()
         ..color = _tick
         ..style = PaintingStyle.stroke
-        ..strokeWidth = 4.5
+        ..strokeWidth = 3.5
         ..strokeCap = StrokeCap.round
         ..strokeJoin = StrokeJoin.round,
     );

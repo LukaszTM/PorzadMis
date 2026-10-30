@@ -46,7 +46,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       final signedIn = auth.value != null;
       return resolveRedirect(
         location: state.matchedLocation,
-        loading: auth.isLoading || (signedIn && profile.isLoading),
+        // Błąd odczytu nie może zatrzymywać aplikacji na ekranie startowym:
+        // traktujemy go jak brak profilu (użytkownik trafi na ekran startowy domu).
+        loading: (auth.isLoading && !auth.hasError) ||
+            (signedIn && profile.isLoading && !profile.hasError),
         signedIn: signedIn,
         householdId: profile.value?.householdId,
       );

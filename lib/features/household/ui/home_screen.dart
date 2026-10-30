@@ -46,7 +46,33 @@ class HomeScreen extends ConsumerWidget {
           label: l.signOut,
           onPressed: () => ref.read(authRepositoryProvider).signOut(),
         ),
+        TertiaryButton(
+          label: l.leaveAction,
+          danger: true,
+          onPressed: () => _leave(context, ref, household?.name ?? '', members.length),
+        ),
       ],
     );
+  }
+
+  Future<void> _leave(BuildContext context, WidgetRef ref, String name, int memberCount) async {
+    final l = AppLocalizations.of(context);
+    final hid = ref.read(householdIdProvider);
+    if (hid == null) return;
+    final ok = await confirmSheet(
+      context,
+      title: l.confirmLeaveTitle,
+      body: memberCount <= 1 ? l.confirmLeaveSoloBody(name) : l.confirmLeaveBody,
+      confirmLabel: l.confirmYes,
+      cancelLabel: l.back,
+      danger: true,
+    );
+    if (!ok) return;
+    try {
+      await ref.read(membersRepositoryProvider).leave(hid: hid);
+      // Profil bez householdId przyjdzie strumieniem i router przeniesie na ekran startowy.
+    } catch (e) {
+      if (context.mounted) showAppToast(context, callableMessage(e) ?? l.errGeneric, error: true);
+    }
   }
 }

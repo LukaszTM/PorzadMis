@@ -91,10 +91,16 @@ class AppLocalizationsPl extends AppLocalizations {
   String get startTitle => 'Cześć, jestem PorządMiś';
 
   @override
-  String get startSubtitle => 'Dołącz do domu albo załóż nowy.';
+  String get startSubtitle => 'Korzystaj sam albo razem z domownikami.';
 
   @override
-  String get createHouseholdAction => 'Załóż nowy dom';
+  String get soloAction => 'Zacznij tylko dla siebie';
+
+  @override
+  String get soloHouseholdName => 'Mój dom';
+
+  @override
+  String get createHouseholdAction => 'Załóż dom z rodziną';
 
   @override
   String get joinAction => 'Dołącz do domu';
@@ -173,6 +179,21 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get signOut => 'Wyloguj';
+
+  @override
+  String get leaveAction => 'Opuść dom';
+
+  @override
+  String get confirmLeaveTitle => 'Opuścić dom?';
+
+  @override
+  String get confirmLeaveBody =>
+      'Stracisz dostęp do wspólnych danych tego domu.';
+
+  @override
+  String confirmLeaveSoloBody(String name) {
+    return 'Dom „$name” zostanie usunięty razem ze wszystkimi danymi.';
+  }
 
   @override
   String get membersTitle => 'Domownicy';

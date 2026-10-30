@@ -228,3 +228,41 @@ export async function removeMember(
   });
   return {};
 }
+
+/**
+ * Domownik opuszcza dom. Ostatni członek opuszczając dom, usuwa go razem z danymi.
+ * Ostatni Administrator nie może wyjść, dopóki w domu są inni (musi najpierw przekazać rolę).
+ */
+export async function leaveHousehold(db: Firestore, uid: string, input: { householdId: unknown }) {
+  const hid = requireUuid(input.householdId, "householdId");
+  const householdRef = db.doc(`households/${hid}`);
+
+  const lastMember = await db.runTransaction(async (tx) => {
+    const memberRef = db.doc(`households/${hid}/members/${uid}`);
+    const [me, members] = await Promise.all([
+      tx.get(memberRef),
+      tx.get(db.collection(`households/${hid}/members`)),
+    ]);
+    if (!me.exists) throw new HttpsError("not-found", "Nie należysz do tego domu");
+
+    const isLast = members.size === 1;
+    if (!isLast && me.get("role") === "admin") {
+      const admins = members.docs.filter((d) => d.get("role") === "admin");
+      if (admins.length <= 1) {
+        throw new HttpsError(
+          "failed-precondition",
+          "Jesteś jedynym Administratorem. Nadaj tę rolę komuś innemu, zanim wyjdziesz",
+        );
+      }
+    }
+    tx.delete(memberRef);
+    tx.set(db.doc(`users/${uid}`), { householdId: FieldValue.delete() }, { merge: true });
+    return isLast;
+  });
+
+  if (lastMember) {
+    // Dom bez członków: usuwamy go z podkolekcjami (członkowie, zaproszenia, późniejsze dane).
+    await db.recursiveDelete(householdRef);
+  }
+  return { deleted: lastMember };
+}

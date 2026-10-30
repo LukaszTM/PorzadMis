@@ -147,3 +147,45 @@ describe("role i usuwanie", () => {
     expect((await db.doc("users/m6").get()).get("householdId")).toBeUndefined();
   });
 });
+
+describe("leaveHousehold", () => {
+  test("jedyna osoba opuszczając dom usuwa go i może założyć nowy", async () => {
+    const { hid, admin } = await setup();
+    const inv = await h.createInvite(db, admin, { householdId: hid });
+    const res = await h.leaveHousehold(db, admin, { householdId: hid });
+    expect(res.deleted).toBe(true);
+    expect((await db.doc(`households/${hid}`).get()).exists).toBe(false);
+    expect((await db.doc(`households/${hid}/invites/${inv.code}`).get()).exists).toBe(false);
+    expect((await db.doc(`users/${admin}`).get()).get("householdId")).toBeUndefined();
+    await h.createHousehold(db, admin, { householdId: randomUUID(), name: "Nowy", displayName: "Ala" });
+  });
+  test("domownik wychodzi, a dom zostaje", async () => {
+    const { hid, admin } = await setup();
+    const inv = await h.createInvite(db, admin, { householdId: hid });
+    await h.redeemInvite(db, "l1", { code: inv.code, displayName: "A" });
+    const res = await h.leaveHousehold(db, "l1", { householdId: hid });
+    expect(res.deleted).toBe(false);
+    expect((await db.doc(`households/${hid}`).get()).exists).toBe(true);
+    expect((await db.doc(`households/${hid}/members/l1`).get()).exists).toBe(false);
+    expect((await db.doc("users/l1").get()).get("householdId")).toBeUndefined();
+  });
+  test("jedyny Administrator nie wychodzi, gdy są inni domownicy", async () => {
+    const { hid, admin } = await setup();
+    const inv = await h.createInvite(db, admin, { householdId: hid });
+    await h.redeemInvite(db, "l2", { code: inv.code, displayName: "A" });
+    await expectCode(h.leaveHousehold(db, admin, { householdId: hid }), "failed-precondition");
+    expect((await db.doc(`households/${hid}/members/${admin}`).get()).exists).toBe(true);
+  });
+  test("Administrator wychodzi, gdy jest drugi Administrator", async () => {
+    const { hid, admin } = await setup();
+    const inv = await h.createInvite(db, admin, { householdId: hid });
+    await h.redeemInvite(db, "l3", { code: inv.code, displayName: "A" });
+    await h.setMemberRole(db, admin, { householdId: hid, targetUid: "l3", role: "admin" });
+    const res = await h.leaveHousehold(db, admin, { householdId: hid });
+    expect(res.deleted).toBe(false);
+  });
+  test("obca osoba nie może opuścić cudzego domu", async () => {
+    const { hid } = await setup();
+    await expectCode(h.leaveHousehold(db, "obcy", { householdId: hid }), "not-found");
+  });
+});
