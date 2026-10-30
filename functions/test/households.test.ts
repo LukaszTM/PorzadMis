@@ -1,9 +1,9 @@
 import { randomUUID } from "crypto";
-import { initializeApp } from "firebase-admin/app";
+import { getApps, initializeApp } from "firebase-admin/app";
 import { getFirestore, Timestamp } from "firebase-admin/firestore";
 import * as h from "../src/households";
 
-initializeApp({ projectId: "porzadmis-fn-test" });
+if (getApps().length === 0) initializeApp({ projectId: "porzadmis-fn-test" });
 const db = getFirestore();
 
 async function setup() {

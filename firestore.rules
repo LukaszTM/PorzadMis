@@ -106,6 +106,39 @@ service cloud.firestore {
         && validEventFields(d);
     }
 
+    function isDay(s) {
+      return s is string && s.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$');
+    }
+
+    function validChoreRecurrence(r) {
+      return r is map
+        && r.keys().hasOnly(['type', 'interval', 'weekdays', 'monthDay', 'dates', 'until'])
+        && r.type in ['daily', 'weekly', 'monthly', 'customDates']
+        && (!('interval' in r) || (r.interval is int && r.interval >= 1 && r.interval <= 365))
+        && (!('weekdays' in r) || (r.weekdays is list && r.weekdays.size() <= 7))
+        && (!('monthDay' in r) || (r.monthDay is int && r.monthDay >= 1 && r.monthDay <= 31))
+        && (!('dates' in r) || (r.dates is list && r.dates.size() <= 366))
+        && (r.get('until', null) == null || isDay(r.until));
+    }
+
+    function validChoreRule(hid, d) {
+      return d.keys().hasOnly(['title', 'description', 'assigneeId', 'mode', 'startDate',
+                               'recurrence', 'reminderTime', 'createdBy', 'updatedAt'])
+        && d.keys().hasAll(['title', 'mode', 'startDate', 'createdBy', 'updatedAt'])
+        && shortText(d.title, 200) && d.title.size() >= 1
+        && shortText(d.get('description', ''), 2000)
+        && (d.get('assigneeId', null) == null || (d.assigneeId is string && isMemberUid(hid, d.assigneeId)))
+        && d.mode in ['once', 'recurring']
+        && isDay(d.startDate)
+        && (d.mode == 'once'
+            ? d.get('recurrence', null) == null
+            : validChoreRecurrence(d.recurrence))
+        && (d.get('reminderTime', null) == null
+            || (d.reminderTime is string && d.reminderTime.matches('^[0-9]{2}:[0-9]{2}$')))
+        && d.createdBy is string && isMemberUid(hid, d.createdBy)
+        && d.updatedAt is timestamp;
+    }
+
     // Autor wpisu wspólnego albo Administrator domu.
     function isAuthorOrAdmin(hid) {
       return resource.data.createdBy == request.auth.uid || isAdmin(hid);
@@ -182,6 +215,34 @@ service cloud.firestore {
           && request.resource.data.createdBy == resource.data.createdBy
           && isAuthorOrAdmin(hid);
         allow delete: if isMember(hid) && isAuthorOrAdmin(hid);
+      }
+
+      // Reguły obowiązków: członkowie czytają, Administrator pisze.
+      match /choreRules/{id} {
+        allow read: if isMember(hid);
+        allow create: if isAdmin(hid) && validChoreRule(hid, request.resource.data)
+          && request.resource.data.createdBy == request.auth.uid;
+        allow update: if isAdmin(hid) && validChoreRule(hid, request.resource.data)
+          && request.resource.data.createdBy == resource.data.createdBy;
+        allow delete: if isAdmin(hid);
+      }
+
+      // Wystąpienia obowiązków tworzy i usuwa serwer. Odhacza przypisana osoba (lub każdy,
+      // gdy obowiązek jest dla „kogoś”) albo Administrator; zmieniają się tylko pola statusu.
+      match /choreOccurrences/{id} {
+        allow read: if isMember(hid);
+        allow create, delete: if false;
+        allow update: if isMember(hid)
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'doneBy', 'doneAt'])
+          && request.resource.data.status in ['todo', 'done', 'skipped']
+          && (resource.data.get('assigneeId', null) == null
+              || resource.data.assigneeId == request.auth.uid
+              || isAdmin(hid))
+          && (request.resource.data.status == 'todo'
+              ? (request.resource.data.get('doneBy', null) == null
+                 && request.resource.data.get('doneAt', null) == null)
+              : (request.resource.data.doneBy == request.auth.uid
+                 && request.resource.data.doneAt is timestamp));
       }
 
       // Wydarzenia wspólne: wszyscy czytają; autor lub Administrator pisze.

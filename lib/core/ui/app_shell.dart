@@ -13,19 +13,19 @@ class AppShell extends StatelessWidget {
   final String location;
   final Widget child;
 
-  static const _paths = ['/home', '/shopping', '/calendar', '/notes'];
+  static const _paths = ['/home', '/shopping', '/chores', '/calendar', '/notes'];
 
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     final t = context.tokens;
-    final index = location.startsWith('/shopping')
-        ? 1
-        : location.startsWith('/calendar')
-            ? 2
-            : location.startsWith('/notes')
-                ? 3
-                : 0;
+    final index = switch (location) {
+      _ when location.startsWith('/shopping') => 1,
+      _ when location.startsWith('/chores') => 2,
+      _ when location.startsWith('/calendar') => 3,
+      _ when location.startsWith('/notes') => 4,
+      _ => 0,
+    };
     return Scaffold(
       body: child,
       bottomNavigationBar: DecoratedBox(
@@ -43,6 +43,11 @@ class AppShell extends StatelessWidget {
               icon: const AppIcon(AppIcons.shopping, size: 26),
               selectedIcon: const AppIcon(AppIcons.shopping, size: 26),
               label: l.navShopping,
+            ),
+            NavigationDestination(
+              icon: const AppIcon(AppIcons.chores, size: 26),
+              selectedIcon: const AppIcon(AppIcons.chores, size: 26),
+              label: l.navChores,
             ),
             NavigationDestination(
               icon: const AppIcon(AppIcons.calendar, size: 26),

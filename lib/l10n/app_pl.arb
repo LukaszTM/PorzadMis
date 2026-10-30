@@ -283,5 +283,90 @@
     }
   },
   "dateToday": "Dziś",
-  "dateTomorrow": "Jutro"
+  "dateTomorrow": "Jutro",
+  "navChores": "Obowiązki",
+  "choresTitle": "Obowiązki",
+  "choresMine": "Moje · {day}",
+  "@choresMine": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "choresOthers": "Inni domownicy",
+  "choresEmptyMine": "Nic do zrobienia. Miś odpoczywa.",
+  "choresEmptyOthers": "Nikt nic nie ma na ten dzień.",
+  "choresSomeone": "ktoś",
+  "choresDoneBy": "zrobione: {name}",
+  "@choresDoneBy": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "choreNew": "Nowy",
+  "choreNewTitle": "Nowy obowiązek",
+  "choreEditTitle": "Obowiązek",
+  "choreTitleHint": "Co trzeba zrobić? np. Wynieść śmieci",
+  "choreDescriptionLabel": "Opis (opcjonalnie)",
+  "choreWhoLabel": "Kto",
+  "choreWhenLabel": "Kiedy",
+  "choreOnce": "Jednorazowo",
+  "choreRecurring": "Cyklicznie",
+  "choreFirstDay": "Pierwszy dzień",
+  "choreDay": "Termin",
+  "choreCycleLabel": "Cykl",
+  "cycleDaily": "Co N dni",
+  "cycleWeekly": "Dni tygodnia",
+  "cycleMonthly": "Dzień miesiąca",
+  "cycleCustom": "Wybrane daty",
+  "choreIntervalDays": "Co ile dni",
+  "choreIntervalWeeks": "Co ile tygodni",
+  "choreIntervalMonths": "Co ile miesięcy",
+  "choreMonthDay": "Dzień miesiąca (1–31)",
+  "choreWeekdaysLabel": "W które dni",
+  "chorePickDates": "Zaznacz dni w kalendarzu",
+  "choreDatesCount": "{count, plural, =0{nie wybrano dni} one{wybrano {count} dzień} few{wybrano {count} dni} many{wybrano {count} dni} other{wybrano {count} dni}}",
+  "@choreDatesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "choreUntilLabel": "Koniec cyklu",
+  "choreUntilNone": "Bez końca",
+  "choreUntilPick": "Wybierz dzień",
+  "choreReminderLabel": "Przypomnienie rano",
+  "choreReminderNone": "Bez",
+  "choreDelete": "Usuń obowiązek",
+  "choreDeleteBody": "Obowiązek „{title}” zniknie razem z zaplanowanymi terminami.",
+  "@choreDeleteBody": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "errChoreTitle": "Wpisz nazwę obowiązku",
+  "errChoreWeekdays": "Zaznacz co najmniej jeden dzień tygodnia",
+  "errChoreDates": "Zaznacz co najmniej jeden dzień",
+  "errChoreInterval": "Wpisz liczbę większą od zera",
+  "toastChoreRemoved": "Usunięto obowiązek",
+  "adminOnlyChores": "Obowiązki dodaje Administrator",
+  "weekdayMon": "Pn",
+  "weekdayTue": "Wt",
+  "weekdayWed": "Śr",
+  "weekdayThu": "Cz",
+  "weekdayFri": "Pt",
+  "weekdaySat": "So",
+  "weekdaySun": "Nd",
+  "homeTodayCard": "Dziś do zrobienia",
+  "homeTodayDone": "Wszystko zrobione",
+  "homeShowAll": "pokaż wszystkie",
+  "chipTodo": "do zrobienia",
+  "chipDone": "zrobione",
+  "ruleEditHint": "Zmiany przeliczą przyszłe terminy"
 }

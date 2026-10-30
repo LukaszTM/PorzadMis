@@ -1233,6 +1233,348 @@ abstract class AppLocalizations {
   /// In pl, this message translates to:
   /// **'Jutro'**
   String get dateTomorrow;
+
+  /// No description provided for @navChores.
+  ///
+  /// In pl, this message translates to:
+  /// **'Obowiązki'**
+  String get navChores;
+
+  /// No description provided for @choresTitle.
+  ///
+  /// In pl, this message translates to:
+  /// **'Obowiązki'**
+  String get choresTitle;
+
+  /// No description provided for @choresMine.
+  ///
+  /// In pl, this message translates to:
+  /// **'Moje · {day}'**
+  String choresMine(String day);
+
+  /// No description provided for @choresOthers.
+  ///
+  /// In pl, this message translates to:
+  /// **'Inni domownicy'**
+  String get choresOthers;
+
+  /// No description provided for @choresEmptyMine.
+  ///
+  /// In pl, this message translates to:
+  /// **'Nic do zrobienia. Miś odpoczywa.'**
+  String get choresEmptyMine;
+
+  /// No description provided for @choresEmptyOthers.
+  ///
+  /// In pl, this message translates to:
+  /// **'Nikt nic nie ma na ten dzień.'**
+  String get choresEmptyOthers;
+
+  /// No description provided for @choresSomeone.
+  ///
+  /// In pl, this message translates to:
+  /// **'ktoś'**
+  String get choresSomeone;
+
+  /// No description provided for @choresDoneBy.
+  ///
+  /// In pl, this message translates to:
+  /// **'zrobione: {name}'**
+  String choresDoneBy(String name);
+
+  /// No description provided for @choreNew.
+  ///
+  /// In pl, this message translates to:
+  /// **'Nowy'**
+  String get choreNew;
+
+  /// No description provided for @choreNewTitle.
+  ///
+  /// In pl, this message translates to:
+  /// **'Nowy obowiązek'**
+  String get choreNewTitle;
+
+  /// No description provided for @choreEditTitle.
+  ///
+  /// In pl, this message translates to:
+  /// **'Obowiązek'**
+  String get choreEditTitle;
+
+  /// No description provided for @choreTitleHint.
+  ///
+  /// In pl, this message translates to:
+  /// **'Co trzeba zrobić? np. Wynieść śmieci'**
+  String get choreTitleHint;
+
+  /// No description provided for @choreDescriptionLabel.
+  ///
+  /// In pl, this message translates to:
+  /// **'Opis (opcjonalnie)'**
+  String get choreDescriptionLabel;
+
+  /// No description provided for @choreWhoLabel.
+  ///
+  /// In pl, this message translates to:
+  /// **'Kto'**
+  String get choreWhoLabel;
+
+  /// No description provided for @choreWhenLabel.
+  ///
+  /// In pl, this message translates to:
+  /// **'Kiedy'**
+  String get choreWhenLabel;
+
+  /// No description provided for @choreOnce.
+  ///
+  /// In pl, this message translates to:
+  /// **'Jednorazowo'**
+  String get choreOnce;
+
+  /// No description provided for @choreRecurring.
+  ///
+  /// In pl, this message translates to:
+  /// **'Cyklicznie'**
+  String get choreRecurring;
+
+  /// No description provided for @choreFirstDay.
+  ///
+  /// In pl, this message translates to:
+  /// **'Pierwszy dzień'**
+  String get choreFirstDay;
+
+  /// No description provided for @choreDay.
+  ///
+  /// In pl, this message translates to:
+  /// **'Termin'**
+  String get choreDay;
+
+  /// No description provided for @choreCycleLabel.
+  ///
+  /// In pl, this message translates to:
+  /// **'Cykl'**
+  String get choreCycleLabel;
+
+  /// No description provided for @cycleDaily.
+  ///
+  /// In pl, this message translates to:
+  /// **'Co N dni'**
+  String get cycleDaily;
+
+  /// No description provided for @cycleWeekly.
+  ///
+  /// In pl, this message translates to:
+  /// **'Dni tygodnia'**
+  String get cycleWeekly;
+
+  /// No description provided for @cycleMonthly.
+  ///
+  /// In pl, this message translates to:
+  /// **'Dzień miesiąca'**
+  String get cycleMonthly;
+
+  /// No description provided for @cycleCustom.
+  ///
+  /// In pl, this message translates to:
+  /// **'Wybrane daty'**
+  String get cycleCustom;
+
+  /// No description provided for @choreIntervalDays.
+  ///
+  /// In pl, this message translates to:
+  /// **'Co ile dni'**
+  String get choreIntervalDays;
+
+  /// No description provided for @choreIntervalWeeks.
+  ///
+  /// In pl, this message translates to:
+  /// **'Co ile tygodni'**
+  String get choreIntervalWeeks;
+
+  /// No description provided for @choreIntervalMonths.
+  ///
+  /// In pl, this message translates to:
+  /// **'Co ile miesięcy'**
+  String get choreIntervalMonths;
+
+  /// No description provided for @choreMonthDay.
+  ///
+  /// In pl, this message translates to:
+  /// **'Dzień miesiąca (1–31)'**
+  String get choreMonthDay;
+
+  /// No description provided for @choreWeekdaysLabel.
+  ///
+  /// In pl, this message translates to:
+  /// **'W które dni'**
+  String get choreWeekdaysLabel;
+
+  /// No description provided for @chorePickDates.
+  ///
+  /// In pl, this message translates to:
+  /// **'Zaznacz dni w kalendarzu'**
+  String get chorePickDates;
+
+  /// No description provided for @choreDatesCount.
+  ///
+  /// In pl, this message translates to:
+  /// **'{count, plural, =0{nie wybrano dni} one{wybrano {count} dzień} few{wybrano {count} dni} many{wybrano {count} dni} other{wybrano {count} dni}}'**
+  String choreDatesCount(int count);
+
+  /// No description provided for @choreUntilLabel.
+  ///
+  /// In pl, this message translates to:
+  /// **'Koniec cyklu'**
+  String get choreUntilLabel;
+
+  /// No description provided for @choreUntilNone.
+  ///
+  /// In pl, this message translates to:
+  /// **'Bez końca'**
+  String get choreUntilNone;
+
+  /// No description provided for @choreUntilPick.
+  ///
+  /// In pl, this message translates to:
+  /// **'Wybierz dzień'**
+  String get choreUntilPick;
+
+  /// No description provided for @choreReminderLabel.
+  ///
+  /// In pl, this message translates to:
+  /// **'Przypomnienie rano'**
+  String get choreReminderLabel;
+
+  /// No description provided for @choreReminderNone.
+  ///
+  /// In pl, this message translates to:
+  /// **'Bez'**
+  String get choreReminderNone;
+
+  /// No description provided for @choreDelete.
+  ///
+  /// In pl, this message translates to:
+  /// **'Usuń obowiązek'**
+  String get choreDelete;
+
+  /// No description provided for @choreDeleteBody.
+  ///
+  /// In pl, this message translates to:
+  /// **'Obowiązek „{title}” zniknie razem z zaplanowanymi terminami.'**
+  String choreDeleteBody(String title);
+
+  /// No description provided for @errChoreTitle.
+  ///
+  /// In pl, this message translates to:
+  /// **'Wpisz nazwę obowiązku'**
+  String get errChoreTitle;
+
+  /// No description provided for @errChoreWeekdays.
+  ///
+  /// In pl, this message translates to:
+  /// **'Zaznacz co najmniej jeden dzień tygodnia'**
+  String get errChoreWeekdays;
+
+  /// No description provided for @errChoreDates.
+  ///
+  /// In pl, this message translates to:
+  /// **'Zaznacz co najmniej jeden dzień'**
+  String get errChoreDates;
+
+  /// No description provided for @errChoreInterval.
+  ///
+  /// In pl, this message translates to:
+  /// **'Wpisz liczbę większą od zera'**
+  String get errChoreInterval;
+
+  /// No description provided for @toastChoreRemoved.
+  ///
+  /// In pl, this message translates to:
+  /// **'Usunięto obowiązek'**
+  String get toastChoreRemoved;
+
+  /// No description provided for @adminOnlyChores.
+  ///
+  /// In pl, this message translates to:
+  /// **'Obowiązki dodaje Administrator'**
+  String get adminOnlyChores;
+
+  /// No description provided for @weekdayMon.
+  ///
+  /// In pl, this message translates to:
+  /// **'Pn'**
+  String get weekdayMon;
+
+  /// No description provided for @weekdayTue.
+  ///
+  /// In pl, this message translates to:
+  /// **'Wt'**
+  String get weekdayTue;
+
+  /// No description provided for @weekdayWed.
+  ///
+  /// In pl, this message translates to:
+  /// **'Śr'**
+  String get weekdayWed;
+
+  /// No description provided for @weekdayThu.
+  ///
+  /// In pl, this message translates to:
+  /// **'Cz'**
+  String get weekdayThu;
+
+  /// No description provided for @weekdayFri.
+  ///
+  /// In pl, this message translates to:
+  /// **'Pt'**
+  String get weekdayFri;
+
+  /// No description provided for @weekdaySat.
+  ///
+  /// In pl, this message translates to:
+  /// **'So'**
+  String get weekdaySat;
+
+  /// No description provided for @weekdaySun.
+  ///
+  /// In pl, this message translates to:
+  /// **'Nd'**
+  String get weekdaySun;
+
+  /// No description provided for @homeTodayCard.
+  ///
+  /// In pl, this message translates to:
+  /// **'Dziś do zrobienia'**
+  String get homeTodayCard;
+
+  /// No description provided for @homeTodayDone.
+  ///
+  /// In pl, this message translates to:
+  /// **'Wszystko zrobione'**
+  String get homeTodayDone;
+
+  /// No description provided for @homeShowAll.
+  ///
+  /// In pl, this message translates to:
+  /// **'pokaż wszystkie'**
+  String get homeShowAll;
+
+  /// No description provided for @chipTodo.
+  ///
+  /// In pl, this message translates to:
+  /// **'do zrobienia'**
+  String get chipTodo;
+
+  /// No description provided for @chipDone.
+  ///
+  /// In pl, this message translates to:
+  /// **'zrobione'**
+  String get chipDone;
+
+  /// No description provided for @ruleEditHint.
+  ///
+  /// In pl, this message translates to:
+  /// **'Zmiany przeliczą przyszłe terminy'**
+  String get ruleEditHint;
 }
 
 class _AppLocalizationsDelegate

@@ -6,6 +6,12 @@ import '../../../core/theme/app_tokens.dart';
 import '../../../core/ui/ui.dart';
 import '../../../core/util/dates.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../auth/data/auth_repository.dart';
+import '../../chores/data/chores_repository.dart';
+import '../../chores/domain/chore_models.dart';
+import '../../household/data/household_repository.dart';
+import '../../household/domain/household_models.dart';
+import '../../members/data/members_repository.dart';
 import '../data/events_repository.dart';
 import '../domain/event_models.dart';
 import 'event_sheet.dart';
@@ -31,8 +37,24 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
     final t = context.tokens;
     final text = Theme.of(context).textTheme;
     final events = ref.watch(allEventsProvider);
+    final chores = ref.watch(choreOccurrencesProvider).value ?? const <ChoreOccurrence>[];
+    final members = ref.watch(membersProvider).value ?? const <Member>[];
+    final names = {for (final m in members) m.uid: m.displayName};
+    final uid = ref.watch(authStateProvider).value?.uid ?? '';
+    final isAdmin = ref.watch(myRoleProvider) == Role.admin;
     final dayItems = occurrencesOnDay(events, _selected);
+    final dayChores = chores.where((c) => c.date == dayKey(_selected)).toList()
+      ..sort((a, b) => (a.isDone ? 1 : 0).compareTo(b.isDone ? 1 : 0));
     final now = DateTime.now();
+
+    void toggleChore(ChoreOccurrence o) {
+      final hid = ref.read(householdIdProvider);
+      if (hid == null) return;
+      ref
+          .read(choresRepositoryProvider)
+          .setStatus(hid: hid, id: o.id, uid: uid, status: o.isDone ? ChoreStatus.todo : ChoreStatus.done)
+          .catchError((Object _) {});
+    }
 
     return ScreenScaffold(
       title: l.calendarTitle,
@@ -59,7 +81,7 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
         AppCard(
           child: Column(
             children: [
-              TableCalendar<EventOccurrence>(
+              TableCalendar<Object>(
                 locale: 'pl_PL',
                 firstDay: DateTime(now.year - 2, 1, 1),
                 lastDay: DateTime(now.year + 3, 12, 31),
@@ -74,7 +96,29 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
                   _focused = foc;
                 }),
                 onPageChanged: (foc) => _focused = foc,
-                eventLoader: (day) => occurrencesOnDay(events, day),
+                eventLoader: (day) => [
+                  ...occurrencesOnDay(events, day),
+                  ...chores.where((c) => c.date == dayKey(day) && !c.isDone),
+                ],
+                calendarBuilders: CalendarBuilders<Object>(
+                  // Kropka accent = wydarzenie, kropka chart2 = obowiazek; maks. 2 (GUI 5.10).
+                  markerBuilder: (context, day, items) {
+                    if (items.isEmpty) return null;
+                    final hasEvent = items.any((i) => i is EventOccurrence);
+                    final hasChore = items.any((i) => i is ChoreOccurrence);
+                    return Positioned(
+                      bottom: 4,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          if (hasEvent) _dot(t.accent),
+                          if (hasEvent && hasChore) const SizedBox(width: 3),
+                          if (hasChore) _dot(t.chart[1]),
+                        ],
+                      ),
+                    );
+                  },
+                ),
                 headerStyle: HeaderStyle(
                   formatButtonVisible: false,
                   titleCentered: true,
@@ -120,7 +164,36 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
           ),
         ),
         Text(formatDayLong(_selected), style: text.titleMedium),
-        if (dayItems.isEmpty)
+        if (dayChores.isNotEmpty)
+          AppCard(
+            title: l.navChores,
+            child: Column(
+              children: [
+                for (var i = 0; i < dayChores.length; i++) ...[
+                  if (i > 0) const AppDivider(),
+                  Row(
+                    children: [
+                      Container(
+                        width: 4,
+                        height: 44,
+                        decoration: BoxDecoration(color: t.chart[1], borderRadius: BorderRadius.circular(2)),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: CheckRow(
+                          title: dayChores[i].title,
+                          checked: dayChores[i].isDone,
+                          meta: dayChores[i].assigneeId == null ? l.choresSomeone : names[dayChores[i].assigneeId],
+                          onChanged: dayChores[i].canToggle(uid, isAdmin: isAdmin) ? (_) => toggleChore(dayChores[i]) : (_) {},
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ],
+            ),
+          ),
+        if (dayItems.isEmpty && dayChores.isEmpty)
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16),
             child: Column(
@@ -149,6 +222,9 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
     );
   }
 }
+
+Widget _dot(Color color) =>
+    Container(width: 6, height: 6, decoration: BoxDecoration(color: color, shape: BoxShape.circle));
 
 class _LegendDot extends StatelessWidget {
   const _LegendDot({required this.color, required this.label});

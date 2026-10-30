@@ -630,4 +630,192 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get dateTomorrow => 'Jutro';
+
+  @override
+  String get navChores => 'Obowiązki';
+
+  @override
+  String get choresTitle => 'Obowiązki';
+
+  @override
+  String choresMine(String day) {
+    return 'Moje · $day';
+  }
+
+  @override
+  String get choresOthers => 'Inni domownicy';
+
+  @override
+  String get choresEmptyMine => 'Nic do zrobienia. Miś odpoczywa.';
+
+  @override
+  String get choresEmptyOthers => 'Nikt nic nie ma na ten dzień.';
+
+  @override
+  String get choresSomeone => 'ktoś';
+
+  @override
+  String choresDoneBy(String name) {
+    return 'zrobione: $name';
+  }
+
+  @override
+  String get choreNew => 'Nowy';
+
+  @override
+  String get choreNewTitle => 'Nowy obowiązek';
+
+  @override
+  String get choreEditTitle => 'Obowiązek';
+
+  @override
+  String get choreTitleHint => 'Co trzeba zrobić? np. Wynieść śmieci';
+
+  @override
+  String get choreDescriptionLabel => 'Opis (opcjonalnie)';
+
+  @override
+  String get choreWhoLabel => 'Kto';
+
+  @override
+  String get choreWhenLabel => 'Kiedy';
+
+  @override
+  String get choreOnce => 'Jednorazowo';
+
+  @override
+  String get choreRecurring => 'Cyklicznie';
+
+  @override
+  String get choreFirstDay => 'Pierwszy dzień';
+
+  @override
+  String get choreDay => 'Termin';
+
+  @override
+  String get choreCycleLabel => 'Cykl';
+
+  @override
+  String get cycleDaily => 'Co N dni';
+
+  @override
+  String get cycleWeekly => 'Dni tygodnia';
+
+  @override
+  String get cycleMonthly => 'Dzień miesiąca';
+
+  @override
+  String get cycleCustom => 'Wybrane daty';
+
+  @override
+  String get choreIntervalDays => 'Co ile dni';
+
+  @override
+  String get choreIntervalWeeks => 'Co ile tygodni';
+
+  @override
+  String get choreIntervalMonths => 'Co ile miesięcy';
+
+  @override
+  String get choreMonthDay => 'Dzień miesiąca (1–31)';
+
+  @override
+  String get choreWeekdaysLabel => 'W które dni';
+
+  @override
+  String get chorePickDates => 'Zaznacz dni w kalendarzu';
+
+  @override
+  String choreDatesCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'wybrano $count dni',
+      many: 'wybrano $count dni',
+      few: 'wybrano $count dni',
+      one: 'wybrano $count dzień',
+      zero: 'nie wybrano dni',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get choreUntilLabel => 'Koniec cyklu';
+
+  @override
+  String get choreUntilNone => 'Bez końca';
+
+  @override
+  String get choreUntilPick => 'Wybierz dzień';
+
+  @override
+  String get choreReminderLabel => 'Przypomnienie rano';
+
+  @override
+  String get choreReminderNone => 'Bez';
+
+  @override
+  String get choreDelete => 'Usuń obowiązek';
+
+  @override
+  String choreDeleteBody(String title) {
+    return 'Obowiązek „$title” zniknie razem z zaplanowanymi terminami.';
+  }
+
+  @override
+  String get errChoreTitle => 'Wpisz nazwę obowiązku';
+
+  @override
+  String get errChoreWeekdays => 'Zaznacz co najmniej jeden dzień tygodnia';
+
+  @override
+  String get errChoreDates => 'Zaznacz co najmniej jeden dzień';
+
+  @override
+  String get errChoreInterval => 'Wpisz liczbę większą od zera';
+
+  @override
+  String get toastChoreRemoved => 'Usunięto obowiązek';
+
+  @override
+  String get adminOnlyChores => 'Obowiązki dodaje Administrator';
+
+  @override
+  String get weekdayMon => 'Pn';
+
+  @override
+  String get weekdayTue => 'Wt';
+
+  @override
+  String get weekdayWed => 'Śr';
+
+  @override
+  String get weekdayThu => 'Cz';
+
+  @override
+  String get weekdayFri => 'Pt';
+
+  @override
+  String get weekdaySat => 'So';
+
+  @override
+  String get weekdaySun => 'Nd';
+
+  @override
+  String get homeTodayCard => 'Dziś do zrobienia';
+
+  @override
+  String get homeTodayDone => 'Wszystko zrobione';
+
+  @override
+  String get homeShowAll => 'pokaż wszystkie';
+
+  @override
+  String get chipTodo => 'do zrobienia';
+
+  @override
+  String get chipDone => 'zrobione';
+
+  @override
+  String get ruleEditHint => 'Zmiany przeliczą przyszłe terminy';
 }
