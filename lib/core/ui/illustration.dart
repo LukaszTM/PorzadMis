@@ -10,22 +10,19 @@ enum Illustration {
   notes('notes'),
   budget('budget'),
   house('dom'),
-  list('lista', cropTop: 0.16),
+  list('lista'),
   notebook('notatnik'),
   savings('oszczednosci'),
   plant('roslina'),
-  dates('terminy', cropTop: 0.16),
+  dates('terminy'),
   bearHouse('mis-z-domem'),
   bearResting('mis-odpoczywa'),
   // Logo = miś z domkiem (plik 1254 px był za duży do APK).
   bearLogo('mis-z-domem');
 
-  const Illustration(this.file, {this.cropTop = 0});
+  const Illustration(this.file);
 
   final String file;
-
-  /// Ułamek wysokości obcinany od góry (artefakty w pliku).
-  final double cropTop;
 
   String get asset => 'assets/images/3d/$file.png';
 }
@@ -48,19 +45,11 @@ class IllustrationImage extends StatelessWidget {
       child: SizedBox(
         width: height,
         height: height,
-        child: ClipRect(
-          child: Align(
-            alignment: Alignment.bottomCenter,
-            heightFactor: 1 - illustration.cropTop,
-            child: Image.asset(
-              illustration.asset,
-              width: height,
-              height: height,
-              fit: BoxFit.contain,
-              filterQuality: FilterQuality.medium,
-              cacheHeight: (height * 3).round(),
-            ),
-          ),
+        child: Image.asset(
+          illustration.asset,
+          fit: BoxFit.contain,
+          filterQuality: FilterQuality.medium,
+          cacheHeight: (height * 3).round(),
         ),
       ),
     );
