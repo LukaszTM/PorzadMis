@@ -12,6 +12,7 @@ import '../../chores/domain/chore_models.dart';
 import '../../household/data/household_repository.dart';
 import '../../household/domain/household_models.dart';
 import '../../members/data/members_repository.dart';
+import '../../household/ui/home_top_bar.dart';
 import '../data/events_repository.dart';
 import '../domain/event_models.dart';
 import 'event_sheet.dart';
@@ -58,6 +59,9 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
 
     return ScreenScaffold(
       title: l.calendarTitle,
+      kicker: l.kickerHome,
+      subtitle: l.calendarSubtitle,
+      topBar: const HomeTopBar(),
       headerTrailing: SizedBox(
         height: 48,
         child: FilledButton.icon(
@@ -104,14 +108,15 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
                   // Kropka accent = wydarzenie, kropka chart2 = obowiazek; maks. 2 (GUI 5.10).
                   markerBuilder: (context, day, items) {
                     if (items.isEmpty) return null;
-                    final hasEvent = items.any((i) => i is EventOccurrence);
+                    final firstEvent = items.whereType<EventOccurrence>().firstOrNull;
+                    final hasEvent = firstEvent != null;
                     final hasChore = items.any((i) => i is ChoreOccurrence);
                     return Positioned(
                       bottom: 4,
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          if (hasEvent) _dot(t.accent),
+                          if (hasEvent) _dot(t.chart[firstEvent.event.colorIndex]),
                           if (hasEvent && hasChore) const SizedBox(width: 3),
                           if (hasChore) _dot(t.chart[1]),
                         ],
@@ -198,7 +203,7 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
             padding: const EdgeInsets.symmetric(vertical: 16),
             child: Column(
               children: [
-                const MisMark(size: 96, resting: true),
+                const IllustrationImage(Illustration.bearResting, height: 110),
                 const SizedBox(height: 12),
                 Text(l.calendarEmptyDay, textAlign: TextAlign.center, style: text.bodyLarge),
               ],
@@ -267,7 +272,7 @@ class _OccurrenceRow extends StatelessWidget {
             Container(
               width: 4,
               height: 44,
-              decoration: BoxDecoration(color: t.accent, borderRadius: BorderRadius.circular(2)),
+              decoration: BoxDecoration(color: t.chart[e.colorIndex], borderRadius: BorderRadius.circular(2)),
             ),
             const SizedBox(width: 12),
             Expanded(

@@ -2277,6 +2277,180 @@ abstract class AppLocalizations {
   /// In pl, this message translates to:
   /// **'Konto'**
   String get settingsAccount;
+
+  /// No description provided for @homeHouseholdFallback.
+  ///
+  /// In pl, this message translates to:
+  /// **'Nasz dom'**
+  String get homeHouseholdFallback;
+
+  /// No description provided for @themesButton.
+  ///
+  /// In pl, this message translates to:
+  /// **'Motywy'**
+  String get themesButton;
+
+  /// No description provided for @homeHeroSubtitleCalm.
+  ///
+  /// In pl, this message translates to:
+  /// **'Twój dom ma dziś mały plan. Sprawdź, co przed Wami.'**
+  String get homeHeroSubtitleCalm;
+
+  /// No description provided for @homeHeroSubtitleBusy.
+  ///
+  /// In pl, this message translates to:
+  /// **'Dziś jest trochę do zrobienia. Zacznij od pierwszej rzeczy.'**
+  String get homeHeroSubtitleBusy;
+
+  /// No description provided for @todayCardSubtitle.
+  ///
+  /// In pl, this message translates to:
+  /// **'{done} z {total} Twoich obowiązków wykonanych'**
+  String todayCardSubtitle(int done, int total);
+
+  /// No description provided for @todayShowAll.
+  ///
+  /// In pl, this message translates to:
+  /// **'Pokaż wszystkie obowiązki'**
+  String get todayShowAll;
+
+  /// No description provided for @shoppingTileCount.
+  ///
+  /// In pl, this message translates to:
+  /// **'{count, plural, one{produkt do kupienia} few{produkty do kupienia} many{produktów do kupienia} other{produktu do kupienia}}'**
+  String shoppingTileCount(int count);
+
+  /// No description provided for @quickActionsTitle.
+  ///
+  /// In pl, this message translates to:
+  /// **'Szybkie akcje'**
+  String get quickActionsTitle;
+
+  /// No description provided for @quickShopping.
+  ///
+  /// In pl, this message translates to:
+  /// **'Dodaj produkt'**
+  String get quickShopping;
+
+  /// No description provided for @quickChore.
+  ///
+  /// In pl, this message translates to:
+  /// **'Nowe zadanie'**
+  String get quickChore;
+
+  /// No description provided for @quickEvent.
+  ///
+  /// In pl, this message translates to:
+  /// **'Nowe wydarzenie'**
+  String get quickEvent;
+
+  /// No description provided for @quickNote.
+  ///
+  /// In pl, this message translates to:
+  /// **'Nowa notatka'**
+  String get quickNote;
+
+  /// No description provided for @kickerShared.
+  ///
+  /// In pl, this message translates to:
+  /// **'Wspólnie'**
+  String get kickerShared;
+
+  /// No description provided for @kickerMine.
+  ///
+  /// In pl, this message translates to:
+  /// **'Po Twojemu'**
+  String get kickerMine;
+
+  /// No description provided for @kickerHome.
+  ///
+  /// In pl, this message translates to:
+  /// **'Dla domu'**
+  String get kickerHome;
+
+  /// No description provided for @kickerAdmin.
+  ///
+  /// In pl, this message translates to:
+  /// **'Dla Administratora'**
+  String get kickerAdmin;
+
+  /// No description provided for @shoppingSubtitle.
+  ///
+  /// In pl, this message translates to:
+  /// **'Jedna lista, którą widzi każdy domownik.'**
+  String get shoppingSubtitle;
+
+  /// No description provided for @shoppingAdd.
+  ///
+  /// In pl, this message translates to:
+  /// **'Dodaj'**
+  String get shoppingAdd;
+
+  /// No description provided for @shoppingListMeta.
+  ///
+  /// In pl, this message translates to:
+  /// **'{count, plural, one{Lista wspólna · {count} domownik} few{Lista wspólna · {count} domowników} many{Lista wspólna · {count} domowników} other{Lista wspólna · {count} domownika}}'**
+  String shoppingListMeta(int count);
+
+  /// No description provided for @shoppingAddedByMeta.
+  ///
+  /// In pl, this message translates to:
+  /// **'dodał/a: {name}'**
+  String shoppingAddedByMeta(String name);
+
+  /// No description provided for @choresSubtitle.
+  ///
+  /// In pl, this message translates to:
+  /// **'Kto, co i kiedy – bez przypominania.'**
+  String get choresSubtitle;
+
+  /// No description provided for @calendarSubtitle.
+  ///
+  /// In pl, this message translates to:
+  /// **'Wydarzenia i zadania całego domu w jednym miejscu.'**
+  String get calendarSubtitle;
+
+  /// No description provided for @notesSubtitle.
+  ///
+  /// In pl, this message translates to:
+  /// **'Wspólne ustalenia i Twoje prywatne notatki.'**
+  String get notesSubtitle;
+
+  /// No description provided for @budgetSubtitle.
+  ///
+  /// In pl, this message translates to:
+  /// **'Wydatki i plan miesiąca.'**
+  String get budgetSubtitle;
+
+  /// No description provided for @settingsSubtitle.
+  ///
+  /// In pl, this message translates to:
+  /// **'Dopasuj wygląd i działanie PorządMisia do swoich potrzeb.'**
+  String get settingsSubtitle;
+
+  /// No description provided for @themeCardTitle.
+  ///
+  /// In pl, this message translates to:
+  /// **'Motyw aplikacji'**
+  String get themeCardTitle;
+
+  /// No description provided for @themeCardSubtitle.
+  ///
+  /// In pl, this message translates to:
+  /// **'13 palet do wyboru · podgląd na żywo'**
+  String get themeCardSubtitle;
+
+  /// No description provided for @shoppingToBuyTitle.
+  ///
+  /// In pl, this message translates to:
+  /// **'Do kupienia'**
+  String get shoppingToBuyTitle;
+
+  /// No description provided for @eventColorLabel.
+  ///
+  /// In pl, this message translates to:
+  /// **'Kolor wydarzenia'**
+  String get eventColorLabel;
 }
 
 class _AppLocalizationsDelegate

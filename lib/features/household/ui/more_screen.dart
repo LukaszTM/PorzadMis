@@ -6,6 +6,7 @@ import '../../../core/theme/app_tokens.dart';
 import '../../../core/ui/ui.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../auth/data/auth_repository.dart';
+import 'home_top_bar.dart';
 
 /// Piąta zakładka Administratora (GUI 5.1): Notatki, Budżet, Domownicy, Zaproś.
 class MoreScreen extends ConsumerWidget {
@@ -36,6 +37,8 @@ class MoreScreen extends ConsumerWidget {
 
     return ScreenScaffold(
       title: l.moreTitle,
+      kicker: l.kickerMine,
+      topBar: const HomeTopBar(),
       children: [
         AppCard(
           child: Column(

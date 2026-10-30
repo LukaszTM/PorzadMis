@@ -1206,4 +1206,119 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get settingsAccount => 'Konto';
+
+  @override
+  String get homeHouseholdFallback => 'Nasz dom';
+
+  @override
+  String get themesButton => 'Motywy';
+
+  @override
+  String get homeHeroSubtitleCalm =>
+      'Twój dom ma dziś mały plan. Sprawdź, co przed Wami.';
+
+  @override
+  String get homeHeroSubtitleBusy =>
+      'Dziś jest trochę do zrobienia. Zacznij od pierwszej rzeczy.';
+
+  @override
+  String todayCardSubtitle(int done, int total) {
+    return '$done z $total Twoich obowiązków wykonanych';
+  }
+
+  @override
+  String get todayShowAll => 'Pokaż wszystkie obowiązki';
+
+  @override
+  String shoppingTileCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'produktu do kupienia',
+      many: 'produktów do kupienia',
+      few: 'produkty do kupienia',
+      one: 'produkt do kupienia',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get quickActionsTitle => 'Szybkie akcje';
+
+  @override
+  String get quickShopping => 'Dodaj produkt';
+
+  @override
+  String get quickChore => 'Nowe zadanie';
+
+  @override
+  String get quickEvent => 'Nowe wydarzenie';
+
+  @override
+  String get quickNote => 'Nowa notatka';
+
+  @override
+  String get kickerShared => 'Wspólnie';
+
+  @override
+  String get kickerMine => 'Po Twojemu';
+
+  @override
+  String get kickerHome => 'Dla domu';
+
+  @override
+  String get kickerAdmin => 'Dla Administratora';
+
+  @override
+  String get shoppingSubtitle => 'Jedna lista, którą widzi każdy domownik.';
+
+  @override
+  String get shoppingAdd => 'Dodaj';
+
+  @override
+  String shoppingListMeta(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Lista wspólna · $count domownika',
+      many: 'Lista wspólna · $count domowników',
+      few: 'Lista wspólna · $count domowników',
+      one: 'Lista wspólna · $count domownik',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String shoppingAddedByMeta(String name) {
+    return 'dodał/a: $name';
+  }
+
+  @override
+  String get choresSubtitle => 'Kto, co i kiedy – bez przypominania.';
+
+  @override
+  String get calendarSubtitle =>
+      'Wydarzenia i zadania całego domu w jednym miejscu.';
+
+  @override
+  String get notesSubtitle => 'Wspólne ustalenia i Twoje prywatne notatki.';
+
+  @override
+  String get budgetSubtitle => 'Wydatki i plan miesiąca.';
+
+  @override
+  String get settingsSubtitle =>
+      'Dopasuj wygląd i działanie PorządMisia do swoich potrzeb.';
+
+  @override
+  String get themeCardTitle => 'Motyw aplikacji';
+
+  @override
+  String get themeCardSubtitle => '13 palet do wyboru · podgląd na żywo';
+
+  @override
+  String get shoppingToBuyTitle => 'Do kupienia';
+
+  @override
+  String get eventColorLabel => 'Kolor wydarzenia';
 }

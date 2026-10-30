@@ -68,6 +68,8 @@ class _BudgetScreenState extends ConsumerState<BudgetScreen> {
 
     return ScreenScaffold(
       title: l.budgetTitle,
+      kicker: l.kickerAdmin,
+      subtitle: l.budgetSubtitle,
       onBack: () => Navigator.of(context).maybePop(),
       backLabel: l.back,
       headerTrailing: StatusChip(label: l.budgetAdminBadge, tone: ChipTone.neutral, icon: Icons.lock_outline),

@@ -4,13 +4,12 @@ import 'package:go_router/go_router.dart';
 
 import '../../features/household/domain/household_models.dart';
 import '../../features/members/data/members_repository.dart';
-
 import '../../l10n/app_localizations.dart';
 import '../theme/app_tokens.dart';
-import 'app_icon.dart';
+import 'illustration.dart';
 
-/// Pasek dolny (GUI 5.1): Dziś · Zakupy · Kalendarz · Notatki. Obowiązki dojdą w etapie 4
-/// (wtedy Notatki trafią pod „Więcej” dla Administratora).
+/// Pasek dolny (makieta 2026): ilustracje 3D z podpisami. Dziś · Zakupy · Obowiązki · Kalendarz ·
+/// Więcej (Administrator) / Notatki (Domownik). Nigdy szóstej zakładki.
 class AppShell extends ConsumerWidget {
   const AppShell({super.key, required this.location, required this.child});
 
@@ -21,7 +20,6 @@ class AppShell extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l = AppLocalizations.of(context);
     final t = context.tokens;
-    // Administrator ma piątą zakładkę „Więcej” (Notatki, Budżet, Domownicy); Domownik – Notatki.
     final isAdmin = ref.watch(myRoleProvider) == Role.admin;
     final fifth = isAdmin ? '/more' : '/notes';
     final paths = ['/home', '/shopping', '/chores', '/calendar', fifth];
@@ -32,6 +30,16 @@ class AppShell extends ConsumerWidget {
       _ when location.startsWith('/notes') || location.startsWith('/more') => 4,
       _ => 0,
     };
+
+    Widget icon(Illustration i, bool selected) => Opacity(
+          opacity: selected ? 1 : 0.72,
+          child: IllustrationImage(i, height: 28),
+        );
+
+    Widget fifthIcon(bool selected) => isAdmin
+        ? Icon(Icons.menu_rounded, size: 28, color: selected ? t.accent : t.textMuted)
+        : icon(Illustration.notes, selected);
+
     return Scaffold(
       body: child,
       bottomNavigationBar: DecoratedBox(
@@ -41,28 +49,28 @@ class AppShell extends ConsumerWidget {
           onDestinationSelected: (i) => context.go(paths[i]),
           destinations: [
             NavigationDestination(
-              icon: const AppIcon(AppIcons.today, size: 26),
-              selectedIcon: const AppIcon(AppIcons.today, size: 26),
+              icon: icon(Illustration.home, false),
+              selectedIcon: icon(Illustration.home, true),
               label: l.navToday,
             ),
             NavigationDestination(
-              icon: const AppIcon(AppIcons.shopping, size: 26),
-              selectedIcon: const AppIcon(AppIcons.shopping, size: 26),
+              icon: icon(Illustration.shopping, false),
+              selectedIcon: icon(Illustration.shopping, true),
               label: l.navShopping,
             ),
             NavigationDestination(
-              icon: const AppIcon(AppIcons.chores, size: 26),
-              selectedIcon: const AppIcon(AppIcons.chores, size: 26),
+              icon: icon(Illustration.chores, false),
+              selectedIcon: icon(Illustration.chores, true),
               label: l.navChores,
             ),
             NavigationDestination(
-              icon: const AppIcon(AppIcons.calendar, size: 26),
-              selectedIcon: const AppIcon(AppIcons.calendar, size: 26),
+              icon: icon(Illustration.calendar, false),
+              selectedIcon: icon(Illustration.calendar, true),
               label: l.navCalendar,
             ),
             NavigationDestination(
-              icon: AppIcon(isAdmin ? AppIcons.settings : AppIcons.notes, size: 26),
-              selectedIcon: AppIcon(isAdmin ? AppIcons.settings : AppIcons.notes, size: 26),
+              icon: fifthIcon(false),
+              selectedIcon: fifthIcon(true),
               label: isAdmin ? l.navMore : l.navNotes,
             ),
           ],

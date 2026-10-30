@@ -149,3 +149,13 @@ describe("wydarzenia prywatne", () => {
     await assertFails(setDoc(doc(db, "users/member1/privateEvents/pe4"), privEvent({ createdBy: "member1" })));
   });
 });
+
+describe("kolor wydarzenia", () => {
+  test("allow: colorIndex 0–4 w wydarzeniu wspólnym i prywatnym; deny: poza zakresem lub tekst", async () => {
+    const db = env.authenticatedContext("member1").firestore();
+    await assertSucceeds(setDoc(doc(db, `households/${HID}/events/c1`), sharedEvent({ colorIndex: 3 })));
+    await assertSucceeds(setDoc(doc(db, "users/member1/privateEvents/c2"), privEvent({ colorIndex: 0 })));
+    await assertFails(setDoc(doc(db, `households/${HID}/events/c3`), sharedEvent({ colorIndex: 7 })));
+    await assertFails(setDoc(doc(db, `households/${HID}/events/c4`), sharedEvent({ colorIndex: "2" })));
+  });
+});

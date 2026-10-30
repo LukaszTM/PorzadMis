@@ -95,6 +95,7 @@ class _EventFormState extends State<_EventForm> {
   late bool _private = widget.event.isPrivate;
   late RecurrenceType? _repeat = widget.event.recurrence?.type;
   late int? _reminder = widget.event.reminderMinutes;
+  late int _color = widget.event.colorIndex;
   late final Set<String> _participants = widget.event.participants.toSet();
   String? _error;
 
@@ -187,6 +188,7 @@ class _EventFormState extends State<_EventForm> {
       clearReminder: _reminder == null,
       recurrence: _repeat == null ? null : Recurrence(type: _repeat!),
       clearRecurrence: _repeat == null,
+      colorIndex: _color,
     );
     Navigator.of(context).pop(_EventResult(saved: saved));
   }
@@ -246,6 +248,34 @@ class _EventFormState extends State<_EventForm> {
         label(l.eventDescriptionLabel),
         AppTextField(controller: _description, keyboardType: TextInputType.multiline, minLines: 2, maxLines: 5, readOnly: ro),
         if (!ro) ...[
+          label(l.eventColorLabel),
+          Row(
+            children: [
+              for (var i = 0; i < 5; i++)
+                Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: Semantics(
+                    button: true,
+                    selected: _color == i,
+                    label: '${l.eventColorLabel} ${i + 1}',
+                    child: InkWell(
+                      customBorder: const CircleBorder(),
+                      onTap: () => setState(() => _color = i),
+                      child: Container(
+                        width: 44,
+                        height: 44,
+                        decoration: BoxDecoration(
+                          color: t.chart[i],
+                          shape: BoxShape.circle,
+                          border: Border.all(color: _color == i ? t.text : Colors.transparent, width: 3),
+                        ),
+                        child: _color == i ? Icon(Icons.check, color: t.surface, size: 22) : null,
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ),
           label(l.eventRepeatLabel),
           ChoiceChips<RecurrenceType?>(
             options: [

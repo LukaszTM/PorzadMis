@@ -43,6 +43,7 @@ class CheckRow extends StatelessWidget {
     required this.checked,
     required this.onChanged,
     this.meta,
+    this.leading,
     this.trailing,
     this.onLongPress,
     this.minHeight = 60,
@@ -54,6 +55,9 @@ class CheckRow extends StatelessWidget {
 
   /// „Tomek · codziennie” – 14 sp textMuted po prawej.
   final String? meta;
+
+  /// Obrazek przed tytułem (np. emoji produktu).
+  final Widget? leading;
 
   /// Dodatkowa akcja po prawej (np. edycja); poza celem odhaczania.
   final Widget? trailing;
@@ -91,6 +95,7 @@ class CheckRow extends StatelessWidget {
                     : null,
               ),
               const SizedBox(width: 14),
+              if (leading != null) ...[leading!, const SizedBox(width: 10)],
               Expanded(
                 child: Text(
                   title,

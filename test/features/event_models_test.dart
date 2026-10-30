@@ -64,6 +64,13 @@ void main() {
     });
   });
 
+  test('colorIndex: domyślnie 0, copyWith zmienia', () {
+    final e = ev(start: monday);
+    expect(e.colorIndex, 0);
+    expect(e.copyWith(colorIndex: 3).colorIndex, 3);
+    expect(e.copyWith(title: 'x').colorIndex, 0);
+  });
+
   group('occurrencesOnDay / nextOccurrence', () {
     test('całodzienne wielodniowe liczy się każdego dnia trwania', () {
       final e = ev(start: DateTime(2026, 11, 2), duration: const Duration(days: 3), allDay: true);

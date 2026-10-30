@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/app_tokens.dart';
 import '../../../core/ui/ui.dart';
+import '../../../core/util/emoji.dart';
+import '../../household/ui/home_top_bar.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../auth/data/auth_repository.dart';
 import '../../household/data/household_repository.dart';
@@ -131,21 +133,28 @@ class _ShoppingScreenState extends ConsumerState<ShoppingScreen> {
         : const <HistoryEntry>[];
 
     String meta(ShoppingItem i) => [
-          i.quantityLabel,
-          if (showWho && names[i.addedBy] != null) names[i.addedBy]!,
-        ].where((s) => s.isNotEmpty).join(' · ');
+          categoryLabel(l, i.category),
+          if (showWho && names[i.addedBy] != null) l.shoppingAddedByMeta(names[i.addedBy]!),
+        ].join(' · ');
 
     Widget row(ShoppingItem i) => CheckRow(
           title: i.name,
           checked: i.checked,
+          leading: Text(emojiFor(i.name, fallback: _categoryEmoji(i.category)), style: const TextStyle(fontSize: 22)),
           meta: meta(i).isEmpty ? null : meta(i),
           onChanged: (v) => _toggle(i, v),
           onLongPress: () => showEditItemSheet(context, ref, i),
-          trailing: IconButton(
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (i.quantityLabel.isNotEmpty) StatusChip(label: i.quantityLabel, tone: ChipTone.neutral),
+              IconButton(
             tooltip: l.itemEditAction,
             constraints: const BoxConstraints(minWidth: 48, minHeight: 48),
             icon: Icon(Icons.edit_outlined, size: 22, color: t.textMuted),
             onPressed: () => showEditItemSheet(context, ref, i),
+          ),
+            ],
           ),
         );
 
@@ -153,11 +162,18 @@ class _ShoppingScreenState extends ConsumerState<ShoppingScreen> {
       body: SafeArea(
         child: Column(
           children: [
+            const Padding(padding: EdgeInsets.fromLTRB(20, 10, 20, 0), child: HomeTopBar()),
             Padding(
-              padding: const EdgeInsets.fromLTRB(20, 16, 20, 12),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(l.shoppingTitle, style: text.headlineLarge),
+              padding: const EdgeInsets.fromLTRB(20, 18, 20, 12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(l.kickerShared, style: text.labelSmall!.copyWith(color: t.accent, letterSpacing: 0.8)),
+                  const SizedBox(height: 4),
+                  Text(l.shoppingTitle, style: text.headlineLarge),
+                  const SizedBox(height: 4),
+                  Text(l.shoppingSubtitle, style: text.bodyMedium!.copyWith(color: t.textMuted)),
+                ],
               ),
             ),
             Padding(
@@ -185,17 +201,17 @@ class _ShoppingScreenState extends ConsumerState<ShoppingScreen> {
                       label: l.shoppingAddAction,
                       excludeSemantics: true,
                       child: SizedBox(
-                        width: 56,
                         height: 56,
-                        child: FilledButton(
+                        child: FilledButton.icon(
                           onPressed: _submit,
                           style: FilledButton.styleFrom(
-                            padding: EdgeInsets.zero,
+                            padding: const EdgeInsets.symmetric(horizontal: 18),
                             backgroundColor: t.accent,
                             foregroundColor: t.onAccent,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                            shape: const StadiumBorder(),
                           ),
-                          child: const Icon(Icons.add, size: 28),
+                          icon: const Icon(Icons.add, size: 24),
+                          label: Text(l.shoppingAdd, style: text.bodyLarge!.copyWith(color: t.onAccent)),
                         ),
                       ),
                     ),
@@ -232,11 +248,12 @@ class _ShoppingScreenState extends ConsumerState<ShoppingScreen> {
                     _EmptyState(message: items.isEmpty ? l.shoppingEmpty : l.shoppingAllBought)
                   else
                     AppCard(
-                      icon: AppIcons.shopping,
-                      title: l.shoppingToBuy(toBuy.length),
+                      title: l.shoppingToBuyTitle,
+                      trailing: StatusChip(label: '${toBuy.length}', tone: ChipTone.accent),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
+                          Text(l.shoppingListMeta(members.length), style: text.labelMedium),
                           for (final (category, group) in groupByCategory(toBuy)) ...[
                             Padding(
                               padding: const EdgeInsets.only(top: 6, bottom: 2),
@@ -278,6 +295,16 @@ class _ShoppingScreenState extends ConsumerState<ShoppingScreen> {
   }
 }
 
+String _categoryEmoji(StoreCategory c) => switch (c) {
+      StoreCategory.produce => emojiProduce,
+      StoreCategory.bakery => emojiBakery,
+      StoreCategory.dairy => emojiDairy,
+      StoreCategory.meat => emojiMeat,
+      StoreCategory.drinks => emojiDrinks,
+      StoreCategory.household => emojiHousehold,
+      StoreCategory.other => emojiOther,
+    };
+
 class _EmptyState extends StatelessWidget {
   const _EmptyState({required this.message});
 
@@ -289,7 +316,7 @@ class _EmptyState extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 40),
       child: Column(
         children: [
-          const MisMark(size: 96, resting: true),
+          const IllustrationImage(Illustration.bearResting, height: 120),
           const SizedBox(height: 16),
           Text(
             message,

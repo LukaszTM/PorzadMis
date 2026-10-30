@@ -57,6 +57,7 @@ class EventsRepository {
         'location': e.location.trim(),
         'description': e.description.trim(),
         'reminderMinutes': e.reminderMinutes,
+        'colorIndex': e.colorIndex,
         'recurrence': e.recurrence == null
             ? null
             : {
@@ -94,6 +95,7 @@ class EventsRepository {
       reminderMinutes: (d['reminderMinutes'] as num?)?.toInt(),
       recurrence: recurrence,
       createdBy: d['createdBy'] as String?,
+      colorIndex: ((d['colorIndex'] as num?)?.toInt() ?? 0).clamp(0, 4),
     );
   }
 }

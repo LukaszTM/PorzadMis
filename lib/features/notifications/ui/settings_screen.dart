@@ -57,13 +57,15 @@ class SettingsScreen extends ConsumerWidget {
 
     return ScreenScaffold(
       title: l.settingsTitle,
+      kicker: l.kickerMine,
+      subtitle: l.settingsSubtitle,
       onBack: () => Navigator.of(context).maybePop(),
       backLabel: l.back,
       children: [
         AppCard(
-          title: l.settingsAppearance,
+          title: l.themeCardTitle,
           onTap: () => context.push('/settings/appearance'),
-          child: Text(l.themePreviewHint, style: text.bodyMedium),
+          child: Text(l.themeCardSubtitle, style: text.bodyMedium),
         ),
         AppCard(
           title: l.settingsNotifications,

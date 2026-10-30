@@ -75,6 +75,7 @@ service cloud.firestore {
         && shortText(d.get('location', ''), 200)
         && shortText(d.get('description', ''), 5000)
         && (d.get('reminderMinutes', null) == null || d.reminderMinutes is int)
+        && (!('colorIndex' in d) || (d.colorIndex is int && d.colorIndex >= 0 && d.colorIndex <= 4))
         && validRecurrence(d.get('recurrence', null));
     }
 
@@ -92,7 +93,7 @@ service cloud.firestore {
 
     function validSharedEvent(hid, d) {
       return d.keys().hasOnly(['title', 'start', 'end', 'allDay', 'location', 'description',
-                               'participants', 'reminderMinutes', 'recurrence', 'createdBy'])
+                               'participants', 'reminderMinutes', 'recurrence', 'createdBy', 'colorIndex'])
         && d.keys().hasAll(['title', 'start', 'end', 'allDay', 'createdBy'])
         && validEventFields(d)
         && d.get('participants', []) is list
@@ -101,7 +102,7 @@ service cloud.firestore {
 
     function validPrivateEvent(d) {
       return d.keys().hasOnly(['title', 'start', 'end', 'allDay', 'location', 'description',
-                               'reminderMinutes', 'recurrence'])
+                               'reminderMinutes', 'recurrence', 'colorIndex'])
         && d.keys().hasAll(['title', 'start', 'end', 'allDay'])
         && validEventFields(d);
     }

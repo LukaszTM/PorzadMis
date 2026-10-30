@@ -34,6 +34,7 @@ class CalendarEvent {
     this.reminderMinutes,
     this.recurrence,
     this.createdBy,
+    this.colorIndex = 0,
   });
 
   final String id;
@@ -52,6 +53,9 @@ class CalendarEvent {
   final Recurrence? recurrence;
   final String? createdBy;
 
+  /// 0–4: kolor z tokenów chart1…chart5 (typ wydarzenia wybrany przez użytkownika).
+  final int colorIndex;
+
   Duration get duration => end.difference(start);
 
   CalendarEvent copyWith({
@@ -67,6 +71,7 @@ class CalendarEvent {
     Recurrence? recurrence,
     bool clearRecurrence = false,
     bool clearReminder = false,
+    int? colorIndex,
   }) =>
       CalendarEvent(
         id: id,
@@ -81,6 +86,7 @@ class CalendarEvent {
         reminderMinutes: clearReminder ? null : (reminderMinutes ?? this.reminderMinutes),
         recurrence: clearRecurrence ? null : (recurrence ?? this.recurrence),
         createdBy: createdBy,
+        colorIndex: colorIndex ?? this.colorIndex,
       );
 }
 

@@ -567,5 +567,65 @@
   "quickAddChore": "Zadanie",
   "quickAddEvent": "Wydarzenie w kalendarzu",
   "quickAddNote": "Notatkę",
-  "settingsAccount": "Konto"
+  "settingsAccount": "Konto",
+  "homeHouseholdFallback": "Nasz dom",
+  "themesButton": "Motywy",
+  "homeHeroSubtitleCalm": "Twój dom ma dziś mały plan. Sprawdź, co przed Wami.",
+  "homeHeroSubtitleBusy": "Dziś jest trochę do zrobienia. Zacznij od pierwszej rzeczy.",
+  "todayCardSubtitle": "{done} z {total} Twoich obowiązków wykonanych",
+  "@todayCardSubtitle": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "todayShowAll": "Pokaż wszystkie obowiązki",
+  "shoppingTileCount": "{count, plural, one{produkt do kupienia} few{produkty do kupienia} many{produktów do kupienia} other{produktu do kupienia}}",
+  "@shoppingTileCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "quickActionsTitle": "Szybkie akcje",
+  "quickShopping": "Dodaj produkt",
+  "quickChore": "Nowe zadanie",
+  "quickEvent": "Nowe wydarzenie",
+  "quickNote": "Nowa notatka",
+  "kickerShared": "Wspólnie",
+  "kickerMine": "Po Twojemu",
+  "kickerHome": "Dla domu",
+  "kickerAdmin": "Dla Administratora",
+  "shoppingSubtitle": "Jedna lista, którą widzi każdy domownik.",
+  "shoppingAdd": "Dodaj",
+  "shoppingListMeta": "{count, plural, one{Lista wspólna · {count} domownik} few{Lista wspólna · {count} domowników} many{Lista wspólna · {count} domowników} other{Lista wspólna · {count} domownika}}",
+  "@shoppingListMeta": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "shoppingAddedByMeta": "dodał/a: {name}",
+  "@shoppingAddedByMeta": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "choresSubtitle": "Kto, co i kiedy – bez przypominania.",
+  "calendarSubtitle": "Wydarzenia i zadania całego domu w jednym miejscu.",
+  "notesSubtitle": "Wspólne ustalenia i Twoje prywatne notatki.",
+  "budgetSubtitle": "Wydatki i plan miesiąca.",
+  "settingsSubtitle": "Dopasuj wygląd i działanie PorządMisia do swoich potrzeb.",
+  "themeCardTitle": "Motyw aplikacji",
+  "themeCardSubtitle": "13 palet do wyboru · podgląd na żywo",
+  "shoppingToBuyTitle": "Do kupienia",
+  "eventColorLabel": "Kolor wydarzenia"
 }

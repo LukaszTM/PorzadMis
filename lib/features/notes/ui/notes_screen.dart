@@ -9,6 +9,7 @@ import '../../auth/data/auth_repository.dart';
 import '../../household/data/household_repository.dart';
 import '../../household/domain/household_models.dart';
 import '../../members/data/members_repository.dart';
+import '../../household/ui/home_top_bar.dart';
 import '../data/notes_repository.dart';
 import '../domain/note_models.dart';
 
@@ -50,6 +51,9 @@ class _NotesScreenState extends ConsumerState<NotesScreen> {
 
     return ScreenScaffold(
       title: l.notesTitle,
+      kicker: l.kickerShared,
+      subtitle: l.notesSubtitle,
+      topBar: const HomeTopBar(),
       headerTrailing: _HeaderButton(
         label: l.noteNew,
         onPressed: () => showNoteSheet(context, ref, null),
@@ -70,7 +74,7 @@ class _NotesScreenState extends ConsumerState<NotesScreen> {
             padding: const EdgeInsets.symmetric(vertical: 32),
             child: Column(
               children: [
-                const MisMark(size: 96, resting: true),
+                const IllustrationImage(Illustration.bearResting, height: 110),
                 const SizedBox(height: 16),
                 Text(
                   all.isEmpty ? l.notesEmpty : l.notesNoResults,

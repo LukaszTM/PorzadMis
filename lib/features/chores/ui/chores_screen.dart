@@ -9,6 +9,7 @@ import '../../auth/data/auth_repository.dart';
 import '../../household/data/household_repository.dart';
 import '../../household/domain/household_models.dart';
 import '../../members/data/members_repository.dart';
+import '../../household/ui/home_top_bar.dart';
 import '../data/chores_repository.dart';
 import '../domain/chore_models.dart';
 import 'chore_sheet.dart';
@@ -81,6 +82,9 @@ class _ChoresScreenState extends ConsumerState<ChoresScreen> {
 
     return ScreenScaffold(
       title: l.choresTitle,
+      kicker: l.kickerHome,
+      subtitle: l.choresSubtitle,
+      topBar: const HomeTopBar(),
       headerTrailing: isAdmin
           ? SizedBox(
               height: 48,
@@ -112,7 +116,7 @@ class _ChoresScreenState extends ConsumerState<ChoresScreen> {
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: Column(
                     children: [
-                      const MisMark(size: 96, resting: true),
+                      const IllustrationImage(Illustration.bearResting, height: 110),
                       const SizedBox(height: 12),
                       Text(l.choresEmptyMine, style: text.bodyLarge, textAlign: TextAlign.center),
                     ],

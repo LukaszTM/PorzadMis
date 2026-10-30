@@ -9,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:porzadmis/core/theme/app_theme.dart';
 import 'package:porzadmis/core/theme/app_tokens.dart';
+import 'package:porzadmis/core/ui/ui.dart';
 import 'package:porzadmis/features/auth/data/auth_repository.dart';
 import 'package:porzadmis/features/household/data/household_repository.dart';
 import 'package:porzadmis/features/household/domain/household_models.dart';
@@ -151,6 +152,7 @@ void main() {
         overrides: [
           shoppingRepositoryProvider.overrideWithValue(repo),
           householdIdProvider.overrideWithValue('h1'),
+          householdProvider.overrideWith((ref) => Stream.value(const Household(id: 'h1', name: 'Dom testowy'))),
           authStateProvider.overrideWith((ref) => Stream.value(_FakeUser())),
           membersProvider.overrideWith(
             (ref) => Stream.value(const [
@@ -193,7 +195,8 @@ void main() {
     final repo = await pumpShopping(tester);
     await addByTyping(tester, 'Chleb');
     expect(repo.items.single.name, 'Chleb');
-    expect(find.text('Do kupienia · 1'), findsOneWidget);
+    expect(find.text('Do kupienia'), findsOneWidget);
+    expect(find.widgetWithText(StatusChip, '1'), findsOneWidget);
     expect(find.text('Chleb'), findsOneWidget);
     expect(tester.widget<TextFormField>(find.byType(TextFormField)).controller!.text, isEmpty);
   });
@@ -219,7 +222,8 @@ void main() {
     await addByTyping(tester, 'Mleko');
     expect(repo.items, hasLength(1));
     expect(repo.items.single.checked, isFalse);
-    expect(find.text('Do kupienia · 1'), findsOneWidget);
+    expect(find.text('Do kupienia'), findsOneWidget);
+    expect(find.widgetWithText(StatusChip, '1'), findsOneWidget);
   });
 
   testWidgets('dotknięcie wiersza odhacza pozycję i przenosi ją do „Kupione”', (tester) async {
@@ -227,7 +231,8 @@ void main() {
     await tester.tap(find.text('Mleko'));
     await tester.pumpAndSettle();
     expect(repo.items.firstWhere((i) => i.id == 'a').checked, isTrue);
-    expect(find.text('Do kupienia · 1'), findsOneWidget);
+    expect(find.text('Do kupienia'), findsOneWidget);
+    expect(find.widgetWithText(StatusChip, '1'), findsOneWidget);
     expect(find.text('Kupione · 1'), findsOneWidget);
   });
 
@@ -278,7 +283,7 @@ void main() {
       ),
       _item('b', 'Coś'),
     ]);
-    expect(find.text('Nabiał'), findsOneWidget);
-    expect(find.text('Inne'), findsOneWidget);
+    expect(find.text('Nabiał'), findsAtLeastNWidgets(1));
+    expect(find.text('Inne'), findsAtLeastNWidgets(1));
   });
 }
