@@ -11,18 +11,21 @@ import org.json.JSONObject
 
 /**
  * Widżet „Dziś”: miś po lewej (z domkiem, gdy jest co robić; odpoczywa, gdy wszystko zrobione),
- * karta z moimi obowiązkami (do 5), najbliższe wydarzenie, „+” otwiera Zadania.
+ * karta z moimi obowiązkami (do 5), najbliższe wydarzenie, „+” otwiera Zadania. Kolory z motywu aplikacji.
  */
 class TodayWidgetProvider : AppWidgetProvider() {
     override fun onUpdate(context: Context, manager: AppWidgetManager, ids: IntArray) {
         val json = WidgetData.read(context, "widget_today")
+        val theme = WidgetTheme.load(context)
         for (id in ids) {
-            manager.updateAppWidget(id, build(context, json))
+            manager.updateAppWidget(id, build(context, json, theme))
         }
     }
 
-    private fun build(context: Context, data: JSONObject?): RemoteViews {
+    private fun build(context: Context, data: JSONObject?, theme: WidgetTheme): RemoteViews {
         val views = RemoteViews(context.packageName, R.layout.widget_today)
+        theme.applyFrame(views)
+        theme.applyCard(views)
         val items = data?.optJSONArray("items")
         val count = items?.length() ?: 0
         val open = data?.optInt("open", 0) ?: 0
@@ -33,14 +36,7 @@ class TodayWidgetProvider : AppWidgetProvider() {
         for (i in WidgetData.ROW_IDS.indices) {
             if (i < count) {
                 val item = items!!.getJSONObject(i)
-                val done = item.optBoolean("done", false)
-                views.setViewVisibility(WidgetData.ROW_IDS[i], View.VISIBLE)
-                views.setTextViewText(WidgetData.ROW_TEXT_IDS[i], item.optString("title"))
-                views.setTextColor(WidgetData.ROW_TEXT_IDS[i], context.getColor(if (done) R.color.widget_muted else R.color.widget_text))
-                views.setImageViewResource(WidgetData.ROW_CHECK_IDS[i], if (done) R.drawable.wg_check_done else R.drawable.wg_check_empty)
-                val icon = WidgetData.miniIcon(item.optString("icon", ""))
-                views.setViewVisibility(WidgetData.ROW_ICON_IDS[i], if (icon != 0) View.VISIBLE else View.GONE)
-                if (icon != 0) views.setImageViewResource(WidgetData.ROW_ICON_IDS[i], icon)
+                theme.applyRow(context, views, i, item.optString("title"), item.optString("emoji"), item.optBoolean("done", false))
             } else {
                 views.setViewVisibility(WidgetData.ROW_IDS[i], View.GONE)
             }

@@ -67,13 +67,16 @@ void main() {
     expect(s['count'], 6);
     expect(s['bought'], 1);
     expect(s['names'], ['a', 'b', 'c', 'd', 'e']);
-    expect((s['icons'] as List).length, 5);
+    expect((s['emoji'] as List).length, 5);
   });
 
-  test('mini-ikony: mleko, śmieci, lekarz; brak dopasowania = pusty tekst', () {
-    final p = build(o: [occ('Wynieść śmieci')], i: [item('Mleko 2%'), item('Xyz')]);
-    expect((jsonDecode(p.today) as Map)['items'][0]['icon'], 'broom');
-    expect((jsonDecode(p.shopping) as Map)['icons'], ['milk', '']);
+  test('emoji przy każdym wierszu: dopasowane albo domyślne (🧹 obowiązek, 🛒 zakup)', () {
+    final p = build(o: [occ('Wynieść śmieci'), occ('Qwerty')], i: [item('Mleko 2%'), item('Xyz')]);
+    final items = (jsonDecode(p.today) as Map)['items'] as List;
+    // Obowiązki są posortowane po tytule: „Qwerty” przed „Wynieść śmieci”.
+    expect(items[0]['emoji'], '🧹');
+    expect(items[1]['emoji'], '🗑️');
+    expect((jsonDecode(p.shopping) as Map)['emoji'], ['🥛', '🛒']);
   });
 
   test('routeFromWidgetUri mapuje hosty, obce schematy ignoruje', () {

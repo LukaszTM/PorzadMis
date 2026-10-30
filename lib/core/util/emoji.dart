@@ -78,35 +78,3 @@ const _rules = <_Rule>[
   _Rule('📚', ['książk', 'nauk', 'egzamin', 'kurs']),
   _Rule('⭐', ['czas dla', 'relaks', 'spacer']),
 ];
-
-/// Nazwa mini-ikony z paczki widżetów (drawable `mi_<nazwa>`) albo pusty tekst.
-String miniIconFor(String text) {
-  final t = text.toLowerCase();
-  for (final entry in _miniIcons) {
-    if (entry.keys.any(t.contains)) return entry.name;
-  }
-  return '';
-}
-
-class _MiniIcon {
-  const _MiniIcon(this.name, this.keys);
-
-  final String name;
-  final List<String> keys;
-}
-
-const _miniIcons = <_MiniIcon>[
-  _MiniIcon('milk', ['mlek']),
-  _MiniIcon('bread', ['chleb', 'bułk', 'piecz']),
-  _MiniIcon('eggs', ['jaj']),
-  _MiniIcon('tomato', ['pomidor']),
-  _MiniIcon('banana', ['banan']),
-  _MiniIcon('broom', ['odkurz', 'zamie', 'sprząt', 'śmie']),
-  _MiniIcon('laundry', ['pran', 'ubran', 'pościel']),
-  _MiniIcon('plant_small', ['kwiat', 'roślin', 'podle']),
-  _MiniIcon('cleaning_spray', ['umy', 'łazienk', 'okn', 'podłog', 'kuwet']),
-  _MiniIcon('heart', ['lekarz', 'dentyst', 'wizyt', 'zdrow']),
-  _MiniIcon('gift', ['urodzin', 'prezent', 'imienin']),
-  _MiniIcon('alarm', ['przypomn', 'budzik', 'rano']),
-  _MiniIcon('calendar_event', ['spotkan', 'zebran', 'termin']),
-];

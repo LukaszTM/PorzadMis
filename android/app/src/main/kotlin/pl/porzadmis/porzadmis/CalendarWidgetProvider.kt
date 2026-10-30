@@ -7,12 +7,17 @@ import android.net.Uri
 import android.widget.RemoteViews
 import es.antonborri.home_widget.HomeWidgetLaunchIntent
 
-/** Mały widżet „Kalendarz”: dzisiejsza data i najbliższe wydarzenie domu. */
+/** Mały widżet „Kalendarz”: dzisiejsza data i najbliższe wydarzenie domu, w kolorach motywu aplikacji. */
 class CalendarWidgetProvider : AppWidgetProvider() {
     override fun onUpdate(context: Context, manager: AppWidgetManager, ids: IntArray) {
         val data = WidgetData.read(context, "widget_calendar")
+        val theme = WidgetTheme.load(context)
         for (id in ids) {
             val views = RemoteViews(context.packageName, R.layout.widget_calendar)
+            theme.applyFrame(views)
+            views.setTextColor(R.id.widget_date, theme.accent)
+            views.setTextColor(R.id.widget_event_title, theme.text)
+            views.setTextColor(R.id.widget_event_when, theme.muted)
             views.setTextViewText(R.id.widget_date, data?.optString("today") ?: "")
             views.setTextViewText(R.id.widget_event_title, data?.optString("title") ?: "")
             views.setTextViewText(R.id.widget_event_when, data?.optString("when") ?: "")
