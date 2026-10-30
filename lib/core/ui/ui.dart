@@ -7,6 +7,7 @@ export 'app_text_field.dart';
 export 'app_toast.dart';
 export 'check_row.dart';
 export 'choice_chips.dart';
+export 'illustration.dart';
 export 'mis_mark.dart';
 export 'screen_scaffold.dart';
 export 'segmented_switch.dart';
