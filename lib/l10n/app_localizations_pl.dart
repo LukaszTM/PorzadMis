@@ -1363,4 +1363,10 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get registerSubtitle => 'Jedno konto, cały dom w jednym miejscu.';
+
+  @override
+  String get renameTitle => 'Zmień imię';
+
+  @override
+  String get renameAction => 'Zmień imię';
 }

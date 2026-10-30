@@ -647,5 +647,7 @@
   "errEventTypeName": "Wpisz nazwę typu",
   "toastEventTypeRemoved": "Usunięto typ",
   "loginSubtitle": "Witaj z powrotem. Twój dom czeka.",
-  "registerSubtitle": "Jedno konto, cały dom w jednym miejscu."
+  "registerSubtitle": "Jedno konto, cały dom w jednym miejscu.",
+  "renameTitle": "Zmień imię",
+  "renameAction": "Zmień imię"
 }

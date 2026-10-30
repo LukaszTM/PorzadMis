@@ -226,3 +226,21 @@ describe("lista zakupów", () => {
     });
   });
 });
+
+describe("zmiana imienia domownika", () => {
+  test("allow: Administrator zmienia cudze imię, domownik własne", async () => {
+    const a = env.authenticatedContext("admin1").firestore();
+    await assertSucceeds(updateDoc(doc(a, `households/${HID}/members/member1`), { displayName: "Ania" }));
+    const m = env.authenticatedContext("member1").firestore();
+    await assertSucceeds(updateDoc(doc(m, `households/${HID}/members/member1`), { displayName: "Anna" }));
+  });
+  test("deny: domownik cudze; puste imię; zmiana roli tą drogą; obcy", async () => {
+    const m = env.authenticatedContext("member1").firestore();
+    await assertFails(updateDoc(doc(m, `households/${HID}/members/admin1`), { displayName: "X" }));
+    await assertFails(updateDoc(doc(m, `households/${HID}/members/member1`), { displayName: "" }));
+    await assertFails(updateDoc(doc(m, `households/${HID}/members/member1`), { displayName: "A", role: "admin" }));
+    const a = env.authenticatedContext("admin1").firestore();
+    await assertFails(updateDoc(doc(a, `households/${HID}/members/member1`), { role: "admin" }));
+    await assertFails(updateDoc(doc(env.authenticatedContext("obcy").firestore(), `households/${HID}/members/member1`), { displayName: "X" }));
+  });
+});

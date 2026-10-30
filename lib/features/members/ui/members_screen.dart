@@ -13,11 +13,53 @@ import '../data/members_repository.dart';
 class MembersScreen extends ConsumerWidget {
   const MembersScreen({super.key});
 
-  Future<void> _manage(BuildContext context, WidgetRef ref, Member member) async {
+  Future<void> _rename(BuildContext context, WidgetRef ref, Member member) async {
+    final l = AppLocalizations.of(context);
+    final hid = ref.read(householdIdProvider);
+    if (hid == null) return;
+    final controller = TextEditingController(text: member.displayName);
+    final name = await showAppSheet<String>(
+      context,
+      title: l.renameTitle,
+      builder: (sheetContext) => Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          AppTextField(
+            controller: controller,
+            label: l.nameLabel,
+            hint: l.nameHint,
+            textCapitalization: TextCapitalization.words,
+            autofocus: true,
+            onSubmitted: (v) => Navigator.of(sheetContext).pop(v),
+          ),
+          const SizedBox(height: 20),
+          PrimaryButton(label: l.itemDone, onPressed: () => Navigator.of(sheetContext).pop(controller.text)),
+        ],
+      ),
+    );
+    controller.dispose();
+    if (name == null || !context.mounted) return;
+    if (name.trim().isEmpty) {
+      showAppToast(context, l.errNameEmpty, error: true);
+      return;
+    }
+    try {
+      await ref.read(membersRepositoryProvider).rename(hid: hid, uid: member.uid, name: name);
+      if (context.mounted) showAppToast(context, l.toastSaved);
+    } catch (_) {
+      if (context.mounted) showAppToast(context, l.errGeneric, error: true);
+    }
+  }
+
+  Future<void> _manage(BuildContext context, WidgetRef ref, Member member, {required bool isAdmin}) async {
     final l = AppLocalizations.of(context);
     final hid = ref.read(householdIdProvider);
     if (hid == null) return;
     final repo = ref.read(membersRepositoryProvider);
+    if (!isAdmin) {
+      await _rename(context, ref, member);
+      return;
+    }
 
     Future<void> run(Future<void> Function() action) async {
       try {
@@ -37,6 +79,11 @@ class MembersScreen extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           SecondaryButton(
+            label: l.renameAction,
+            onPressed: () => Navigator.of(sheetContext).pop(_MemberAction.rename),
+          ),
+          const SizedBox(height: 8),
+          SecondaryButton(
             label: member.isAdmin ? l.removeAdmin : l.makeAdmin,
             onPressed: () => Navigator.of(sheetContext).pop(_MemberAction.toggleRole),
           ),
@@ -52,6 +99,8 @@ class MembersScreen extends ConsumerWidget {
     if (choice == null || !context.mounted) return;
 
     switch (choice) {
+      case _MemberAction.rename:
+        await _rename(context, ref, member);
       case _MemberAction.toggleRole:
         final ok = await confirmSheet(
           context,
@@ -104,8 +153,9 @@ class MembersScreen extends ConsumerWidget {
                 _MemberRow(
                   member: members[i],
                   isMe: members[i].uid == myUid,
-                  onTap: isAdmin && members[i].uid != myUid
-                      ? () => _manage(context, ref, members[i])
+                  // Administrator zarządza każdym; domownik może zmienić tylko własne imię.
+                  onTap: isAdmin || members[i].uid == myUid
+                      ? () => _manage(context, ref, members[i], isAdmin: isAdmin && members[i].uid != myUid)
                       : null,
                   tokens: t,
                   text: text,
@@ -120,7 +170,7 @@ class MembersScreen extends ConsumerWidget {
   }
 }
 
-enum _MemberAction { toggleRole, remove }
+enum _MemberAction { rename, toggleRole, remove }
 
 class _MemberRow extends StatelessWidget {
   const _MemberRow({

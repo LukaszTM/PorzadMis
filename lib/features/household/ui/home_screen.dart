@@ -56,7 +56,8 @@ class HomeScreen extends ConsumerWidget {
     final toBuy = (ref.watch(shoppingItemsProvider).value ?? const []).where((i) => !i.checked).length;
     final events = ref.watch(allEventsProvider);
     final next = nextOccurrence(events, now);
-    final name = displayNameFor(user);
+    final memberName = members.where((m) => m.uid == uid).map((m) => m.displayName).firstOrNull;
+    final name = (memberName != null && memberName.isNotEmpty) ? memberName : displayNameFor(user);
     final progress = myToday.isEmpty ? 0.0 : done / myToday.length;
 
     return ScreenScaffold(

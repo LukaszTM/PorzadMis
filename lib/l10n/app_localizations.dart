@@ -2529,6 +2529,18 @@ abstract class AppLocalizations {
   /// In pl, this message translates to:
   /// **'Jedno konto, cały dom w jednym miejscu.'**
   String get registerSubtitle;
+
+  /// No description provided for @renameTitle.
+  ///
+  /// In pl, this message translates to:
+  /// **'Zmień imię'**
+  String get renameTitle;
+
+  /// No description provided for @renameAction.
+  ///
+  /// In pl, this message translates to:
+  /// **'Zmień imię'**
+  String get renameAction;
 }
 
 class _AppLocalizationsDelegate

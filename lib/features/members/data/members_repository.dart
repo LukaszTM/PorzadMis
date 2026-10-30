@@ -23,6 +23,10 @@ class MembersRepository {
         return members;
       });
 
+  /// Zmiana imienia (Administrator każdemu, każdy sobie); reguły pilnują reszty pól.
+  Future<void> rename({required String hid, required String uid, required String name}) =>
+      _db.doc('households/$hid/members/$uid').update({'displayName': name.trim()});
+
   Future<void> setRole({required String hid, required String uid, required Role role}) =>
       _functions.httpsCallable('setMemberRole').call<Object?>({
         'householdId': hid,

@@ -217,7 +217,13 @@ service cloud.firestore {
       // Członkostwo i role zmieniają wyłącznie funkcje (ochrona ostatniego admina).
       match /members/{uid} {
         allow read: if isMember(hid);
-        allow write: if false;
+        allow create, delete: if false;
+        // Imię zmienia Administrator (każdemu) albo sam domownik; reszta pól tylko przez funkcje.
+        allow update: if isMember(hid)
+          && (isAdmin(hid) || request.auth.uid == uid)
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['displayName'])
+          && shortText(request.resource.data.displayName, 60)
+          && request.resource.data.displayName.size() >= 1;
       }
 
       // Zaproszenia tworzy i realizuje serwer; admin może je czytać.
