@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_today_title">Dziś</string>
+    <string name="widget_today_description">Moje obowiązki na dziś i najbliższe wydarzenie</string>
+    <string name="widget_shopping_title">Zakupy</string>
+    <string name="widget_shopping_description">Ile rzeczy zostało do kupienia</string>
+</resources>

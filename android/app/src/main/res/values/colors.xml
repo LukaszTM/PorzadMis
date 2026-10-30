@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Kolory widżetu = tokeny motywu PorządMiś (kremowy); wersja nocna w values-night. -->
+<resources>
+    <color name="widget_surface">#FFFFFF</color>
+    <color name="widget_text">#1C2733</color>
+    <color name="widget_muted">#5B6670</color>
+    <color name="widget_border">#E3DACB</color>
+    <color name="widget_accent">#2B7A57</color>
+</resources>

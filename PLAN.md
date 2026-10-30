@@ -83,7 +83,7 @@ Osiem modułów; cztery z nich (zakupy, obowiązki, kalendarz, notatki) są wsp�
 
 - Widżet „Dziś”: moje obowiązki na dziś z możliwością odhaczenia z poziomu widżetu oraz najbliższe wydarzenia.
 - Widżet „Zakupy”: liczba niekupionych pozycji i pierwsze 5 nazw, dotknięcie otwiera listę.
-- Rozmiary: mały (licznik), średni (lista 3–5 pozycji). Android App Widgets (Kotlin, biblioteka Glance). Widżety nigdy nie pokazują danych budżetu.
+- Rozmiary: mały (licznik), średni (lista 3–5 pozycji). Android App Widgets w Kotlinie. W MVP zbudowane na klasycznych `RemoteViews` zamiast Glance: Glance wymaga kompilatora Compose dopiętego do wersji Kotlina z narzędzi Fluttera, co było zbyt ryzykowne dla terminu; przejście na Glance to zmiana wyłącznie w kodzie natywnym. Odhaczanie z poziomu widżetu wymaga wywołania Dart w tle (home_widget `registerInteractivityCallback`) i jest odłożone po MVP; w MVP dotknięcie widżetu otwiera właściwy ekran. Widżety nigdy nie pokazują danych budżetu.
 - Dane do widżetu zapisywane lokalnie przy każdej synchronizacji, żeby widżet nie wymagał sieci.
 
 ### Powiadomienia push

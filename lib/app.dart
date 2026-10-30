@@ -6,6 +6,7 @@ import 'core/router/app_router.dart';
 import 'core/theme/app_theme.dart';
 import 'features/household/data/household_repository.dart';
 import 'features/notifications/app/notifications_bootstrap.dart';
+import 'features/widgets/app/widget_sync.dart';
 import 'l10n/app_localizations.dart';
 
 class PorzadMisApp extends ConsumerWidget {
@@ -18,6 +19,7 @@ class PorzadMisApp extends ConsumerWidget {
     final pair = resolveThemePair(themes, profile?.themeId);
     // Uruchamia FCM i lokalne przypomnienia na czas życia aplikacji.
     ref.watch(notificationsBootstrapProvider);
+    ref.watch(widgetSyncProvider);
     return MaterialApp.router(
       onGenerateTitle: (context) => AppLocalizations.of(context).appName,
       debugShowCheckedModeBanner: false,

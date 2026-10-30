@@ -29,6 +29,19 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <!-- Widżety ekranu głównego (GUI 5.13). -->
+        <receiver android:name=".TodayWidgetProvider" android:exported="true" android:label="@string/widget_today_title">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_today_info" />
+        </receiver>
+        <receiver android:name=".ShoppingWidgetProvider" android:exported="true" android:label="@string/widget_shopping_title">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_shopping_info" />
+        </receiver>
         <!-- Powiadomienia: domyślny kanał i mała ikona (sylwetka misia, GUI 5.12). -->
         <meta-data android:name="com.google.firebase.messaging.default_notification_channel_id" android:value="porzadmis_default"/>
         <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/ic_notification"/>

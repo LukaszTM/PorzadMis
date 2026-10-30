@@ -7,7 +7,7 @@ Domowy organizer na Androida dla jednej osoby albo całej rodziny: wspólna list
 Stack: Flutter 3.x, Riverpod, go_router, Firebase (Auth, Firestore, Cloud Functions w TypeScript).
 Tylko Android (minSdk 26).
 
-## Co działa (stan na koniec etapu 4)
+## Co działa (stan na koniec etapu 7 – wszystkie etapy MVP)
 
 **Etap 1 – fundament**
 - Konto: e-mail i hasło oraz logowanie przez Google.
@@ -40,8 +40,30 @@ Tylko Android (minSdk 26).
 - Ekran Obowiązki: pasek tygodnia, „Moje · dzień”, „Inni domownicy”, odhaczanie całym
   wierszem; obowiązki widać też w kalendarzu i na „Dziś”.
 
-**Jeszcze nie ma:** budżet, powiadomienia push, widżety, wybór motywu, onboarding
-(etapy 5–7 z PLAN.md).
+**Etap 5 – budżet (tylko Administrator)**
+- Kategorie (zestaw startowy), wydatki w groszach z datą, kategorią, opisem i „kto zapłacił”.
+- Wykres pierścieniowy (dotknięcie filtruje listę), sortowanie, przełączanie miesięcy.
+- Plan miesięczny: limity na kategorie i suma, kopiowanie z poprzedniego miesiąca, paski
+  „wydano / plan” z ostrzeżeniem przy 80 % i 100 %.
+- Domownik nie dostaje danych budżetu na urządzenie (reguły Firestore).
+- Piąta zakładka Administratora to „Więcej” (Notatki, Budżet, Domownicy, Zaproś, Ustawienia).
+
+**Etap 6 – powiadomienia**
+- Push (Cloud Functions + FCM): nowy obowiązek przypisany mnie, nowy domownik, nowa pozycja
+  zakupów (domyślnie wyłączone), przekroczenie planu budżetu (Administratorzy).
+- Lokalne przypomnienia o obowiązkach (godzina z reguły) i wydarzeniach (minuty przed).
+- Dotknięcie powiadomienia otwiera właściwy ekran; preferencje w Ustawieniach.
+
+**Etap 7 – wykończenie**
+- 13 motywów (`assets/themes/*.json`), Ustawienia → Wygląd z podglądem na żywo, tryb
+  jasny / ciemny / auto; wybór zapisany w profilu użytkownika.
+- Onboarding (3 ekrany z misiem) raz po pierwszym logowaniu.
+- Widżety ekranu głównego „Dziś” i „Zakupy” (Kotlin, RemoteViews; dotknięcie otwiera ekran).
+
+**Poza MVP (do kolejnych wersji):** odhaczanie z poziomu widżetu, kilka list zakupów,
+rotacja obowiązków, eksport budżetu do CSV, załączniki w notatkach, tablet, angielski, iOS.
+Przed publikacją w Google Play: klucz wydawniczy, nowy odcisk SHA-1 w Firebase, polityka
+prywatności, test na dwóch telefonach (patrz definicja „zrobione” w PLAN.md).
 
 ## Struktura
 
@@ -94,3 +116,8 @@ firebase deploy --only functions,firestore:rules,firestore:indexes
   `Future` kończy się dopiero po powrocie połączenia.
 - **Podpisywanie.** APK jest podpisany kluczem debug (do testów). Do Google Play potrzebny
   jest osobny klucz wydawniczy i odcisk SHA-1 w konsoli Firebase.
+- **Widżety.** Dane do widżetów zapisuje aplikacja (`home_widget`, klucze `widget_today`
+  i `widget_shopping`); kod natywny w `android/app/src/main/kotlin/.../*WidgetProvider.kt`.
+- **Funkcje w chmurze.** Po zmianie w `functions/` lub `firestore.rules`:
+  `firebase deploy --only functions,firestore:rules,firestore:indexes` (z PowerShella,
+  nie z Git Basha; bez `--force`).
