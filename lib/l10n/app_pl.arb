@@ -368,5 +368,93 @@
   "homeShowAll": "pokaż wszystkie",
   "chipTodo": "do zrobienia",
   "chipDone": "zrobione",
-  "ruleEditHint": "Zmiany przeliczą przyszłe terminy"
+  "ruleEditHint": "Zmiany przeliczą przyszłe terminy",
+  "navMore": "Więcej",
+  "moreTitle": "Więcej",
+  "moreBudget": "Budżet",
+  "moreMembers": "Domownicy",
+  "moreNotes": "Notatki",
+  "moreInvite": "Zaproś domownika",
+  "budgetTitle": "Budżet",
+  "budgetSpent": "wydano",
+  "budgetOfPlan": "{spent} z {plan}",
+  "@budgetOfPlan": {
+    "placeholders": {
+      "spent": {
+        "type": "String"
+      },
+      "plan": {
+        "type": "String"
+      }
+    }
+  },
+  "budgetNoPlan": "Bez planu na ten miesiąc",
+  "budgetSetPlan": "Ustaw plan",
+  "budgetEditPlan": "Edytuj plan",
+  "budgetByCategory": "Według kategorii",
+  "budgetRecent": "Wydatki",
+  "budgetEmpty": "Brak wydatków w tym miesiącu.",
+  "budgetAdd": "Dodaj wydatek",
+  "budgetSortDate": "Data",
+  "budgetSortAmountDesc": "Największe",
+  "budgetSortAmountAsc": "Najmniejsze",
+  "budgetFilterAll": "Wszystkie kategorie",
+  "budgetFilterChip": "filtr: {name}",
+  "@budgetFilterChip": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "budgetClearFilter": "Pokaż wszystkie",
+  "budgetPrevMonth": "Poprzedni miesiąc",
+  "budgetNextMonth": "Następny miesiąc",
+  "budgetWarn80": "Zbliżasz się do planu",
+  "budgetOver": "Plan przekroczony",
+  "expenseNewTitle": "Nowy wydatek",
+  "expenseEditTitle": "Wydatek",
+  "expenseAmountLabel": "Kwota (zł)",
+  "expenseAmountHint": "np. 24,99",
+  "expenseDateLabel": "Data",
+  "expenseCategoryLabel": "Kategoria",
+  "expenseNoteLabel": "Opis (opcjonalnie)",
+  "expenseNoteHint": "np. zakupy w Biedronce",
+  "expensePaidByLabel": "Kto zapłacił",
+  "expensePaidNobody": "nie wiadomo",
+  "expenseDelete": "Usuń wydatek",
+  "errExpenseAmount": "Wpisz kwotę większą od zera",
+  "errExpenseCategory": "Wybierz kategorię",
+  "toastExpenseRemoved": "Usunięto wydatek",
+  "planTitle": "Plan miesiąca",
+  "planTotalLabel": "Łącznie na miesiąc (zł)",
+  "planCategoryHint": "0",
+  "planCopyPrevious": "Skopiuj z poprzedniego miesiąca",
+  "planCopied": "Skopiowano plan",
+  "planNoPrevious": "Poprzedni miesiąc nie ma planu",
+  "planSave": "Zapisz plan",
+  "budgetAdminBadge": "tylko Administrator",
+  "budgetMemberBlocked": "Budżet widzi tylko Administrator",
+  "categoryLimit": "{spent} z {limit}",
+  "@categoryLimit": {
+    "placeholders": {
+      "spent": {
+        "type": "String"
+      },
+      "limit": {
+        "type": "String"
+      }
+    }
+  },
+  "paidByMeta": "{name} · {date}",
+  "@paidByMeta": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  }
 }

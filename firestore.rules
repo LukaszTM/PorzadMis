@@ -139,6 +139,36 @@ service cloud.firestore {
         && d.updatedAt is timestamp;
     }
 
+    function validCategory(d) {
+      return d.keys().hasOnly(['name', 'icon', 'colorIndex', 'order'])
+        && d.keys().hasAll(['name', 'icon', 'colorIndex', 'order'])
+        && shortText(d.name, 60) && d.name.size() >= 1
+        && shortText(d.icon, 40)
+        && d.colorIndex is int && d.colorIndex >= 0 && d.colorIndex <= 4
+        && d.order is int;
+    }
+
+    function validExpense(hid, d) {
+      return d.keys().hasOnly(['amount', 'date', 'month', 'categoryId', 'note', 'paidBy', 'createdBy', 'createdAt'])
+        && d.keys().hasAll(['amount', 'date', 'month', 'categoryId', 'createdBy', 'createdAt'])
+        && d.amount is int && d.amount >= 1 && d.amount <= 100000000
+        && isDay(d.date)
+        && d.month is string && d.month == d.date[0:7]
+        && shortText(d.categoryId, 64) && d.categoryId.size() >= 1
+        && shortText(d.get('note', ''), 200)
+        && (d.get('paidBy', null) == null || (d.paidBy is string && isMemberUid(hid, d.paidBy)))
+        && d.createdBy is string && isMemberUid(hid, d.createdBy)
+        && d.createdAt is timestamp;
+    }
+
+    function validBudgetPlan(d) {
+      return d.keys().hasOnly(['limits', 'total', 'updatedAt'])
+        && d.keys().hasAll(['limits', 'total', 'updatedAt'])
+        && d.limits is map
+        && d.total is int && d.total >= 0
+        && d.updatedAt is timestamp;
+    }
+
     // Autor wpisu wspólnego albo Administrator domu.
     function isAuthorOrAdmin(hid) {
       return resource.data.createdBy == request.auth.uid || isAdmin(hid);
@@ -215,6 +245,27 @@ service cloud.firestore {
           && request.resource.data.createdBy == resource.data.createdBy
           && isAuthorOrAdmin(hid);
         allow delete: if isMember(hid) && isAuthorOrAdmin(hid);
+      }
+
+      // Budżet. Kategorie czytają wszyscy (nie zdradzają kwot); wydatki i plany tylko Administrator.
+      match /categories/{id} {
+        allow read: if isMember(hid);
+        allow create, update: if isAdmin(hid) && validCategory(request.resource.data);
+        allow delete: if isAdmin(hid);
+      }
+      match /expenses/{id} {
+        allow read: if isAdmin(hid);
+        allow create: if isAdmin(hid) && validExpense(hid, request.resource.data)
+          && request.resource.data.createdBy == request.auth.uid;
+        allow update: if isAdmin(hid) && validExpense(hid, request.resource.data)
+          && request.resource.data.createdBy == resource.data.createdBy
+          && request.resource.data.createdAt == resource.data.createdAt;
+        allow delete: if isAdmin(hid);
+      }
+      match /budgetPlans/{month} {
+        allow read: if isAdmin(hid);
+        allow write: if isAdmin(hid) && validBudgetPlan(request.resource.data)
+          && month.matches('^[0-9]{4}-[0-9]{2}$');
       }
 
       // Reguły obowiązków: członkowie czytają, Administrator pisze.

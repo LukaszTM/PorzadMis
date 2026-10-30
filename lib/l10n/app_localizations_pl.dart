@@ -818,4 +818,165 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get ruleEditHint => 'Zmiany przeliczą przyszłe terminy';
+
+  @override
+  String get navMore => 'Więcej';
+
+  @override
+  String get moreTitle => 'Więcej';
+
+  @override
+  String get moreBudget => 'Budżet';
+
+  @override
+  String get moreMembers => 'Domownicy';
+
+  @override
+  String get moreNotes => 'Notatki';
+
+  @override
+  String get moreInvite => 'Zaproś domownika';
+
+  @override
+  String get budgetTitle => 'Budżet';
+
+  @override
+  String get budgetSpent => 'wydano';
+
+  @override
+  String budgetOfPlan(String spent, String plan) {
+    return '$spent z $plan';
+  }
+
+  @override
+  String get budgetNoPlan => 'Bez planu na ten miesiąc';
+
+  @override
+  String get budgetSetPlan => 'Ustaw plan';
+
+  @override
+  String get budgetEditPlan => 'Edytuj plan';
+
+  @override
+  String get budgetByCategory => 'Według kategorii';
+
+  @override
+  String get budgetRecent => 'Wydatki';
+
+  @override
+  String get budgetEmpty => 'Brak wydatków w tym miesiącu.';
+
+  @override
+  String get budgetAdd => 'Dodaj wydatek';
+
+  @override
+  String get budgetSortDate => 'Data';
+
+  @override
+  String get budgetSortAmountDesc => 'Największe';
+
+  @override
+  String get budgetSortAmountAsc => 'Najmniejsze';
+
+  @override
+  String get budgetFilterAll => 'Wszystkie kategorie';
+
+  @override
+  String budgetFilterChip(String name) {
+    return 'filtr: $name';
+  }
+
+  @override
+  String get budgetClearFilter => 'Pokaż wszystkie';
+
+  @override
+  String get budgetPrevMonth => 'Poprzedni miesiąc';
+
+  @override
+  String get budgetNextMonth => 'Następny miesiąc';
+
+  @override
+  String get budgetWarn80 => 'Zbliżasz się do planu';
+
+  @override
+  String get budgetOver => 'Plan przekroczony';
+
+  @override
+  String get expenseNewTitle => 'Nowy wydatek';
+
+  @override
+  String get expenseEditTitle => 'Wydatek';
+
+  @override
+  String get expenseAmountLabel => 'Kwota (zł)';
+
+  @override
+  String get expenseAmountHint => 'np. 24,99';
+
+  @override
+  String get expenseDateLabel => 'Data';
+
+  @override
+  String get expenseCategoryLabel => 'Kategoria';
+
+  @override
+  String get expenseNoteLabel => 'Opis (opcjonalnie)';
+
+  @override
+  String get expenseNoteHint => 'np. zakupy w Biedronce';
+
+  @override
+  String get expensePaidByLabel => 'Kto zapłacił';
+
+  @override
+  String get expensePaidNobody => 'nie wiadomo';
+
+  @override
+  String get expenseDelete => 'Usuń wydatek';
+
+  @override
+  String get errExpenseAmount => 'Wpisz kwotę większą od zera';
+
+  @override
+  String get errExpenseCategory => 'Wybierz kategorię';
+
+  @override
+  String get toastExpenseRemoved => 'Usunięto wydatek';
+
+  @override
+  String get planTitle => 'Plan miesiąca';
+
+  @override
+  String get planTotalLabel => 'Łącznie na miesiąc (zł)';
+
+  @override
+  String get planCategoryHint => '0';
+
+  @override
+  String get planCopyPrevious => 'Skopiuj z poprzedniego miesiąca';
+
+  @override
+  String get planCopied => 'Skopiowano plan';
+
+  @override
+  String get planNoPrevious => 'Poprzedni miesiąc nie ma planu';
+
+  @override
+  String get planSave => 'Zapisz plan';
+
+  @override
+  String get budgetAdminBadge => 'tylko Administrator';
+
+  @override
+  String get budgetMemberBlocked => 'Budżet widzi tylko Administrator';
+
+  @override
+  String categoryLimit(String spent, String limit) {
+    return '$spent z $limit';
+  }
+
+  @override
+  String paidByMeta(String name, String date) {
+    return '$name · $date';
+  }
 }

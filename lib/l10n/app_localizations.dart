@@ -1575,6 +1575,312 @@ abstract class AppLocalizations {
   /// In pl, this message translates to:
   /// **'Zmiany przeliczą przyszłe terminy'**
   String get ruleEditHint;
+
+  /// No description provided for @navMore.
+  ///
+  /// In pl, this message translates to:
+  /// **'Więcej'**
+  String get navMore;
+
+  /// No description provided for @moreTitle.
+  ///
+  /// In pl, this message translates to:
+  /// **'Więcej'**
+  String get moreTitle;
+
+  /// No description provided for @moreBudget.
+  ///
+  /// In pl, this message translates to:
+  /// **'Budżet'**
+  String get moreBudget;
+
+  /// No description provided for @moreMembers.
+  ///
+  /// In pl, this message translates to:
+  /// **'Domownicy'**
+  String get moreMembers;
+
+  /// No description provided for @moreNotes.
+  ///
+  /// In pl, this message translates to:
+  /// **'Notatki'**
+  String get moreNotes;
+
+  /// No description provided for @moreInvite.
+  ///
+  /// In pl, this message translates to:
+  /// **'Zaproś domownika'**
+  String get moreInvite;
+
+  /// No description provided for @budgetTitle.
+  ///
+  /// In pl, this message translates to:
+  /// **'Budżet'**
+  String get budgetTitle;
+
+  /// No description provided for @budgetSpent.
+  ///
+  /// In pl, this message translates to:
+  /// **'wydano'**
+  String get budgetSpent;
+
+  /// No description provided for @budgetOfPlan.
+  ///
+  /// In pl, this message translates to:
+  /// **'{spent} z {plan}'**
+  String budgetOfPlan(String spent, String plan);
+
+  /// No description provided for @budgetNoPlan.
+  ///
+  /// In pl, this message translates to:
+  /// **'Bez planu na ten miesiąc'**
+  String get budgetNoPlan;
+
+  /// No description provided for @budgetSetPlan.
+  ///
+  /// In pl, this message translates to:
+  /// **'Ustaw plan'**
+  String get budgetSetPlan;
+
+  /// No description provided for @budgetEditPlan.
+  ///
+  /// In pl, this message translates to:
+  /// **'Edytuj plan'**
+  String get budgetEditPlan;
+
+  /// No description provided for @budgetByCategory.
+  ///
+  /// In pl, this message translates to:
+  /// **'Według kategorii'**
+  String get budgetByCategory;
+
+  /// No description provided for @budgetRecent.
+  ///
+  /// In pl, this message translates to:
+  /// **'Wydatki'**
+  String get budgetRecent;
+
+  /// No description provided for @budgetEmpty.
+  ///
+  /// In pl, this message translates to:
+  /// **'Brak wydatków w tym miesiącu.'**
+  String get budgetEmpty;
+
+  /// No description provided for @budgetAdd.
+  ///
+  /// In pl, this message translates to:
+  /// **'Dodaj wydatek'**
+  String get budgetAdd;
+
+  /// No description provided for @budgetSortDate.
+  ///
+  /// In pl, this message translates to:
+  /// **'Data'**
+  String get budgetSortDate;
+
+  /// No description provided for @budgetSortAmountDesc.
+  ///
+  /// In pl, this message translates to:
+  /// **'Największe'**
+  String get budgetSortAmountDesc;
+
+  /// No description provided for @budgetSortAmountAsc.
+  ///
+  /// In pl, this message translates to:
+  /// **'Najmniejsze'**
+  String get budgetSortAmountAsc;
+
+  /// No description provided for @budgetFilterAll.
+  ///
+  /// In pl, this message translates to:
+  /// **'Wszystkie kategorie'**
+  String get budgetFilterAll;
+
+  /// No description provided for @budgetFilterChip.
+  ///
+  /// In pl, this message translates to:
+  /// **'filtr: {name}'**
+  String budgetFilterChip(String name);
+
+  /// No description provided for @budgetClearFilter.
+  ///
+  /// In pl, this message translates to:
+  /// **'Pokaż wszystkie'**
+  String get budgetClearFilter;
+
+  /// No description provided for @budgetPrevMonth.
+  ///
+  /// In pl, this message translates to:
+  /// **'Poprzedni miesiąc'**
+  String get budgetPrevMonth;
+
+  /// No description provided for @budgetNextMonth.
+  ///
+  /// In pl, this message translates to:
+  /// **'Następny miesiąc'**
+  String get budgetNextMonth;
+
+  /// No description provided for @budgetWarn80.
+  ///
+  /// In pl, this message translates to:
+  /// **'Zbliżasz się do planu'**
+  String get budgetWarn80;
+
+  /// No description provided for @budgetOver.
+  ///
+  /// In pl, this message translates to:
+  /// **'Plan przekroczony'**
+  String get budgetOver;
+
+  /// No description provided for @expenseNewTitle.
+  ///
+  /// In pl, this message translates to:
+  /// **'Nowy wydatek'**
+  String get expenseNewTitle;
+
+  /// No description provided for @expenseEditTitle.
+  ///
+  /// In pl, this message translates to:
+  /// **'Wydatek'**
+  String get expenseEditTitle;
+
+  /// No description provided for @expenseAmountLabel.
+  ///
+  /// In pl, this message translates to:
+  /// **'Kwota (zł)'**
+  String get expenseAmountLabel;
+
+  /// No description provided for @expenseAmountHint.
+  ///
+  /// In pl, this message translates to:
+  /// **'np. 24,99'**
+  String get expenseAmountHint;
+
+  /// No description provided for @expenseDateLabel.
+  ///
+  /// In pl, this message translates to:
+  /// **'Data'**
+  String get expenseDateLabel;
+
+  /// No description provided for @expenseCategoryLabel.
+  ///
+  /// In pl, this message translates to:
+  /// **'Kategoria'**
+  String get expenseCategoryLabel;
+
+  /// No description provided for @expenseNoteLabel.
+  ///
+  /// In pl, this message translates to:
+  /// **'Opis (opcjonalnie)'**
+  String get expenseNoteLabel;
+
+  /// No description provided for @expenseNoteHint.
+  ///
+  /// In pl, this message translates to:
+  /// **'np. zakupy w Biedronce'**
+  String get expenseNoteHint;
+
+  /// No description provided for @expensePaidByLabel.
+  ///
+  /// In pl, this message translates to:
+  /// **'Kto zapłacił'**
+  String get expensePaidByLabel;
+
+  /// No description provided for @expensePaidNobody.
+  ///
+  /// In pl, this message translates to:
+  /// **'nie wiadomo'**
+  String get expensePaidNobody;
+
+  /// No description provided for @expenseDelete.
+  ///
+  /// In pl, this message translates to:
+  /// **'Usuń wydatek'**
+  String get expenseDelete;
+
+  /// No description provided for @errExpenseAmount.
+  ///
+  /// In pl, this message translates to:
+  /// **'Wpisz kwotę większą od zera'**
+  String get errExpenseAmount;
+
+  /// No description provided for @errExpenseCategory.
+  ///
+  /// In pl, this message translates to:
+  /// **'Wybierz kategorię'**
+  String get errExpenseCategory;
+
+  /// No description provided for @toastExpenseRemoved.
+  ///
+  /// In pl, this message translates to:
+  /// **'Usunięto wydatek'**
+  String get toastExpenseRemoved;
+
+  /// No description provided for @planTitle.
+  ///
+  /// In pl, this message translates to:
+  /// **'Plan miesiąca'**
+  String get planTitle;
+
+  /// No description provided for @planTotalLabel.
+  ///
+  /// In pl, this message translates to:
+  /// **'Łącznie na miesiąc (zł)'**
+  String get planTotalLabel;
+
+  /// No description provided for @planCategoryHint.
+  ///
+  /// In pl, this message translates to:
+  /// **'0'**
+  String get planCategoryHint;
+
+  /// No description provided for @planCopyPrevious.
+  ///
+  /// In pl, this message translates to:
+  /// **'Skopiuj z poprzedniego miesiąca'**
+  String get planCopyPrevious;
+
+  /// No description provided for @planCopied.
+  ///
+  /// In pl, this message translates to:
+  /// **'Skopiowano plan'**
+  String get planCopied;
+
+  /// No description provided for @planNoPrevious.
+  ///
+  /// In pl, this message translates to:
+  /// **'Poprzedni miesiąc nie ma planu'**
+  String get planNoPrevious;
+
+  /// No description provided for @planSave.
+  ///
+  /// In pl, this message translates to:
+  /// **'Zapisz plan'**
+  String get planSave;
+
+  /// No description provided for @budgetAdminBadge.
+  ///
+  /// In pl, this message translates to:
+  /// **'tylko Administrator'**
+  String get budgetAdminBadge;
+
+  /// No description provided for @budgetMemberBlocked.
+  ///
+  /// In pl, this message translates to:
+  /// **'Budżet widzi tylko Administrator'**
+  String get budgetMemberBlocked;
+
+  /// No description provided for @categoryLimit.
+  ///
+  /// In pl, this message translates to:
+  /// **'{spent} z {limit}'**
+  String categoryLimit(String spent, String limit);
+
+  /// No description provided for @paidByMeta.
+  ///
+  /// In pl, this message translates to:
+  /// **'{name} · {date}'**
+  String paidByMeta(String name, String date);
 }
 
 class _AppLocalizationsDelegate

@@ -8,7 +8,9 @@ import '../../features/chores/ui/chores_screen.dart';
 import '../../features/notes/ui/notes_screen.dart';
 import '../../features/auth/ui/auth_screens.dart';
 import '../../features/household/data/household_repository.dart';
+import '../../features/budget/ui/budget_screen.dart';
 import '../../features/household/ui/home_screen.dart';
+import '../../features/household/ui/more_screen.dart';
 import '../../features/household/ui/start_screens.dart';
 import '../../features/invites/ui/invite_screen.dart';
 import '../../features/invites/ui/join_screens.dart';
@@ -75,9 +77,11 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(path: '/chores', builder: (_, _) => const ChoresScreen()),
           GoRoute(path: '/calendar', builder: (_, _) => const CalendarScreen()),
           GoRoute(path: '/notes', builder: (_, _) => const NotesScreen()),
+          GoRoute(path: '/more', builder: (_, _) => const MoreScreen()),
         ],
       ),
       GoRoute(path: '/members', builder: (_, _) => const MembersScreen()),
+      GoRoute(path: '/budget', builder: (_, _) => const BudgetScreen()),
       GoRoute(path: '/invite', builder: (_, _) => const InviteScreen()),
     ],
   );
