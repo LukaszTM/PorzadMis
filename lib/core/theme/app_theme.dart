@@ -83,9 +83,14 @@ enum AppThemeMode {
       : (light: themes.defaultLight, dark: chosen);
 }
 
+const appFontFamily = 'Nunito';
+
+/// Styl tekstu w Nunito (czcionka zmienna: grubość ustawia oś `wght`, nie osobne pliki).
 TextStyle _style(double size, FontWeight weight, Color color) => TextStyle(
+      fontFamily: appFontFamily,
       fontSize: size,
       fontWeight: weight,
+      fontVariations: [FontVariation.weight(weight.value.toDouble())],
       color: color,
       height: 1.35,
       fontFeatures: const [FontFeature.tabularFigures()],
@@ -117,6 +122,7 @@ ThemeData buildTheme(AppTokens t) {
   );
   return ThemeData(
     useMaterial3: true,
+    fontFamily: appFontFamily,
     brightness: t.brightness,
     colorScheme: scheme,
     scaffoldBackgroundColor: t.background,

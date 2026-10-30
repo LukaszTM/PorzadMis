@@ -41,3 +41,10 @@ flutter:
   assets:
     - assets/themes/
     - assets/icons/
+  # Nunito (OFL, assets/fonts/OFL.txt) – krój z docs/GUI.md; czcionka zmienna, grubość przez oś wght.
+  fonts:
+    - family: Nunito
+      fonts:
+        - asset: assets/fonts/Nunito-Variable.ttf
+        - asset: assets/fonts/Nunito-Italic-Variable.ttf
+          style: italic
