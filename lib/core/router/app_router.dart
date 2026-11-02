@@ -19,6 +19,7 @@ import '../../features/notifications/ui/settings_screen.dart';
 import '../../features/onboarding/ui/onboarding_screen.dart';
 import '../../features/settings/ui/appearance_screen.dart';
 import '../../features/shopping/ui/shopping_screen.dart';
+import '../../features/widgets/domain/widget_payload.dart';
 import '../ui/app_shell.dart';
 import '../ui/illustration.dart';
 
@@ -50,20 +51,32 @@ final routerProvider = Provider<GoRouter>((ref) {
   ref.listen(authStateProvider, (_, _) => refresh.value++);
   ref.listen(profileProvider, (_, _) => refresh.value++);
   ref.onDispose(refresh.dispose);
+  // Cel z widżetu (porzadmis://chores) zapamiętany na czas ekranu startowego.
+  String? pending;
 
   final router = GoRouter(
     initialLocation: '/splash',
     refreshListenable: refresh,
     redirect: (context, state) {
+      // Dotknięcie widżetu uruchamia aplikację z adresem intentu jako trasą startową.
+      if (state.uri.scheme == 'porzadmis') return routeFromWidgetUri(state.uri) ?? '/home';
       final auth = ref.read(authStateProvider);
       final profile = ref.read(profileProvider);
       final signedIn = auth.value != null;
+      final loading = (auth.isLoading && !auth.hasError) || (signedIn && profile.isLoading && !profile.hasError);
+      var location = state.matchedLocation;
+      if (loading && location != '/splash') pending = state.uri.toString();
+      if (!loading && location == '/splash' && pending != null) {
+        location = pending!;
+        pending = null;
+        final target = resolveRedirect(location: Uri.parse(location).path, loading: false, signedIn: signedIn, householdId: profile.value?.householdId, onboardingDone: profile.value?.onboardingDone ?? true);
+        return target ?? location;
+      }
       return resolveRedirect(
-        location: state.matchedLocation,
+        location: location,
         // Błąd odczytu nie może zatrzymywać aplikacji na ekranie startowym:
         // traktujemy go jak brak profilu (użytkownik trafi na ekran startowy domu).
-        loading: (auth.isLoading && !auth.hasError) ||
-            (signedIn && profile.isLoading && !profile.hasError),
+        loading: loading,
         signedIn: signedIn,
         householdId: profile.value?.householdId,
         onboardingDone: profile.value?.onboardingDone ?? true,
