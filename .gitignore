@@ -49,3 +49,6 @@ app.*.map.json
 
 # Symbole debugowania z --split-debug-info
 /build/symbols/
+
+# Local Android installation packages
+/APK/
