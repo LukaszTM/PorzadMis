@@ -4,6 +4,8 @@ enum ChoreRecurrenceType {
   daily,
   weekly,
   monthly,
+  /// Raz w miesiącu, bez konkretnego dnia (wystąpienie z datą ostatniego dnia miesiąca).
+  monthlyAnytime,
   customDates;
 
   static ChoreRecurrenceType parse(Object? v) =>
@@ -105,6 +107,7 @@ class ChoreOccurrence {
     this.assigneeId,
     this.doneBy,
     this.doneAt,
+    this.flex = false,
   });
 
   final String id;
@@ -115,6 +118,9 @@ class ChoreOccurrence {
   final String? assigneeId;
   final String? doneBy;
   final DateTime? doneAt;
+
+  /// Zadanie „raz w miesiącu, bez terminu”: nie należy do dnia, tylko do miesiąca z [date].
+  final bool flex;
 
   bool get isDone => status == ChoreStatus.done;
   DateTime get day => parseDayKey(date);
@@ -131,7 +137,7 @@ class ChoreOccurrence {
   String uid,
 ) {
   int order(ChoreOccurrence o) => o.isDone ? 1 : 0;
-  final today = all.where((o) => o.date == day).toList()
+  final today = all.where((o) => !o.flex && o.date == day).toList()
     ..sort((a, b) {
       final byDone = order(a).compareTo(order(b));
       return byDone != 0 ? byDone : a.title.toLowerCase().compareTo(b.title.toLowerCase());
@@ -144,4 +150,18 @@ class ChoreOccurrence {
 
 /// Liczba niezrobionych wystąpień w danym dniu (do kropek w kalendarzu i paska tygodnia).
 int openCountOn(List<ChoreOccurrence> all, String day) =>
-    all.where((o) => o.date == day && !o.isDone).length;
+    all.where((o) => !o.flex && o.date == day && !o.isDone).length;
+
+/// Zadania „bez terminu” do pokazania w miesiącu [today]: wszystkie z tego miesiąca
+/// oraz niezrobione zaległe z poprzednich; do zrobienia przed zrobionymi.
+List<ChoreOccurrence> flexForMonth(List<ChoreOccurrence> all, String today) {
+  final month = today.substring(0, 7);
+  final list = all
+      .where((o) => o.flex && (o.date.substring(0, 7) == month || (o.date.compareTo(today) < 0 && !o.isDone)))
+      .toList()
+    ..sort((a, b) {
+      final byDone = (a.isDone ? 1 : 0).compareTo(b.isDone ? 1 : 0);
+      return byDone != 0 ? byDone : a.title.toLowerCase().compareTo(b.title.toLowerCase());
+    });
+  return list;
+}

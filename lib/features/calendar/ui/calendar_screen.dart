@@ -54,7 +54,7 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
       ref.read(eventTypesRepositoryProvider).seedIfEmpty(hid).catchError((Object _) {});
     }
     final dayItems = occurrencesOnDay(events, _selected);
-    final dayChores = chores.where((c) => c.date == dayKey(_selected)).toList()
+    final dayChores = chores.where((c) => !c.flex && c.date == dayKey(_selected)).toList()
       ..sort((a, b) => (a.isDone ? 1 : 0).compareTo(b.isDone ? 1 : 0));
     final now = DateTime.now();
 
@@ -124,7 +124,7 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
                 onPageChanged: (foc) => _focused = foc,
                 eventLoader: (day) => [
                   ...occurrencesOnDay(events, day),
-                  ...chores.where((c) => c.date == dayKey(day) && !c.isDone),
+                  ...chores.where((c) => !c.flex && c.date == dayKey(day) && !c.isDone),
                 ],
                 calendarBuilders: CalendarBuilders<Object>(
                   // Kropka accent = wydarzenie, kropka chart2 = obowiazek; maks. 2 (GUI 5.10).

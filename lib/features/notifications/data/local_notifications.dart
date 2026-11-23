@@ -31,7 +31,15 @@ class LocalNotifications {
       tz.setLocalLocation(tz.UTC);
     }
     await _plugin.initialize(
-      settings: const InitializationSettings(android: AndroidInitializationSettings('ic_notification')),
+      settings: const InitializationSettings(
+        android: AndroidInitializationSettings('ic_notification'),
+        // Zgodę na iOS prosimy osobno w requestPermission(), przy starcie po zalogowaniu.
+        iOS: DarwinInitializationSettings(
+          requestAlertPermission: false,
+          requestBadgePermission: false,
+          requestSoundPermission: false,
+        ),
+      ),
       onDidReceiveNotificationResponse: (resp) {
         final route = resp.payload;
         if (route != null && route.isNotEmpty) onTap(route);
@@ -53,7 +61,9 @@ class LocalNotifications {
 
   Future<bool> requestPermission() async {
     final android = _plugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
-    return await android?.requestNotificationsPermission() ?? true;
+    if (android != null) return await android.requestNotificationsPermission() ?? true;
+    final ios = _plugin.resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>();
+    return await ios?.requestPermissions(alert: true, badge: true, sound: true) ?? true;
   }
 
   NotificationDetails _details(String channelName) => NotificationDetails(
@@ -64,6 +74,7 @@ class LocalNotifications {
           priority: Priority.high,
           icon: 'ic_notification',
         ),
+        iOS: const DarwinNotificationDetails(presentAlert: true, presentSound: true),
       );
 
   /// Pokazuje powiadomienie od razu (np. push odebrany, gdy aplikacja jest na wierzchu).

@@ -156,6 +156,27 @@ describe("lista zakupów", () => {
     await assertSucceeds(getDocs(collection(db, `households/${HID}/shoppingLists/main/items`)));
     await assertSucceeds(setDoc(doc(db, item("i2")), newItem()));
   });
+  test("listy: członek tworzy, zmienia nazwę i usuwa własną listę; wspólna dla domu", async () => {
+    const db = env.authenticatedContext("member1").firestore();
+    const list = (id: string) => `households/${HID}/shoppingLists/${id}`;
+    await assertSucceeds(setDoc(doc(db, list("l1")), { name: "Budowlane", createdAt: serverTimestamp() }));
+    await assertSucceeds(updateDoc(doc(db, list("l1")), { name: "Remont" }));
+    await assertSucceeds(setDoc(doc(db, `${list("l1")}/items/x1`), newItem()));
+    const other = env.authenticatedContext("admin1").firestore();
+    await assertSucceeds(getDoc(doc(other, list("l1"))));
+    await assertSucceeds(deleteDoc(doc(db, list("l1"))));
+  });
+  test("listy deny: obcy, pusta nazwa, lista `main`, zmiana createdAt", async () => {
+    const db = env.authenticatedContext("member1").firestore();
+    const list = (id: string) => `households/${HID}/shoppingLists/${id}`;
+    await assertFails(setDoc(doc(db, list("l2")), { name: "", createdAt: serverTimestamp() }));
+    await assertFails(setDoc(doc(db, list("main")), { name: "Inna", createdAt: serverTimestamp() }));
+    await assertFails(setDoc(doc(db, list("l3")), { name: "X", createdAt: Timestamp.now() }));
+    await assertFails(deleteDoc(doc(db, list("main"))));
+    const stranger = env.authenticatedContext("obcy").firestore();
+    await assertFails(setDoc(doc(stranger, list("l4")), { name: "Obca", createdAt: serverTimestamp() }));
+    await assertFails(getDocs(collection(stranger, `households/${HID}/shoppingLists`)));
+  });
   test("allow: członek odhacza cudzą pozycję i cofa odhaczenie", async () => {
     const db = env.authenticatedContext("member1").firestore();
     await assertSucceeds(updateDoc(doc(db, item("i1")), { checked: true, checkedBy: "member1" }));

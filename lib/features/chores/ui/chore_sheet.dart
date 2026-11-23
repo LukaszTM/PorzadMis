@@ -232,6 +232,7 @@ class _ChoreFormState extends State<_ChoreForm> {
               ChoiceOption(ChoreRecurrenceType.daily, l.cycleDaily),
               ChoiceOption(ChoreRecurrenceType.weekly, l.cycleWeekly),
               ChoiceOption(ChoreRecurrenceType.monthly, l.cycleMonthly),
+              ChoiceOption(ChoreRecurrenceType.monthlyAnytime, l.cycleAnytime),
               ChoiceOption(ChoreRecurrenceType.customDates, l.cycleCustom),
             ],
             selected: {_type},
@@ -272,6 +273,10 @@ class _ChoreFormState extends State<_ChoreForm> {
               keyboardType: TextInputType.number,
               inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(2)],
             ),
+          ],
+          if (_type == ChoreRecurrenceType.monthlyAnytime) ...[
+            const SizedBox(height: 8),
+            Text(l.choreAnytimeHint, style: text.labelMedium),
           ],
           if (_type == ChoreRecurrenceType.customDates) ...[
             label(l.chorePickDates),

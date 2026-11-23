@@ -86,7 +86,7 @@ List<Reminder> buildReminders({
   if (prefs.chores) {
     final rulesById = {for (final r in rules) r.id: r};
     for (final o in occurrences) {
-      if (o.isDone) continue;
+      if (o.isDone || o.flex) continue;
       if (o.assigneeId != null && o.assigneeId != uid) continue;
       final hm = _parseHm(rulesById[o.ruleId]?.reminderTime);
       if (hm == null) continue;

@@ -77,6 +77,7 @@ class ChoresRepository {
         assigneeId: d['assigneeId'] as String?,
         doneBy: d['doneBy'] as String?,
         doneAt: (d['doneAt'] as Timestamp?)?.toDate(),
+        flex: d['flex'] == true,
       );
 }
 

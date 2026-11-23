@@ -63,6 +63,7 @@ class _ChoresScreenState extends ConsumerState<ChoresScreen> {
     final day = dayKey(_selected);
     final split = splitForDay(all, day, uid);
     final now = DateTime.now();
+    final flex = flexForMonth(all, dayKey(now));
 
     String who(ChoreOccurrence o) => o.assigneeId == null ? l.choresSomeone : (names[o.assigneeId] ?? '');
 
@@ -70,6 +71,7 @@ class _ChoresScreenState extends ConsumerState<ChoresScreen> {
       final rule = rulesById[o.ruleId];
       final meta = [
         if (showWho) who(o),
+        if (o.flex && o.date.substring(0, 7) != dayKey(now).substring(0, 7)) l.choresOverdueMonth,
         if (o.isDone && o.doneBy != null && o.doneBy != o.assigneeId) l.choresDoneBy(names[o.doneBy] ?? ''),
       ].join(' · ');
       final can = o.canToggle(uid, isAdmin: isAdmin);
@@ -144,6 +146,18 @@ class _ChoresScreenState extends ConsumerState<ChoresScreen> {
                   ],
                 ),
         ),
+        if (flex.isNotEmpty)
+          AppCard(
+            title: l.choresThisMonth,
+            child: Column(
+              children: [
+                for (var i = 0; i < flex.length; i++) ...[
+                  if (i > 0) const AppDivider(),
+                  row(flex[i], showWho: flex[i].assigneeId != uid),
+                ],
+              ],
+            ),
+          ),
         if (members.length > 1)
           AppCard(
             title: l.choresOthers,

@@ -56,6 +56,12 @@ class _ShoppingScreenState extends ConsumerState<ShoppingScreen> {
     });
   }
 
+  String get _listId {
+    final selected = ref.read(selectedShoppingListProvider);
+    final lists = ref.read(shoppingListsProvider).value ?? const <ShoppingList>[];
+    return lists.any((x) => x.id == selected) ? selected : defaultShoppingListId;
+  }
+
   void _submit([String? suggested]) {
     if (suggested == null && !_form.currentState!.validate()) return;
     final name = (suggested ?? _controller.text).trim();
@@ -65,7 +71,8 @@ class _ShoppingScreenState extends ConsumerState<ShoppingScreen> {
 
     final l = AppLocalizations.of(context);
     final repo = ref.read(shoppingRepositoryProvider);
-    final items = ref.read(shoppingItemsProvider).value ?? const <ShoppingItem>[];
+    final listId = _listId;
+    final items = ref.read(shoppingListItemsProvider(listId)).value ?? const <ShoppingItem>[];
     final key = historyKey(name);
     final same = items.where((i) => i.key == key).toList();
     _controller.clear();
@@ -76,7 +83,7 @@ class _ShoppingScreenState extends ConsumerState<ShoppingScreen> {
     }
     if (same.isNotEmpty) {
       // Było już kupione: wraca na listę zamiast tworzyć duplikat.
-      _fire(repo.setChecked(hid: hid, id: same.first.id, uid: uid, checked: false));
+      _fire(repo.setChecked(hid: hid, id: same.first.id, uid: uid, checked: false, listId: listId));
       return;
     }
     final history = ref.read(shoppingHistoryProvider).value ?? const <HistoryEntry>[];
@@ -86,6 +93,7 @@ class _ShoppingScreenState extends ConsumerState<ShoppingScreen> {
       uid: uid,
       name: name,
       category: known.isEmpty ? StoreCategory.other : known.first.category,
+      listId: listId,
     ));
   }
 
@@ -98,6 +106,7 @@ class _ShoppingScreenState extends ConsumerState<ShoppingScreen> {
           id: item.id,
           uid: uid,
           checked: checked,
+          listId: _listId,
         ));
   }
 
@@ -106,12 +115,13 @@ class _ShoppingScreenState extends ConsumerState<ShoppingScreen> {
     if (hid == null || bought.isEmpty) return;
     final l = AppLocalizations.of(context);
     final repo = ref.read(shoppingRepositoryProvider);
-    _fire(repo.deleteAll(hid, bought));
+    final listId = _listId;
+    _fire(repo.deleteAll(hid, bought, listId: listId));
     showAppToast(
       context,
       l.toastCleared,
       actionLabel: l.toastUndo,
-      onAction: () => repo.restore(hid, bought).catchError((Object _) {}),
+      onAction: () => repo.restore(hid, bought, listId: listId).catchError((Object _) {}),
     );
   }
 
@@ -123,7 +133,11 @@ class _ShoppingScreenState extends ConsumerState<ShoppingScreen> {
 
     // Sesja jest potrzebna do zapisów (kto dodał / odhaczył); obserwujemy ją, żeby była aktywna.
     ref.watch(authStateProvider);
-    final items = ref.watch(shoppingItemsProvider).value ?? const <ShoppingItem>[];
+    final lists = ref.watch(shoppingListsProvider).value ?? const <ShoppingList>[];
+    final selectedRaw = ref.watch(selectedShoppingListProvider);
+    final selectedId = lists.any((x) => x.id == selectedRaw) ? selectedRaw : defaultShoppingListId;
+    final selectedList = lists.where((x) => x.id == selectedId).firstOrNull;
+    final items = ref.watch(shoppingListItemsProvider(selectedId)).value ?? const <ShoppingItem>[];
     final history = ref.watch(shoppingHistoryProvider).value ?? const <HistoryEntry>[];
     final members = ref.watch(membersProvider).value ?? const [];
     final names = {for (final m in members) m.uid: m.displayName};
@@ -149,7 +163,7 @@ class _ShoppingScreenState extends ConsumerState<ShoppingScreen> {
           leading: Text(emojiFor(i.name, fallback: _categoryEmoji(i.category)), style: const TextStyle(fontSize: 22)),
           meta: meta(i).isEmpty ? null : meta(i),
           onChanged: (v) => _toggle(i, v),
-          onLongPress: () => showEditItemSheet(context, ref, i),
+          onLongPress: () => showEditItemSheet(context, ref, i, listId: selectedId),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -158,7 +172,7 @@ class _ShoppingScreenState extends ConsumerState<ShoppingScreen> {
             tooltip: l.itemEditAction,
             constraints: const BoxConstraints(minWidth: 48, minHeight: 48),
             icon: Icon(Icons.edit_outlined, size: 22, color: t.textMuted),
-            onPressed: () => showEditItemSheet(context, ref, i),
+            onPressed: () => showEditItemSheet(context, ref, i, listId: selectedId),
           ),
             ],
           ),
@@ -181,6 +195,16 @@ class _ShoppingScreenState extends ConsumerState<ShoppingScreen> {
                   Text(l.shoppingSubtitle, style: text.bodyMedium!.copyWith(color: t.textMuted)),
                 ],
               ),
+            ),
+            _ListSwitcher(
+              lists: lists,
+              selectedId: selectedId,
+              onSelect: (id) => ref.read(selectedShoppingListProvider.notifier).select(id),
+              onNew: () async {
+                final id = await showListSheet(context, ref, null);
+                if (id != null) ref.read(selectedShoppingListProvider.notifier).select(id);
+              },
+              onEdit: selectedList == null ? null : () => showListSheet(context, ref, selectedList),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -329,6 +353,88 @@ class _EmptyState extends StatelessWidget {
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodyLarge,
           ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Pasek list: „Zakupy” (podstawowa), własne listy i „+ Nowa lista”; przy wybranej własnej liście ołówek.
+class _ListSwitcher extends StatelessWidget {
+  const _ListSwitcher({
+    required this.lists,
+    required this.selectedId,
+    required this.onSelect,
+    required this.onNew,
+    required this.onEdit,
+  });
+
+  final List<ShoppingList> lists;
+  final String selectedId;
+  final ValueChanged<String> onSelect;
+  final VoidCallback onNew;
+  final VoidCallback? onEdit;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
+    final t = context.tokens;
+    final text = Theme.of(context).textTheme;
+
+    Widget chip(String label, bool selected, VoidCallback onTap, {IconData? icon}) => Semantics(
+          button: true,
+          selected: selected,
+          label: label,
+          excludeSemantics: true,
+          child: Material(
+            color: selected ? t.accent : t.surface,
+            shape: StadiumBorder(side: BorderSide(color: selected ? t.accent : t.border, width: 2)),
+            child: InkWell(
+              customBorder: const StadiumBorder(),
+              onTap: onTap,
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(minHeight: 48),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (icon != null) ...[Icon(icon, size: 20, color: t.accent), const SizedBox(width: 6)],
+                      Text(
+                        label,
+                        style: text.bodyMedium!.copyWith(
+                          fontWeight: FontWeight.w800,
+                          color: selected ? t.onAccent : (icon != null ? t.accent : t.text),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+
+    return SizedBox(
+      height: 60,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.fromLTRB(20, 6, 20, 6),
+        children: [
+          chip(l.shoppingMainList, selectedId == defaultShoppingListId, () => onSelect(defaultShoppingListId)),
+          for (final x in lists) ...[
+            const SizedBox(width: 8),
+            chip(x.name, selectedId == x.id, () => onSelect(x.id)),
+          ],
+          const SizedBox(width: 8),
+          chip(l.shoppingNewList, false, onNew, icon: Icons.add),
+          if (onEdit != null)
+            IconButton(
+              tooltip: l.shoppingListEditAction,
+              constraints: const BoxConstraints(minWidth: 48, minHeight: 48),
+              icon: Icon(Icons.edit_outlined, size: 22, color: t.textMuted),
+              onPressed: onEdit,
+            ),
         ],
       ),
     );

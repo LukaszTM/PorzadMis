@@ -57,6 +57,14 @@ class AuthRepository {
     }
   }
 
+  /// Logowanie przez Apple (tylko iOS; Apple wymaga go, gdy jest logowanie przez Google).
+  /// Używa natywnego przepływu Firebase Auth, bez dodatkowego pakietu.
+  Future<void> signInWithApple() => _guard(() => _auth.signInWithProvider(
+        AppleAuthProvider()
+          ..addScope('email')
+          ..addScope('name'),
+      ));
+
   Future<void> signOut() async {
     try {
       if (_googleReady) await GoogleSignIn.instance.signOut();
@@ -77,6 +85,7 @@ class AuthRepository {
         'invalid-email' =>
           AuthFailureKind.wrongCredentials,
         'email-already-in-use' => AuthFailureKind.emailInUse,
+        'canceled' || 'web-context-canceled' => AuthFailureKind.cancelled,
         'network-request-failed' => AuthFailureKind.network,
         _ => AuthFailureKind.generic,
       });

@@ -12,7 +12,7 @@ Założenia, które porządkują resztę planu:
 - Dane wspólne synchronizują się przez backend w chmurze w czasie rzeczywistym; aplikacja działa też offline i dosyła zmiany po odzyskaniu sieci.
 - Prywatność na poziomie wpisu: notatki i wydarzenia mają przełącznik „wszyscy / tylko ja”.
 - Budżet jest widoczny wyłącznie dla Administratorów, również w powiadomieniach i widżetach.
-- Platforma: na początek tylko Android; Flutter zostawia otwartą drogę do iOS bez przepisywania. Pierwsza wersja (MVP) po polsku, z walutą PLN i tygodniem od poniedziałku.
+- Platforma: Android; od 10.11.2026 także iOS (iOS 15+) z tego samego kodu Flutter. Wersja iOS jest przygotowana bez Maca i budowana w chmurze (Codemagic), więc przed publikacją wymaga sprawdzenia na prawdziwym iPhonie. Pierwsza wersja (MVP) po polsku, z walutą PLN i tygodniem od poniedziałku.
 - Jeden dom może mieć kilku Administratorów; pierwszy, kto założy dom, jest Administratorem automatycznie.
 - Tryb jednoosobowy: aplikacja działa też dla jednej osoby. To zwykły dom z jednym członkiem (Administratorem); na ekranie startowym ścieżka „Zacznij tylko dla siebie” zakłada go jednym dotknięciem pod nazwą „Mój dom”. Nie ma osobnego modelu danych ani osobnych ekranów; domowników można zaprosić później kodem QR.
 
@@ -137,11 +137,11 @@ Rekomendacja: Flutter po stronie telefonu i Firebase jako backend. To najkrótsz
 | Aplikacja mobilna | Flutter 3.x (Dart), teraz tylko Android; iOS później z tego samego kodu | jeden zespół, jeden kod, dobre wsparcie Claude Code |
 | Stan i architektura | Riverpod + warstwy: ui / domain / data (repozytoria) | testowalne, czytelne dla agenta |
 | Baza i synchronizacja | Cloud Firestore z włączoną persystencją offline | zmiany jednej osoby od razu u innych; działa bez sieci |
-| Logowanie | Firebase Auth: e-mail + hasło, Google | Sign in with Apple dojdzie dopiero przy wersji iOS |
+| Logowanie | Firebase Auth: e-mail + hasło, Google, Apple (tylko iOS, natywny przepływ Firebase bez dodatkowego pakietu) | Apple wymaga Sign in with Apple, gdy aplikacja oferuje logowanie przez Google |
 | Uprawnienia | Firestore Security Rules oparte na roli w dokumencie członkostwa | budżet i wpisy prywatne chronione na serwerze |
 | Logika serwerowa | Cloud Functions (TypeScript): generowanie wystąpień cykli, wysyłka push, obsługa zaproszeń QR, alert budżetu | logika, której nie wolno zostawić w telefonie |
 | Push | Firebase Cloud Messaging + flutter_local_notifications | darmowe; na Androidzie bez dodatkowej konfiguracji |
-| Widżety | pakiet home_widget + Android App Widget (Kotlin) | jedyna część wymagająca kodu natywnego |
+| Widżety | pakiet home_widget + Android App Widget (Kotlin) i WidgetKit (Swift, iOS) | jedyna część wymagająca kodu natywnego; oba czytają ten sam JSON z aplikacji |
 | QR | mobile_scanner (skan), qr_flutter (generowanie) | dojrzałe pakiety |
 | Wykresy | fl_chart (wykres kołowy, paski planu) | lekki, bez opłat |
 | Kalendarz | table_calendar + własny widok dnia/tygodnia | konfigurowalne zaznaczanie wielu dat |
@@ -193,10 +193,12 @@ Uwagi do modelu:
 - Etap 4, obowiązki: `choreRules/{id}` ma `title`, `description`, `assigneeId` (uid lub null = „ktoś”), `mode` (`once` | `recurring`), `startDate` (tekst `yyyy-MM-dd`, dzień pierwszego wystąpienia lub jedyny termin), `recurrence` (dla `recurring`: `type` daily | weekly | monthly | customDates, `interval` ≥ 1, `weekdays[]` 1–7 od poniedziałku, `monthDay` 1–31, `dates[]` teksty `yyyy-MM-dd`, `until` tekst lub null), `reminderTime` (`HH:mm` lub null), `createdBy`, `updatedAt`. Daty obowiązków są dniami kalendarzowymi domu, nie chwilami, więc trzymamy je jako tekst, nie Timestamp.
 - Etap 5, budżet: `categories/{id}` ma `name`, `icon` (klucz ikony), `colorIndex` (0–4, indeks do tokenów `chart1…chart5`; żadnych hexów w bazie), `order`. Zestaw startowy zakłada klient przy pierwszym otwarciu budżetu przez Administratora, gdy kolekcja jest pusta. `expenses/{id}`: `amount` (grosze, int ≥ 1), `date` (tekst `yyyy-MM-dd`), `month` (tekst `yyyy-MM`, do zapytania po miesiącu bez indeksu złożonego; sortowanie po stronie klienta), `categoryId`, `note`, `paidBy` (uid lub null), `createdBy`, `createdAt`. `budgetPlans/{yyyy-MM}`: `limits` (mapa categoryId → grosze), `total` (grosze), `updatedAt`. Reguły: `expenses` i `budgetPlans` czyta i pisze wyłącznie Administrator (Domownik nie dostaje tych dokumentów na urządzenie); `categories` czytają członkowie, pisze Administrator.
 - Etap 6, powiadomienia: `users/{uid}.fcmTokens[]` (tokeny urządzeń, dopisywane przy starcie i odświeżeniu, usuwane przez serwer po błędzie wysyłki) i `users/{uid}.notificationPrefs` (mapa: `chores`, `events`, `shopping`, `members`, `budget` → bool; domyślnie wszystko włączone poza `shopping`). Push z serwera: nowy obowiązek przypisany mnie (zapis `choreRules`), nowy domownik (zapis `members`), nowa pozycja zakupów (zapis `items`, tylko gdy odbiorca włączył), przekroczenie planu (zapis `expenses`; tylko Administratorzy; flaga `alerted100` w `budgetPlans/{yyyy-MM}` chroni przed powtórzeniem). Przypomnienia o obowiązkach (`reminderTime`) i wydarzeniach (`reminderMinutes`) planuje telefon lokalnie (`flutter_local_notifications` + `timezone`), bo zna swoje wystąpienia; serwer nie musi liczyć cykli. Każde powiadomienie niesie `route` do deep linku.
+- Zadania „raz w miesiącu, bez terminu” (11.2026): `recurrence.type` = `monthlyAnytime` (`interval` = co ile miesięcy). Serwer tworzy jedno wystąpienie na miesiąc z `date` = ostatni dzień miesiąca i `flex: true`. Wystąpienia `flex` nie trafiają do widoku dnia, kalendarza, widżetu ani przypomnień; ekran obowiązków pokazuje je w karcie „W tym miesiącu, bez terminu” (bieżący miesiąc plus niezrobione zaległe).
 - `choreOccurrences/{ruleId_yyyy-MM-dd}`: identyfikator deterministyczny, żeby regeneracja nie dublowała wystąpień. Pola: `ruleId`, `date`, `title` (kopia z reguły), `assigneeId`, `status` (`todo` | `done` | `skipped`), `doneBy`, `doneAt`. Generuje je Cloud Function przy zapisie reguły (usuwa przyszłe nieodhaczone i tworzy na nowo do 90 dni) oraz codziennie o 00:05 czasu domu. Usunięcie reguły usuwa jej wystąpienia. Klient zmienia tylko `status`, `doneBy`, `doneAt` (assignee lub Administrator).
 - Wystąpienia obowiązków generuje Cloud Function przy zapisie reguły i codziennie o 00:05 czasu domu, zawsze do 90 dni w przód; edycja reguły regeneruje tylko przyszłe, nieodhaczone wystąpienia.
 - Przełączenie notatki lub wydarzenia z prywatnego na wspólne to przeniesienie dokumentu między kolekcjami (transakcja), nie zmiana flagi.
 - Indeksy złożone: expenses (householdId, date), choreOccurrences (date, assigneeId). Pozycje zakupów sortuje klient po `createdAt` (zapytanie po jednym polu), więc nie potrzeba indeksu (checked, order).
+- Kilka list zakupów (11.2026): lista podstawowa `main` („Zakupy”) nadal nie ma dokumentu i nie da się jej usunąć ani przemianować. Dodatkowe listy to dokumenty `shoppingLists/{id}` z polami `name` (1–60 znaków) i `createdAt`; tworzy, zmienia nazwę i usuwa je każdy członek domu, a usunięcie kasuje też pozycje listy. Historia podpowiedzi jest wspólna. Karta na ekranie głównym i widżet liczą tylko `main`.
 - Etap 2 używa jednej listy zakupów o stałym identyfikatorze `main`; dokument listy nie jest wymagany (pozycje leżą w podkolekcji), kilka list dojdzie po MVP.
 - Historia zakupów (`shoppingHistory`) przeżywa „Wyczyść kupione”: stąd podpowiedzi i zapamiętany dział produktu. Klucz dokumentu jest deterministyczny (nie UUID), bo ma łączyć te same nazwy.
 - Zapisy z listy zakupów klient wysyła bez czekania na serwer (praca offline); kolejka wyśle je po odzyskaniu sieci.
@@ -220,7 +222,7 @@ Definicja „zrobione” dla każdego etapu:
 - [ ] Reguły bezpieczeństwa mają test na dostęp dozwolony i zabroniony.
 - [ ] Brak ostrzeżeń `flutter analyze`, testy jednostkowe przechodzą.
 
-Poza MVP (do kolejnych wersji): kilka list zakupów, rotacja obowiązków, eksport budżetu do CSV, załączniki w notatkach, wersja na tablet, język angielski, wersja iOS.
+Poza MVP (do kolejnych wersji): kilka list zakupów, rotacja obowiązków, eksport budżetu do CSV, załączniki w notatkach, wersja na tablet, język angielski. Wersja iOS (od 11.2026) jest przygotowana, ale niesprawdzona: patrz README, sekcja iOS.
 
 ## Dokumenty towarzyszące
 

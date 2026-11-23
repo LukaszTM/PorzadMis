@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show TargetPlatform, defaultTargetPlatform;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -79,6 +80,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 ? null
                 : () => _run(() => ref.read(authRepositoryProvider).signInWithGoogle()),
           ),
+          if (defaultTargetPlatform == TargetPlatform.iOS) ...[
+            const SizedBox(height: 12),
+            SecondaryButton(
+              label: l.appleAction,
+              icon: Icons.apple,
+              onPressed: _busy ? null : () => _run(() => ref.read(authRepositoryProvider).signInWithApple()),
+            ),
+          ],
           TertiaryButton(label: l.goRegister, onPressed: () => context.go('/register')),
         ],
       ),

@@ -20,29 +20,31 @@ String categoryLabel(AppLocalizations l, StoreCategory c) => switch (c) {
 
 /// Arkusz edycji pozycji (GUI 5.9): nazwa, ilość, jednostka, dział, „Gotowe” i „Usuń”.
 /// Usunięcie działa od razu, z komunikatem „Cofnij” (GUI 8) pokazanym z ekranu wywołującego.
-Future<void> showEditItemSheet(BuildContext context, WidgetRef ref, ShoppingItem item) async {
+Future<void> showEditItemSheet(BuildContext context, WidgetRef ref, ShoppingItem item,
+    {String listId = defaultShoppingListId}) async {
   final l = AppLocalizations.of(context);
   final deleted = await showAppSheet<bool>(
     context,
     title: l.itemEditTitle,
-    builder: (sheetContext) => _EditItemForm(item: item, ref: ref),
+    builder: (sheetContext) => _EditItemForm(item: item, ref: ref, listId: listId),
   );
   if (deleted != true || !context.mounted) return;
   final hid = ref.read(householdIdProvider);
   if (hid == null) return;
   final repo = ref.read(shoppingRepositoryProvider);
-  repo.delete(hid, item.id).catchError((Object _) {});
+  repo.delete(hid, item.id, listId: listId).catchError((Object _) {});
   showAppToast(
     context,
     l.toastRemoved,
     actionLabel: l.toastUndo,
-    onAction: () => repo.restore(hid, [item]).catchError((Object _) {}),
+    onAction: () => repo.restore(hid, [item], listId: listId).catchError((Object _) {}),
   );
 }
 
 class _EditItemForm extends StatefulWidget {
-  const _EditItemForm({required this.item, required this.ref});
+  const _EditItemForm({required this.item, required this.ref, required this.listId});
 
+  final String listId;
   final ShoppingItem item;
   final WidgetRef ref;
 
@@ -76,7 +78,7 @@ class _EditItemFormState extends State<_EditItemForm> {
       category: _category,
     );
     // Bez czekania na serwer: w trybie offline zapis dojdzie później.
-    widget.ref.read(shoppingRepositoryProvider).update(hid, updated).catchError((Object _) {});
+    widget.ref.read(shoppingRepositoryProvider).update(hid, updated, listId: widget.listId).catchError((Object _) {});
     Navigator.of(context).pop();
   }
 
@@ -186,6 +188,108 @@ class _CategoryChoice extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// Arkusz nowej listy (list == null) albo zmiany nazwy / usunięcia istniejącej.
+/// Zwraca id nowej listy do otwarcia albo `null`.
+Future<String?> showListSheet(BuildContext context, WidgetRef ref, ShoppingList? list) async {
+  final l = AppLocalizations.of(context);
+  final hid = ref.read(householdIdProvider);
+  if (hid == null) return null;
+  final repo = ref.read(shoppingRepositoryProvider);
+  final result = await showAppSheet<_ListResult>(
+    context,
+    title: list == null ? l.shoppingListNewTitle : l.shoppingListEditTitle,
+    builder: (_) => _ListForm(list: list),
+  );
+  if (result == null || !context.mounted) return null;
+  if (result.delete) {
+    final ok = await confirmSheet(
+      context,
+      title: l.shoppingListDelete,
+      body: l.shoppingListDeleteBody(list!.name),
+      confirmLabel: l.confirmYes,
+      cancelLabel: l.back,
+      danger: true,
+    );
+    if (!ok || !context.mounted) return null;
+    ref.read(selectedShoppingListProvider.notifier).select(defaultShoppingListId);
+    repo.deleteList(hid, list.id).catchError((Object _) {});
+    showAppToast(context, l.toastListRemoved);
+    return null;
+  }
+  final name = result.name!;
+  if (list == null) {
+    final id = repo.newId();
+    repo.createList(hid, id, name).catchError((Object _) {});
+    return id;
+  }
+  repo.renameList(hid, list.id, name).catchError((Object _) {});
+  return null;
+}
+
+class _ListResult {
+  const _ListResult({this.name, this.delete = false});
+
+  final String? name;
+  final bool delete;
+}
+
+class _ListForm extends StatefulWidget {
+  const _ListForm({this.list});
+
+  final ShoppingList? list;
+
+  @override
+  State<_ListForm> createState() => _ListFormState();
+}
+
+class _ListFormState extends State<_ListForm> {
+  final _form = GlobalKey<FormState>();
+  late final _name = TextEditingController(text: widget.list?.name ?? '');
+
+  @override
+  void dispose() {
+    _name.dispose();
+    super.dispose();
+  }
+
+  void _save() {
+    if (!_form.currentState!.validate()) return;
+    Navigator.of(context).pop(_ListResult(name: _name.text.trim()));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
+    return Form(
+      key: _form,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          AppTextField(
+            controller: _name,
+            label: l.shoppingListNameLabel,
+            hint: l.shoppingListNameHint,
+            textCapitalization: TextCapitalization.sentences,
+            textInputAction: TextInputAction.done,
+            onSubmitted: (_) => _save(),
+            validator: (v) => (v == null || v.trim().isEmpty) ? l.errShoppingListName : null,
+          ),
+          const SizedBox(height: 20),
+          PrimaryButton(label: l.itemDone, onPressed: _save),
+          if (widget.list != null) ...[
+            const SizedBox(height: 4),
+            TertiaryButton(
+              label: l.shoppingListDelete,
+              danger: true,
+              onPressed: () => Navigator.of(context).pop(const _ListResult(delete: true)),
+            ),
+          ],
+        ],
       ),
     );
   }

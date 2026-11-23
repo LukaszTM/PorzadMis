@@ -1,11 +1,22 @@
 # PorządMiś
 
-Domowy organizer na Androida dla jednej osoby albo całej rodziny: wspólna lista zakupów,
-(wkrótce) kalendarz, notatki, obowiązki i budżet. Plan: [PLAN.md](PLAN.md), zasady pracy:
+Domowy organizer dla jednej osoby albo całej rodziny: wspólne listy zakupów,
+kalendarz, notatki, obowiązki i budżet. Plan: [PLAN.md](PLAN.md), zasady pracy:
 [CLAUDE.md](CLAUDE.md), wytyczne interfejsu: [docs/GUI.md](docs/GUI.md), logo: [brand/](brand/).
 
 Stack: Flutter 3.x, Riverpod, go_router, Firebase (Auth, Firestore, Cloud Functions w TypeScript).
-Tylko Android (minSdk 26).
+Wydanie do pobrania jest dostępne na Androida (minSdk 26). Stan prac nad iOS opisano poniżej.
+
+## Pobierz PorządMisia na Androida
+
+PorządMiś 0.1.0 wymaga Androida 8.0 lub nowszego. Na większości telefonów wybierz ARM64.
+
+- [Pobierz APK ARM64](https://github.com/LukaszTM/PorzadMis/raw/refs/heads/main/docs/downloads/PorzadMis-0.1.0-arm64-v8a.apk)
+- [Pobierz APK ARM 32-bit](https://github.com/LukaszTM/PorzadMis/raw/refs/heads/main/docs/downloads/PorzadMis-0.1.0-armeabi-v7a.apk)
+- [Pobierz APK x86-64](https://github.com/LukaszTM/PorzadMis/raw/refs/heads/main/docs/downloads/PorzadMis-0.1.0-x86_64.apk)
+- [Sumy kontrolne SHA-256](docs/downloads/SHA256SUMS)
+
+[Instrukcja użytkownika w PDF](docs/instrukcja-uzytkownika.pdf) opisuje instalację, konfigurację domu i obsługę głównych funkcji. [Zrzuty ekranów](docs/screenshots/) pokazują aplikację z przykładowymi danymi.
 
 ## Co działa (stan na koniec etapu 7 – wszystkie etapy MVP)
 
@@ -24,6 +35,7 @@ Tylko Android (minSdk 26).
 - Wspólna lista domu na żywo i offline: dopisywanie, odhaczanie całym wierszem,
   grupowanie po działach, edycja (ilość, jednostka, dział), „Wyczyść kupione” z „Cofnij”.
 - Podpowiedzi nazw z historii domu (historia przeżywa czyszczenie listy).
+- Kilka list zakupów z osobnymi pozycjami i wspólną historią podpowiedzi.
 - Pasek dolny (Dziś, Zakupy) i karta-skrót z liczbą rzeczy do kupienia.
 
 **Etap 3 – notatnik i kalendarz**
@@ -60,10 +72,52 @@ Tylko Android (minSdk 26).
 - Onboarding (3 ekrany z misiem) raz po pierwszym logowaniu.
 - Widżety ekranu głównego „Dziś” i „Zakupy” (Kotlin, RemoteViews; dotknięcie otwiera ekran).
 
-**Poza MVP (do kolejnych wersji):** odhaczanie z poziomu widżetu, kilka list zakupów,
-rotacja obowiązków, eksport budżetu do CSV, załączniki w notatkach, tablet, angielski, iOS.
+**Poza MVP (do kolejnych wersji):** odhaczanie z poziomu widżetu,
+rotacja obowiązków, eksport budżetu do CSV, załączniki w notatkach, tablet, angielski.
 Przed publikacją w Google Play: klucz wydawniczy, nowy odcisk SHA-1 w Firebase, polityka
 prywatności, test na dwóch telefonach (patrz definicja „zrobione” w PLAN.md).
+
+## iOS (przygotowane bez Maca, NIESPRAWDZONE)
+
+Kod iOS powstał na Windowsie: nie został ani zbudowany, ani uruchomiony, więc pierwszy przebieg w chmurze
+prawdopodobnie będzie wymagał poprawek. Zawiera: folder `ios/` (iOS 15+, bundle `pl.porzadmis.porzadmis`),
+ikonę z misiem, uprawnienia (kamera do QR, powiadomienia push, Sign in with Apple, App Group),
+logowanie przez Apple (przycisk tylko na iOS), widżety WidgetKit „Dziś”, „Zakupy” i „Kalendarz”
+(`ios/PorzadMisWidgets/`, ten sam JSON co widżety Androida) oraz `codemagic.yaml`.
+Cel widżetów i uprawnienia dopina do projektu Xcode skrypt `ios/scripts/setup_ios_project.rb`
+(uruchamia go Codemagic przed budową).
+
+Co trzeba zrobić ręcznie, zanim zbuduje się pierwsza wersja:
+
+1. Konto Apple Developer (99 USD rocznie).
+2. W Apple Developer → Identifiers: App ID `pl.porzadmis.porzadmis` (włączone: Push Notifications, Sign in with
+   Apple, App Groups) i `pl.porzadmis.porzadmis.widgets` (App Groups); App Group `group.pl.porzadmis.porzadmis`.
+3. W Firebase (projekt `porzadmis`): dodać aplikację iOS o tym bundle ID, pobrać `GoogleService-Info.plist`
+   do `ios/Runner/`; włączyć w Authentication dostawcę Apple; wgrać klucz APNs (.p8) w Cloud Messaging.
+4. Do `ios/Runner/Info.plist` dopisać schemat URL z wartością `REVERSED_CLIENT_ID` z pliku
+   `GoogleService-Info.plist` (potrzebny do logowania przez Google).
+5. W Codemagic: podpiąć repozytorium i dodać integrację App Store Connect o nazwie `porzadmis_appstore`
+   (klucz API z App Store Connect); w App Store Connect założyć rekord aplikacji.
+6. Sprawdzić na prawdziwym iPhonie: logowanie (e-mail, Google, Apple), skan QR, push, widżety, dotknięcie widżetu.
+
+### Wersja testowa na iPhone (dla osoby z Makiem)
+
+Bez kwestii wydawniczych (sklep, opis, polityka prywatności): wystarczy zbudować i wysłać testerom.
+Potrzebne: Mac z Xcode, Flutter, CocoaPods, konto Apple Developer (płatne) i kroki 2–4 z listy wyżej
+(App ID i App Group, `GoogleService-Info.plist`, `REVERSED_CLIENT_ID`, Apple w Firebase Auth, klucz APNs).
+
+```
+flutter pub get
+ruby ios/scripts/setup_ios_project.rb     # raz: cel widżetów i uprawnienia w projekcie Xcode
+cd ios && pod install && cd ..
+open ios/Runner.xcworkspace               # Signing & Capabilities: wybierz zespół dla obu celów
+                                          # (Runner i PorzadMisWidgets), podpis automatyczny
+flutter build ipa --release
+```
+
+Wysyłka testerom: TestFlight (Xcode → Product → Archive → Distribute App → App Store Connect; testerzy
+wewnętrzni nie wymagają recenzji Apple) albo ad hoc (UDID iPhone'ów w Apple Developer, eksport IPA).
+Każdy tester musi jednorazowo zalogować się własnym kontem; dom w aplikacji jest wspólny z wersją na Androida.
 
 ## Struktura
 
@@ -114,8 +168,9 @@ firebase deploy --only functions,firestore:rules,firestore:indexes
   (`lib/core/ui/mis_mark.dart`). Pilnuje tego test `no_color_literals_test.dart`.
 - **Zapisy offline.** Zapisy do Firestore nie są `await`-owane w UI: przy braku sieci
   `Future` kończy się dopiero po powrocie połączenia.
-- **Podpisywanie.** APK jest podpisany kluczem debug (do testów). Do Google Play potrzebny
-  jest osobny klucz wydawniczy i odcisk SHA-1 w konsoli Firebase.
+- **Podpisywanie.** Udostępnione tu APK podpisano kluczem wydawniczym. Lokalny build bez
+  konfiguracji podpisu używa klucza debug. Logowanie przez Google wymaga rejestracji
+  odcisku certyfikatu użytego do podpisania aplikacji w Firebase.
 - **Widżety.** Dane do widżetów zapisuje aplikacja (`home_widget`, klucze `widget_today`
   i `widget_shopping`); kod natywny w `android/app/src/main/kotlin/.../*WidgetProvider.kt`.
 - **Funkcje w chmurze.** Po zmianie w `functions/` lub `firestore.rules`:

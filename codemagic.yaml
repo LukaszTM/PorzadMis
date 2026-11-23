@@ -1,0 +1,53 @@
+# Budowa iOS w chmurze (Codemagic), bo na Windowsie nie da się zbudować aplikacji iOS.
+# Napisane bez możliwości uruchomienia: pierwszy przebieg będzie wymagał poprawek.
+# Wymaga (patrz README, sekcja iOS): integracji App Store Connect o nazwie `porzadmis_appstore`
+# w Codemagic oraz pliku ios/Runner/GoogleService-Info.plist w repozytorium.
+workflows:
+  ios-release:
+    name: PorządMiś iOS (TestFlight)
+    instance_type: mac_mini_m2
+    max_build_duration: 60
+    integrations:
+      app_store_connect: porzadmis_appstore
+    environment:
+      flutter: stable
+      xcode: latest
+      cocoapods: default
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: pl.porzadmis.porzadmis
+      vars:
+        BUNDLE_ID: "pl.porzadmis.porzadmis"
+        WIDGETS_BUNDLE_ID: "pl.porzadmis.porzadmis.widgets"
+    scripts:
+      - name: Pobierz zależności Fluttera
+        script: flutter pub get
+      - name: Dodaj cel widżetów i uprawnienia do projektu Xcode
+        script: ruby ios/scripts/setup_ios_project.rb
+      - name: Zainstaluj pody
+        script: |
+          cd ios
+          pod install
+      - name: Profile podpisu dla aplikacji i widżetów
+        script: |
+          keychain initialize
+          app-store-connect fetch-signing-files "$BUNDLE_ID" --type IOS_APP_STORE --create
+          app-store-connect fetch-signing-files "$WIDGETS_BUNDLE_ID" --type IOS_APP_STORE --create
+          keychain add-certificates
+          xcode-project use-profiles
+      - name: Analiza i testy
+        script: |
+          flutter analyze
+          flutter test
+      - name: Zbuduj IPA
+        script: |
+          flutter build ipa --release \
+            --build-number=$(($(app-store-connect get-latest-testflight-build-number "$APP_STORE_APPLE_ID") + 1)) \
+            --export-options-plist=/Users/builder/export_options.plist
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true

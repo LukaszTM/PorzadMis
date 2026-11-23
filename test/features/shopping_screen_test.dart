@@ -42,10 +42,13 @@ class _FakeShoppingRepository implements ShoppingRepository {
   void _emit() => _changes.add(List.of(_items));
 
   @override
-  Stream<List<ShoppingItem>> watchItems(String hid) async* {
+  Stream<List<ShoppingItem>> watchItems(String hid, {String listId = defaultShoppingListId}) async* {
     yield List.of(_items);
     yield* _changes.stream;
   }
+
+  @override
+  Stream<List<ShoppingList>> watchLists(String hid) => Stream.value(const []);
 
   @override
   Stream<List<HistoryEntry>> watchHistory(String hid) => Stream.value(history);
@@ -58,6 +61,7 @@ class _FakeShoppingRepository implements ShoppingRepository {
     required StoreCategory category,
     String quantity = '',
     String unit = '',
+    String listId = defaultShoppingListId,
   }) async {
     _items.add(ShoppingItem(
       id: 'n${_next++}',
@@ -78,6 +82,7 @@ class _FakeShoppingRepository implements ShoppingRepository {
     required String id,
     required String uid,
     required bool checked,
+    String listId = defaultShoppingListId,
   }) async {
     final i = _items.indexWhere((e) => e.id == id);
     final o = _items[i];
@@ -96,27 +101,27 @@ class _FakeShoppingRepository implements ShoppingRepository {
   }
 
   @override
-  Future<void> update(String hid, ShoppingItem item) async {
+  Future<void> update(String hid, ShoppingItem item, {String listId = defaultShoppingListId}) async {
     final i = _items.indexWhere((e) => e.id == item.id);
     _items[i] = item;
     _emit();
   }
 
   @override
-  Future<void> delete(String hid, String id) async {
+  Future<void> delete(String hid, String id, {String listId = defaultShoppingListId}) async {
     _items.removeWhere((e) => e.id == id);
     _emit();
   }
 
   @override
-  Future<void> deleteAll(String hid, List<ShoppingItem> toDelete) async {
+  Future<void> deleteAll(String hid, List<ShoppingItem> toDelete, {String listId = defaultShoppingListId}) async {
     final ids = {for (final i in toDelete) i.id};
     _items.removeWhere((e) => ids.contains(e.id));
     _emit();
   }
 
   @override
-  Future<void> restore(String hid, List<ShoppingItem> toRestore) async {
+  Future<void> restore(String hid, List<ShoppingItem> toRestore, {String listId = defaultShoppingListId}) async {
     _items.addAll(toRestore);
     _emit();
   }
@@ -181,7 +186,7 @@ void main() {
 
   Future<void> addByTyping(WidgetTester tester, String name) async {
     await tester.enterText(find.byType(TextFormField), name);
-    await tester.tap(find.byIcon(Icons.add));
+    await tester.tap(find.widgetWithIcon(FilledButton, Icons.add));
     await tester.pumpAndSettle();
   }
 
@@ -203,7 +208,7 @@ void main() {
 
   testWidgets('pusta nazwa pokazuje błąd i niczego nie dodaje', (tester) async {
     final repo = await pumpShopping(tester);
-    await tester.tap(find.byIcon(Icons.add));
+    await tester.tap(find.widgetWithIcon(FilledButton, Icons.add));
     await tester.pump();
     expect(find.text('Wpisz nazwę produktu'), findsOneWidget);
     expect(repo.items, isEmpty);

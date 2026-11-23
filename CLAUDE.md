@@ -3,7 +3,7 @@
 - Czytaj PLAN.md przed każdym zadaniem; realizuj dokładnie jeden etap naraz.
 - Wytyczne interfejsu: docs/GUI.md (obowiązkowe przy każdym ekranie). Logo i ikony: docs/wytyczne-logo-i-ikon.pdf.
 - Stack: Flutter 3.x, Riverpod, Firebase (Auth, Firestore, Functions w TypeScript, FCM).
-- Cel: tylko Android (minSdk 26). Nie dodawaj konfiguracji ani kodu iOS.
+- Cel: Android (minSdk 26) i iOS (od 11.2026, iOS 15+). Kod iOS powstaje bez Maca: nie da się go tu zbudować ani uruchomić, więc buduje go CI w chmurze (codemagic.yaml); opisuj w README, co jest niesprawdzone.
 - Struktura: lib/features/<moduł>/{data,domain,ui}, lib/core, functions/src.
 - Kwoty w groszach (int). Czas w UTC. Identyfikatory UUID z klienta.
 - Każda zmiana reguł Firestore wymaga testu w emulatorze (allow + deny).

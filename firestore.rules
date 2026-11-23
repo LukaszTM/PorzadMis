@@ -40,6 +40,13 @@ service cloud.firestore {
         && d.createdAt is timestamp && d.createdAt <= request.time;
     }
 
+    function validShoppingList(d) {
+      return d.keys().hasOnly(['name', 'createdAt'])
+        && d.keys().hasAll(['name', 'createdAt'])
+        && shortText(d.name, 60) && d.name.size() >= 1
+        && d.createdAt is timestamp;
+    }
+
     function validShoppingHistory(d) {
       return d.keys().hasOnly(['name', 'count', 'lastAddedAt', 'storeCategory', 'quantity', 'unit'])
         && d.keys().hasAll(['name', 'count', 'lastAddedAt'])
@@ -115,7 +122,7 @@ service cloud.firestore {
     function validChoreRecurrence(r) {
       return r is map
         && r.keys().hasOnly(['type', 'interval', 'weekdays', 'monthDay', 'dates', 'until'])
-        && r.type in ['daily', 'weekly', 'monthly', 'customDates']
+        && r.type in ['daily', 'weekly', 'monthly', 'monthlyAnytime', 'customDates']
         && (!('interval' in r) || (r.interval is int && r.interval >= 1 && r.interval <= 365))
         && (!('weekdays' in r) || (r.weekdays is list && r.weekdays.size() <= 7))
         && (!('monthDay' in r) || (r.monthDay is int && r.monthDay >= 1 && r.monthDay <= 31))
@@ -230,6 +237,16 @@ service cloud.firestore {
       match /invites/{code} {
         allow read: if isAdmin(hid);
         allow write: if false;
+      }
+
+      // Dodatkowe listy zakupów (własna nazwa); lista podstawowa `main` nie ma dokumentu.
+      match /shoppingLists/{listId} {
+        allow read: if isMember(hid);
+        allow create: if isMember(hid) && listId != 'main' && validShoppingList(request.resource.data)
+          && request.resource.data.createdAt == request.time;
+        allow update: if isMember(hid) && listId != 'main' && validShoppingList(request.resource.data)
+          && request.resource.data.createdAt == resource.data.createdAt;
+        allow delete: if isMember(hid) && listId != 'main';
       }
 
       // Lista zakupów: wspólna dla całego domu.

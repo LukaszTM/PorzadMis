@@ -178,6 +178,12 @@ abstract class AppLocalizations {
   /// **'Zaloguj przez Google'**
   String get googleAction;
 
+  /// No description provided for @appleAction.
+  ///
+  /// In pl, this message translates to:
+  /// **'Zaloguj przez Apple'**
+  String get appleAction;
+
   /// No description provided for @goRegister.
   ///
   /// In pl, this message translates to:
@@ -247,7 +253,7 @@ abstract class AppLocalizations {
   /// No description provided for @errGoogleCancelled.
   ///
   /// In pl, this message translates to:
-  /// **'Logowanie przez Google przerwano'**
+  /// **'Logowanie przerwano'**
   String get errGoogleCancelled;
 
   /// No description provided for @startTitle.
@@ -1378,6 +1384,30 @@ abstract class AppLocalizations {
   /// **'Wybrane daty'**
   String get cycleCustom;
 
+  /// No description provided for @cycleAnytime.
+  ///
+  /// In pl, this message translates to:
+  /// **'Raz w miesiącu'**
+  String get cycleAnytime;
+
+  /// No description provided for @choreAnytimeHint.
+  ///
+  /// In pl, this message translates to:
+  /// **'Zadanie bez konkretnego dnia: pojawia się na liście miesiąca i czeka, aż ktoś je zrobi.'**
+  String get choreAnytimeHint;
+
+  /// No description provided for @choresThisMonth.
+  ///
+  /// In pl, this message translates to:
+  /// **'W tym miesiącu, bez terminu'**
+  String get choresThisMonth;
+
+  /// No description provided for @choresOverdueMonth.
+  ///
+  /// In pl, this message translates to:
+  /// **'z poprzedniego miesiąca'**
+  String get choresOverdueMonth;
+
   /// No description provided for @choreIntervalDays.
   ///
   /// In pl, this message translates to:
@@ -2445,6 +2475,72 @@ abstract class AppLocalizations {
   /// In pl, this message translates to:
   /// **'Do kupienia'**
   String get shoppingToBuyTitle;
+
+  /// No description provided for @shoppingMainList.
+  ///
+  /// In pl, this message translates to:
+  /// **'Zakupy'**
+  String get shoppingMainList;
+
+  /// No description provided for @shoppingNewList.
+  ///
+  /// In pl, this message translates to:
+  /// **'Nowa lista'**
+  String get shoppingNewList;
+
+  /// No description provided for @shoppingListNewTitle.
+  ///
+  /// In pl, this message translates to:
+  /// **'Nowa lista zakupów'**
+  String get shoppingListNewTitle;
+
+  /// No description provided for @shoppingListEditTitle.
+  ///
+  /// In pl, this message translates to:
+  /// **'Lista zakupów'**
+  String get shoppingListEditTitle;
+
+  /// No description provided for @shoppingListNameLabel.
+  ///
+  /// In pl, this message translates to:
+  /// **'Nazwa listy'**
+  String get shoppingListNameLabel;
+
+  /// No description provided for @shoppingListNameHint.
+  ///
+  /// In pl, this message translates to:
+  /// **'np. Budowlane'**
+  String get shoppingListNameHint;
+
+  /// No description provided for @errShoppingListName.
+  ///
+  /// In pl, this message translates to:
+  /// **'Wpisz nazwę listy.'**
+  String get errShoppingListName;
+
+  /// No description provided for @shoppingListEditAction.
+  ///
+  /// In pl, this message translates to:
+  /// **'Zmień nazwę lub usuń listę'**
+  String get shoppingListEditAction;
+
+  /// No description provided for @shoppingListDelete.
+  ///
+  /// In pl, this message translates to:
+  /// **'Usuń listę'**
+  String get shoppingListDelete;
+
+  /// No description provided for @shoppingListDeleteBody.
+  ///
+  /// In pl, this message translates to:
+  /// **'Lista „{name}” zniknie razem ze wszystkimi pozycjami.'**
+  String shoppingListDeleteBody(String name);
+
+  /// No description provided for @toastListRemoved.
+  ///
+  /// In pl, this message translates to:
+  /// **'Lista usunięta'**
+  String get toastListRemoved;
 
   /// No description provided for @eventColorLabel.
   ///

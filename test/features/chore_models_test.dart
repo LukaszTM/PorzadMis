@@ -50,4 +50,16 @@ void main() {
     expect(parsed.type, ChoreRecurrenceType.weekly);
     expect(parsed.weekdays, [1, 5]);
   });
+
+  test('zadania bez terminu (flex) nie wchodzą do dnia, ale do listy miesiąca', () {
+    final flex = ChoreOccurrence(
+        id: 'f', ruleId: 'r', date: '2026-11-30', title: 'f', status: ChoreStatus.todo, flex: true);
+    final old = ChoreOccurrence(
+        id: 'o', ruleId: 'r', date: '2026-10-31', title: 'o', status: ChoreStatus.todo, flex: true);
+    final oldDone = ChoreOccurrence(
+        id: 'd', ruleId: 'r', date: '2026-10-31', title: 'd', status: ChoreStatus.done, flex: true);
+    expect(splitForDay([flex], '2026-11-30', 'u1').mine, isEmpty);
+    expect(openCountOn([flex], '2026-11-30'), 0);
+    expect(flexForMonth([flex, old, oldDone], '2026-11-10').map((o) => o.id), ['f', 'o']);
+  });
 }

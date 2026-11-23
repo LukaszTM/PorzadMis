@@ -1,5 +1,14 @@
-/// Identyfikator jedynej listy zakupów w etapie 2 (kilka list dojdzie po MVP).
+/// Identyfikator listy podstawowej („Zakupy”): zawsze istnieje, nie ma dokumentu listy,
+/// nie można jej usunąć ani przemianować.
 const defaultShoppingListId = 'main';
+
+/// Dodatkowa lista zakupów z własną nazwą (dokument `shoppingLists/{id}`).
+class ShoppingList {
+  const ShoppingList({required this.id, required this.name});
+
+  final String id;
+  final String name;
+}
 
 /// Dział sklepowy do grupowania pozycji. W bazie zapisywany jako [id].
 enum StoreCategory {

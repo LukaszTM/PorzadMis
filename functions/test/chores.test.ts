@@ -32,6 +32,12 @@ describe("occurrenceDays", () => {
     expect(occurrenceDays(rec({ type: "monthly", monthDay: 31, until: "2027-03-31" }, "2026-10-31"), "2026-10-01", "2027-12-31"))
       .toEqual(["2026-10-31", "2026-12-31", "2027-01-31", "2027-03-31"]);
   });
+  test("raz w miesiącu bez terminu: jedno wystąpienie na miesiąc, z datą końca miesiąca", () => {
+    expect(occurrenceDays(rec({ type: "monthlyAnytime" }, "2026-11-10"), "2026-11-15", "2027-02-20"))
+      .toEqual(["2026-11-30", "2026-12-31", "2027-01-31"]);
+    expect(occurrenceDays(rec({ type: "monthlyAnytime", interval: 2 }, "2026-11-10"), "2026-11-01", "2027-03-31"))
+      .toEqual(["2026-11-30", "2027-01-31", "2027-03-31"]);
+  });
   test("wybrane daty: tylko one, posortowane, bez duplikatów, w zakresie", () => {
     expect(occurrenceDays(rec({ type: "customDates", dates: ["2026-11-20", "2026-11-05", "2026-11-05", "2027-01-01"] }), "2026-11-01", "2026-12-31"))
       .toEqual(["2026-11-05", "2026-11-20"]);

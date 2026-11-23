@@ -14,6 +14,7 @@
   "loginAction": "Zaloguj",
   "registerAction": "Załóż konto",
   "googleAction": "Zaloguj przez Google",
+  "appleAction": "Zaloguj przez Apple",
   "goRegister": "Nie masz konta? Załóż je",
   "goLogin": "Masz już konto? Zaloguj się",
   "errEmailEmpty": "Wpisz adres e-mail",
@@ -25,7 +26,7 @@
   "errEmailInUse": "Ten adres jest już zajęty. Zaloguj się",
   "errNetwork": "Brak połączenia z internetem",
   "errGeneric": "Coś poszło nie tak. Spróbuj ponownie",
-  "errGoogleCancelled": "Logowanie przez Google przerwano",
+  "errGoogleCancelled": "Logowanie przerwano",
   "startTitle": "Cześć, jestem PorządMiś",
   "startSubtitle": "Korzystaj sam albo razem z domownikami.",
   "soloAction": "Zacznij tylko dla siebie",
@@ -322,6 +323,10 @@
   "cycleWeekly": "Dni tygodnia",
   "cycleMonthly": "Dzień miesiąca",
   "cycleCustom": "Wybrane daty",
+  "cycleAnytime": "Raz w miesiącu",
+  "choreAnytimeHint": "Zadanie bez konkretnego dnia: pojawia się na liście miesiąca i czeka, aż ktoś je zrobi.",
+  "choresThisMonth": "W tym miesiącu, bez terminu",
+  "choresOverdueMonth": "z poprzedniego miesiąca",
   "choreIntervalDays": "Co ile dni",
   "choreIntervalWeeks": "Co ile tygodni",
   "choreIntervalMonths": "Co ile miesięcy",
@@ -627,6 +632,24 @@
   "themeCardTitle": "Motyw aplikacji",
   "themeCardSubtitle": "13 palet do wyboru · podgląd na żywo",
   "shoppingToBuyTitle": "Do kupienia",
+  "shoppingMainList": "Zakupy",
+  "shoppingNewList": "Nowa lista",
+  "shoppingListNewTitle": "Nowa lista zakupów",
+  "shoppingListEditTitle": "Lista zakupów",
+  "shoppingListNameLabel": "Nazwa listy",
+  "shoppingListNameHint": "np. Budowlane",
+  "errShoppingListName": "Wpisz nazwę listy.",
+  "shoppingListEditAction": "Zmień nazwę lub usuń listę",
+  "shoppingListDelete": "Usuń listę",
+  "shoppingListDeleteBody": "Lista „{name}” zniknie razem ze wszystkimi pozycjami.",
+  "@shoppingListDeleteBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "toastListRemoved": "Lista usunięta",
   "eventColorLabel": "Kolor wydarzenia",
   "eventTypeLabel": "Typ wydarzenia",
   "eventTypeNone": "Bez typu",

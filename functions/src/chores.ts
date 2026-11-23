@@ -1,6 +1,6 @@
 import { Firestore, FieldValue } from "firebase-admin/firestore";
 
-export type ChoreRecurrenceType = "daily" | "weekly" | "monthly" | "customDates";
+export type ChoreRecurrenceType = "daily" | "weekly" | "monthly" | "monthlyAnytime" | "customDates";
 
 export interface ChoreRecurrence {
   type: ChoreRecurrenceType;
@@ -94,6 +94,17 @@ export function occurrenceDays(rule: ChoreRule, from: string, to: string): strin
       }
       return out;
     }
+    case "monthlyAnytime": {
+      // Jedno wystąpienie na miesiąc, z datą ostatniego dnia miesiąca (termin = koniec miesiąca).
+      for (let i = 0; i < 1200; i++) {
+        const first = addMonthsExact(new Date(Date.UTC(start.getUTCFullYear(), start.getUTCMonth(), 1)), i * interval, 1);
+        if (first === null) continue;
+        const last = new Date(Date.UTC(first.getUTCFullYear(), first.getUTCMonth() + 1, 0));
+        if (last > limit) break;
+        if (last >= fromD) out.push(formatDay(last));
+      }
+      return out;
+    }
     case "monthly": {
       const day = r.monthDay ?? start.getUTCDate();
       for (let i = 0; i < 1200; i++) {
@@ -168,6 +179,7 @@ export async function regenerateRule(
         title: rule.title,
         assigneeId: rule.assigneeId,
         status: "todo",
+        flex: rule.recurrence?.type === "monthlyAnytime",
         doneBy: null,
         doneAt: null,
         createdAt: FieldValue.serverTimestamp(),

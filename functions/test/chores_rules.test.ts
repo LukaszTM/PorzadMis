@@ -60,6 +60,7 @@ describe("choreRules", () => {
     const a = env.authenticatedContext("admin1").firestore();
     await assertSucceeds(setDoc(doc(a, `households/${HID}/choreRules/r2`), rule({ mode: "once", recurrence: null, assigneeId: null })));
     await assertSucceeds(setDoc(doc(a, `households/${HID}/choreRules/r3`), rule({ recurrence: { type: "customDates", dates: ["2026-11-05"], until: null } })));
+    await assertSucceeds(setDoc(doc(a, `households/${HID}/choreRules/r4`), rule({ recurrence: { type: "monthlyAnytime", interval: 1, until: null } })));
     await assertSucceeds(updateDoc(doc(a, `households/${HID}/choreRules/r1`), { title: "Kosz", updatedAt: serverTimestamp() }));
     await assertSucceeds(deleteDoc(doc(a, `households/${HID}/choreRules/r1`)));
   });

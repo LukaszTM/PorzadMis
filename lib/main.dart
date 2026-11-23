@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart' show TargetPlatform, defaultTargetPlatform;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -12,7 +13,10 @@ import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  // iOS czyta konfigurację natywnie z ios/Runner/GoogleService-Info.plist.
+  await Firebase.initializeApp(
+    options: defaultTargetPlatform == TargetPlatform.iOS ? null : DefaultFirebaseOptions.currentPlatform,
+  );
   await initializeDateFormatting('pl');
   // Kanał i obsługa dotknięcia muszą istnieć przed pierwszym powiadomieniem; trasę z dotknięcia
   // odczyta bootstrap po zalogowaniu.

@@ -52,6 +52,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get googleAction => 'Zaloguj przez Google';
 
   @override
+  String get appleAction => 'Zaloguj przez Apple';
+
+  @override
   String get goRegister => 'Nie masz konta? Załóż je';
 
   @override
@@ -85,7 +88,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get errGeneric => 'Coś poszło nie tak. Spróbuj ponownie';
 
   @override
-  String get errGoogleCancelled => 'Logowanie przez Google przerwano';
+  String get errGoogleCancelled => 'Logowanie przerwano';
 
   @override
   String get startTitle => 'Cześć, jestem PorządMiś';
@@ -708,6 +711,19 @@ class AppLocalizationsPl extends AppLocalizations {
   String get cycleCustom => 'Wybrane daty';
 
   @override
+  String get cycleAnytime => 'Raz w miesiącu';
+
+  @override
+  String get choreAnytimeHint =>
+      'Zadanie bez konkretnego dnia: pojawia się na liście miesiąca i czeka, aż ktoś je zrobi.';
+
+  @override
+  String get choresThisMonth => 'W tym miesiącu, bez terminu';
+
+  @override
+  String get choresOverdueMonth => 'z poprzedniego miesiąca';
+
+  @override
   String get choreIntervalDays => 'Co ile dni';
 
   @override
@@ -1318,6 +1334,41 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get shoppingToBuyTitle => 'Do kupienia';
+
+  @override
+  String get shoppingMainList => 'Zakupy';
+
+  @override
+  String get shoppingNewList => 'Nowa lista';
+
+  @override
+  String get shoppingListNewTitle => 'Nowa lista zakupów';
+
+  @override
+  String get shoppingListEditTitle => 'Lista zakupów';
+
+  @override
+  String get shoppingListNameLabel => 'Nazwa listy';
+
+  @override
+  String get shoppingListNameHint => 'np. Budowlane';
+
+  @override
+  String get errShoppingListName => 'Wpisz nazwę listy.';
+
+  @override
+  String get shoppingListEditAction => 'Zmień nazwę lub usuń listę';
+
+  @override
+  String get shoppingListDelete => 'Usuń listę';
+
+  @override
+  String shoppingListDeleteBody(String name) {
+    return 'Lista „$name” zniknie razem ze wszystkimi pozycjami.';
+  }
+
+  @override
+  String get toastListRemoved => 'Lista usunięta';
 
   @override
   String get eventColorLabel => 'Kolor wydarzenia';

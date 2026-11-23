@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart' show TargetPlatform, defaultTargetPlatform;
 import 'package:flutter/scheduler.dart' show SchedulerBinding;
 import 'package:flutter/material.dart' show Brightness;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,6 +20,12 @@ import '../domain/widget_payload.dart';
 const _todayProvider = 'TodayWidgetProvider';
 const _shoppingProvider = 'ShoppingWidgetProvider';
 const _calendarProvider = 'CalendarWidgetProvider';
+
+/// iOS: wspólny kontener aplikacji i widżetów oraz nazwy widżetów (`kind` w WidgetKit).
+const widgetAppGroupId = 'group.pl.porzadmis.porzadmis';
+const _todayKind = 'PorzadMisToday';
+const _shoppingKind = 'PorzadMisShopping';
+const _calendarKind = 'PorzadMisCalendar';
 
 /// Zapisuje dane do widżetów przy każdej zmianie (z odstępem) i obsługuje dotknięcie widżetu.
 final widgetSyncProvider = Provider<void>((ref) {
@@ -51,13 +58,14 @@ final widgetSyncProvider = Provider<void>((ref) {
       AppThemeMode.auto => SchedulerBinding.instance.platformDispatcher.platformBrightness == Brightness.dark,
     };
     try {
+      if (defaultTargetPlatform == TargetPlatform.iOS) await HomeWidget.setAppGroupId(widgetAppGroupId);
       await HomeWidget.saveWidgetData<String>('widget_theme', widgetThemeJson(dark ? pair.dark : pair.light));
       await HomeWidget.saveWidgetData<String>('widget_today', payloads.today);
       await HomeWidget.saveWidgetData<String>('widget_shopping', payloads.shopping);
       await HomeWidget.saveWidgetData<String>('widget_calendar', payloads.calendar);
-      await HomeWidget.updateWidget(androidName: _todayProvider);
-      await HomeWidget.updateWidget(androidName: _shoppingProvider);
-      await HomeWidget.updateWidget(androidName: _calendarProvider);
+      await HomeWidget.updateWidget(androidName: _todayProvider, iOSName: _todayKind);
+      await HomeWidget.updateWidget(androidName: _shoppingProvider, iOSName: _shoppingKind);
+      await HomeWidget.updateWidget(androidName: _calendarProvider, iOSName: _calendarKind);
     } catch (_) {
       // Brak widżetów na ekranie albo platforma bez obsługi: nic do zrobienia.
     }

@@ -13,13 +13,49 @@ class ShoppingRepository {
   final FirebaseFirestore _db;
   final String Function() _newId;
 
-  CollectionReference<Map<String, dynamic>> _items(String hid) =>
-      _db.collection('households/$hid/shoppingLists/$defaultShoppingListId/items');
+  CollectionReference<Map<String, dynamic>> _items(String hid, [String listId = defaultShoppingListId]) =>
+      _db.collection('households/$hid/shoppingLists/$listId/items');
+
+  CollectionReference<Map<String, dynamic>> _lists(String hid) =>
+      _db.collection('households/$hid/shoppingLists');
+
+  String newId() => _newId();
+
+  /// Dodatkowe listy (bez podstawowej), od najstarszej. Sortuje klient: zapis offline
+  /// nie ma jeszcze `createdAt` z serwera.
+  Stream<List<ShoppingList>> watchLists(String hid) => _lists(hid).snapshots().map((snap) {
+        final docs = snap.docs.where((d) => d.id != defaultShoppingListId).toList()
+          ..sort((a, b) {
+            final ta = (a.data()['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now();
+            final tb = (b.data()['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now();
+            return ta.compareTo(tb);
+          });
+        return [for (final d in docs) ShoppingList(id: d.id, name: (d.data()['name'] as String?) ?? '')];
+      });
+
+  Future<void> createList(String hid, String id, String name) => _lists(hid).doc(id).set({
+        'name': name.trim(),
+        'createdAt': FieldValue.serverTimestamp(),
+      });
+
+  Future<void> renameList(String hid, String id, String name) =>
+      _lists(hid).doc(id).update({'name': name.trim()});
+
+  /// Usuwa listę razem z jej pozycjami (jedna paczka; lista ma ich niewiele).
+  Future<void> deleteList(String hid, String id) async {
+    final items = await _items(hid, id).get();
+    final batch = _db.batch();
+    for (final d in items.docs) {
+      batch.delete(d.reference);
+    }
+    batch.delete(_lists(hid).doc(id));
+    return batch.commit();
+  }
 
   CollectionReference<Map<String, dynamic>> _history(String hid) =>
       _db.collection('households/$hid/shoppingHistory');
 
-  Stream<List<ShoppingItem>> watchItems(String hid) => _items(hid)
+  Stream<List<ShoppingItem>> watchItems(String hid, {String listId = defaultShoppingListId}) => _items(hid, listId)
       .orderBy('createdAt')
       .snapshots()
       .map((snap) => [for (final d in snap.docs) _itemFrom(d.id, d.data())]);
@@ -47,10 +83,11 @@ class ShoppingRepository {
     required StoreCategory category,
     String quantity = '',
     String unit = '',
+    String listId = defaultShoppingListId,
   }) {
     final cleanName = name.trim();
     final batch = _db.batch();
-    batch.set(_items(hid).doc(_newId()), {
+    batch.set(_items(hid, listId).doc(_newId()), {
       'name': cleanName,
       'quantity': quantity,
       'unit': unit,
@@ -80,32 +117,35 @@ class ShoppingRepository {
     required String id,
     required String uid,
     required bool checked,
+    String listId = defaultShoppingListId,
   }) =>
-      _items(hid).doc(id).update({'checked': checked, 'checkedBy': checked ? uid : null});
+      _items(hid, listId).doc(id).update({'checked': checked, 'checkedBy': checked ? uid : null});
 
-  Future<void> update(String hid, ShoppingItem item) => _items(hid).doc(item.id).update({
+  Future<void> update(String hid, ShoppingItem item, {String listId = defaultShoppingListId}) =>
+      _items(hid, listId).doc(item.id).update({
         'name': item.name.trim(),
         'quantity': item.quantity,
         'unit': item.unit,
         'storeCategory': item.category.id,
       });
 
-  Future<void> delete(String hid, String id) => _items(hid).doc(id).delete();
+  Future<void> delete(String hid, String id, {String listId = defaultShoppingListId}) =>
+      _items(hid, listId).doc(id).delete();
 
   /// „Wyczyść kupione”: usuwa podane pozycje jedną paczką. Historia zostaje.
-  Future<void> deleteAll(String hid, List<ShoppingItem> items) {
+  Future<void> deleteAll(String hid, List<ShoppingItem> items, {String listId = defaultShoppingListId}) {
     final batch = _db.batch();
     for (final item in items) {
-      batch.delete(_items(hid).doc(item.id));
+      batch.delete(_items(hid, listId).doc(item.id));
     }
     return batch.commit();
   }
 
   /// „Cofnij” po wyczyszczeniu: przywraca pozycje z ich dawnym stanem.
-  Future<void> restore(String hid, List<ShoppingItem> items) {
+  Future<void> restore(String hid, List<ShoppingItem> items, {String listId = defaultShoppingListId}) {
     final batch = _db.batch();
     for (final item in items) {
-      batch.set(_items(hid).doc(item.id), {
+      batch.set(_items(hid, listId).doc(item.id), {
         'name': item.name,
         'quantity': item.quantity,
         'unit': item.unit,
@@ -137,11 +177,36 @@ final shoppingRepositoryProvider = Provider<ShoppingRepository>(
   (ref) => ShoppingRepository(ref.watch(firestoreProvider), ref.watch(uuidProvider).v4),
 );
 
+/// Pozycje wskazanej listy.
+final shoppingListItemsProvider = StreamProvider.family<List<ShoppingItem>, String>((ref, listId) {
+  final hid = ref.watch(householdIdProvider);
+  if (hid == null) return Stream.value(const []);
+  return ref.watch(shoppingRepositoryProvider).watchItems(hid, listId: listId);
+});
+
+/// Pozycje listy podstawowej: z niej liczą się karta na ekranie głównym i widżet.
 final shoppingItemsProvider = StreamProvider<List<ShoppingItem>>((ref) {
   final hid = ref.watch(householdIdProvider);
   if (hid == null) return Stream.value(const []);
   return ref.watch(shoppingRepositoryProvider).watchItems(hid);
 });
+
+/// Dodatkowe listy domu (bez podstawowej).
+final shoppingListsProvider = StreamProvider<List<ShoppingList>>((ref) {
+  final hid = ref.watch(householdIdProvider);
+  if (hid == null) return Stream.value(const []);
+  return ref.watch(shoppingRepositoryProvider).watchLists(hid);
+});
+
+class SelectedShoppingList extends Notifier<String> {
+  @override
+  String build() => defaultShoppingListId;
+
+  void select(String id) => state = id;
+}
+
+/// Lista otwarta na ekranie Zakupy (lokalny wybór, nie zapisuje się w bazie).
+final selectedShoppingListProvider = NotifierProvider<SelectedShoppingList, String>(SelectedShoppingList.new);
 
 final shoppingHistoryProvider = StreamProvider<List<HistoryEntry>>((ref) {
   final hid = ref.watch(householdIdProvider);
